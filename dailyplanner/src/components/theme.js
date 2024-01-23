@@ -32,7 +32,26 @@ export const theme = createTheme({
             transform: "auto"
           }
       },
-
     },
+      MuiButton: {
+        styleOverrides: {
+          // Name of the slot
+          root: {
+            backgroundColor: 'white',
+             borderRadius: '10%', 
+             color: 'black',
+              boxShadow: '1'
+          }
+      }
+      },
+      MuiPaper: {
+        styleOverrides: {
+          // Name of the slot
+          root: {
+             my: 2
+          }
+      }
+      },
+    
   }
   });
