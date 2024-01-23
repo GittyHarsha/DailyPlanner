@@ -22,15 +22,19 @@ const Quote = function() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            minHeight: '10vh',
+            minHeight: '6vh',
             padding: '50px',
+            maxWidth: '50vw',
+            backgroundColor: 'white',
+            margin: 'auto',
+            border: 'round'
             
           }}
         >
           <Typography
             variant="body1"
             sx={{
-              fontSize: '24px',
+              fontSize: '20px',
               fontStyle: 'italic',
               fontWeight: 'bold',
             }}
