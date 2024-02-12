@@ -9,14 +9,27 @@ import Priority from './components/Priority';
 import Tasks from './components/Tasks';
 import HighLights from './components/HighLights';
 import {theme} from './components/theme.js';
+import axios from 'axios';
+import { useState, setState, useEffect } from 'react';
 
 
 function App() {
+  //state storing the url of the background image
+  let [bgImage, setBgImage] = useState('');
   const name = "Harsha";
-  window.indexedDB.deleteDatabase("DailyPlanner");
+
+  // hook to fetch the background image API
+    useEffect(()=> {
+    axios.get("https://peapix.com/bing/feed").then(
+      (images_array) => { setBgImage(images_array["data"][0].imageUrl); console.log("image url: ", images_array['data'][0].imageUrl);}
+    ).catch((error) => {console.log(error);});
+   
+  }, []);
 
   return (
+    <div style={{backgroundImage : `url("${bgImage}")`, height: '100vh'}}>
     <ThemeProvider theme={theme}>
+      
    <AppBar/>
     <Grid container sx={{mt: 4}}>
     <Grid item xs='8'>
@@ -39,6 +52,7 @@ function App() {
     
    
     </ThemeProvider>
+    </div>
   );
 }
 
