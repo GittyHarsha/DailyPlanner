@@ -2,7 +2,8 @@ import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import QuoteOfTheDay from '../services/qotd';
 import {useState, useEffect} from 'react';
-
+import {theme} from './theme.js';
+import {shadows} from '@mui/system';
 const Quote = function() {
     let [quote, setQuote] = useState("");
     
@@ -23,11 +24,14 @@ const Quote = function() {
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: '6vh',
-            padding: '50px',
+
+            padding: '15px',
             maxWidth: '50vw',
-            backgroundColor: 'white',
             margin: 'auto',
-            border: 'round'
+            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
+            borderRadius: 50,
+            backgroundColor: theme.palette.primary.main,
+        
             
           }}
         >
