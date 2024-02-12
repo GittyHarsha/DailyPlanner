@@ -9,7 +9,7 @@ export default function Priority() {
    
     return (
         <ThemeProvider theme={theme}>
-        <Container align="center" sx={{width: '22vw'}}>
+        <Container align="center" sx={{width: 'auto',}}>
   
             
            
@@ -20,14 +20,14 @@ export default function Priority() {
                 <Button>+New</Button>
             </Typography>
                 
-                <Paper elevation='2' sx={{my: 0.5}}>
-                <TextField id='1'/>
+                <Paper elevation='2' sx={{my: 1}}>
+                <TextField variant='standard' id='1'/>
                 </Paper>
-                <Paper elevation='2' id='2' sx={{my: 0.5}}>
-                <TextField/>
+                <Paper elevation='2' id='2' sx={{my: 1}}>
+                <TextField variant='standard' />
                 </Paper>
-                <Paper elevation='2' id='3' sx={{my: 0.5}}>
-                <TextField/>
+                <Paper elevation='2' id='3' sx={{my: 1}}>
+                <TextField variant='standard'/>
                 </Paper>
             </FormControl>
         </Container>
