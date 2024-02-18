@@ -10,6 +10,25 @@ export const theme = createTheme({
         main: bgcolor,
       }
     },
+    overrides: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          scrollbar: {
+            '::-webkit-scrollbar': {
+              width: '10px',
+              height: '10px',
+            },
+            '::-webkit-scrollbar-thumb': {
+              background: '#ccc',
+              borderRadius: '10px',
+            },
+            '::-webkit-scrollbar-track': {
+              background: '#fff',
+            },
+          },
+        },
+      },
+    },
     components: {
       // Name of the component\
       MuiContainer: {
@@ -54,7 +73,12 @@ export const theme = createTheme({
             fontSize: '0.5rem',
             margin: '0',
             transform: "auto",
-            backgroundColor: 'transparent',
+            '&.Mui-checked': {
+              color: 'black'
+            },
+            border: 'none',
+
+            
           }
       },
     },

@@ -15,12 +15,8 @@ export default function Priority() {
         
         <Container align="center">
           
-            <Typography variant='h5' >
+            <Typography variant='h5'align='center' >
                 Top 3 Priority
-                <Button onClick={addPriority}>
-                + Add
-                </Button>
-
             </Typography>
             <Menu>
             <MenuItem>

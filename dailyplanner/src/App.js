@@ -21,13 +21,13 @@ function App() {
   // hook to fetch the background image API
     useEffect(()=> {
     axios.get("https://peapix.com/bing/feed").then(
-      (images_array) => { setBgImage(images_array["data"][0].imageUrl); console.log("image url: ", images_array['data'][0].imageUrl);}
+      (images_array) => { setBgImage(images_array["data"][3].imageUrl); console.log("image url: ", images_array['data'][0].imageUrl);}
     ).catch((error) => {console.log(error);});
    
   }, []);
 
   return (
-    <div style={{backgroundImage : `url("${bgImage}")`, height: '100vh'}}>
+    <div style={{backgroundImage : `url("${bgImage}")`, height: '100%'}}>
     <ThemeProvider theme={theme}>
       
    <AppBar/>
@@ -35,6 +35,7 @@ function App() {
     <Grid item xs='8'>
     <Grid container>
     <Quote/>
+    <MonthlyGoals/>
     <HabitTracker/>
     <Grid container sx={{ mx: '10vw',width: '50vw', justifyContent: 'space-between'}}>
       <Grid item><Priority/></Grid>

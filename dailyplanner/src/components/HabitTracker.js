@@ -79,13 +79,13 @@ function HabitTracker() {
           </Menu>
     </Box>
       <Table>
-          <TableRow>
+          <TableRow sx={{backgroundColor: 'white', border: 'none'}}>
            <MonthDropdown onChange={handleMonth}></MonthDropdown>
           
           {
             dates.map(
               (date)=> (
-                <TableCell><Typography>{date.num}</Typography></TableCell>
+                <TableCell sx={{border: 'white'}}><Typography>{date.num}</Typography></TableCell>
               )
             )
           }
