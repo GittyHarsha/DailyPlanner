@@ -1,47 +1,86 @@
 import React from 'react';
-import {useState, setState} from 'react';
+import {useState, setState, useContext, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper, Menu, MenuItem} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MonthDropdown from './MonthDropdown.js';
 import {theme} from './theme.js';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Container, FormControl, TextField, Input, InputLabel} from '@mui/material';
+
+import {add_object, delete_object, getAllObjects} from '../database/backend.js';
 export default function MonthyGoals() {
-   let [goals, setGoals] = useState(['finish chrome extension']);
+   let [goals, setGoals] = useState([]);
+   console.log("goals: ", goals);
+   useEffect(
+    () => {
+        getAllObjects("MonthlyGoals").then((goals)=> {if(goals==undefined) {setGoals([])} else setGoals(goals);});
+    }, []);
+   
+ 
    const [anchorEl, setAnchorEl] = useState(null);
   let open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
     console.log("+ add habit clicked");
-    console.log('target: ', event.currentTarget);
+    console.log('target: ', event.currentTarget);  
   };
   const handleClose = () => {
+
     setAnchorEl(null);
   };
    function addGoal(event) {
+
     if(event.key=='Enter') {
-        console.log(event.target.value);
-        let copy_goals = JSON.parse(JSON.stringify(goals));
-        copy_goals.push(event.target.value)
-        setGoals(copy_goals);
-        console.log(copy_goals);
+        let goal = event.target.value;
+        console.log(goal);
+        
+        let curr_date = new Date();
+        const newGoal = 
+        {
+            month: curr_date.getMonth(),
+            year: curr_date.getFullYear(),
+            goal: goal,
+            checked: false,
+            
+        };        
+      add_object("MonthlyGoals", newGoal).then(
+        (message)=> {
+            getAllObjects("MonthlyGoals")
+            .then(
+            
+                (goals)=> {
+                    setGoals(goals);
+                }
+            );
+        }
+      ).catch(
+        (error)=> {console.log(error);}
+      )
+
       }
    }
 
    function deleteGoal(event) {
     console.log("inside delete goal");
-    console.log(event.target);
-    let target=(event.target.getAttribute('customAttribute'));
-    console.log("target: ",target);
-    let copy_goals = JSON.parse(JSON.stringify(goals));
-     copy_goals= copy_goals.filter((goal)=> {return goal!=target;});
-      setGoals(copy_goals);
-      console.log(copy_goals);
+    console.log(event.currentTarget);
+    let target=(event.currentTarget.getAttribute('customAttribute'));
+      delete_object("MonthlyGoals", target).then(
+        (message)=> {
+            getAllObjects("MonthlyGoals")
+            .then(
+            
+                (goals)=> {
+                    setGoals(goals);
+                }
+            );
+        }
+      ).catch(
+        (error)=> {console.log(error);}
+      )
    }
-
     return (
         <ThemeProvider theme={theme}>
-        <Container align="center" sx={{width: '50vw',  my: 2, maxHeight: '30vh', overflow: 'scroll'}}>
+        <Container align="center" sx={{my: 1, minHeight: 150, maxHeight: 300, overflow: 'scroll'}}>
   
             
            
@@ -62,24 +101,27 @@ export default function MonthyGoals() {
             </Typography>
             
                 {
+                    goals.length?(
                     goals.map((goal)=> {
                         return (
                     
-                        <Paper align="left" elevation='2' sx={{my: 0.5, width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+                        <Paper id={goal.id} align="left" elevation='2' sx={{my: 0.5, width: '100%', display: 'flex', justifyContent: 'space-between'}}>
                        
                         <div style={{display: 'inline-block', flexDirection:"row", justifyContent: 'space-between'}}>
-                        <Checkbox/>
-                        <span>{goal}</span> 
+                        <Checkbox checked={goal.checked} onClick />
+                        <span>id: {goal.id}</span> 
                        
                         </div>
-                        <Button customAttribute ={goal}  onClick={deleteGoal}> <DeleteIcon customAttribute ={goal}/></Button>
+                        <Button customAttribute ={goal.id}  onClick={deleteGoal}> <DeleteIcon customAttribute ={goal.id}/></Button>
                        
                        
                         </Paper>
                         )
                     })
-                    
+                    ):( <p>No goals found.</p>)
                 }
+                    
+                
             </FormControl>
         </Container>
         </ThemeProvider>
@@ -87,3 +129,6 @@ export default function MonthyGoals() {
     )
 
 };
+/* 
+<button class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-127pno0-MuiButtonBase-root-MuiButton-root" tabindex="0" type="button"> <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DeleteIcon"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"></path></svg><span class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span></button>
+*/

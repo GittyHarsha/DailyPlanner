@@ -1,10 +1,14 @@
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import { Typography, ThemeProvider } from '@mui/material';
 import QuoteOfTheDay from '../services/qotd';
 import {useState, useEffect} from 'react';
 import {theme} from './theme.js';
 import {shadows} from '@mui/system';
+import {useContext} from 'react';
+import {DatabaseContext} from './DbContext.js';
 const Quote = function() {
+  let db = useContext(DatabaseContext);
+  console.log("db",db);
     let [quote, setQuote] = useState("");
     
     useEffect(()=> {
@@ -16,7 +20,7 @@ const Quote = function() {
 
     }, []);
     return (
-        <>
+        <ThemeProvider theme={theme}>
         <Box
           sx={{
             display: 'flex',
@@ -28,9 +32,11 @@ const Quote = function() {
             padding: '15px',
             maxWidth: '50vw',
             margin: 'auto',
+            my: -2,
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
             borderRadius: 50,
             backgroundColor: theme.palette.primary.main,
+            transform: 'scale(1.0)'
         
             
           }}
@@ -47,7 +53,7 @@ const Quote = function() {
           </Typography>
           
         </Box>
-        </>
+        </ThemeProvider>
       );
 }
 
