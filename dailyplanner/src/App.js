@@ -10,9 +10,9 @@ import Tasks from './components/Tasks';
 import HighLights from './components/HighLights';
 import {theme} from './components/theme.js';
 import axios from 'axios';
-import { useState, setState, useEffect } from 'react';
-
-
+import { useState, setState, useEffect, createContext } from 'react';
+import styled from 'styled-components';
+import {connectToIndexedDB} from './database/backend';
 function App() {
   //state storing the url of the background image
   let [bgImage, setBgImage] = useState('');
@@ -20,40 +20,60 @@ function App() {
 
   // hook to fetch the background image API
     useEffect(()=> {
+   
     axios.get("https://peapix.com/bing/feed").then(
-      (images_array) => { setBgImage(images_array["data"][3].imageUrl); console.log("image url: ", images_array['data'][0].imageUrl);}
+      (images_array) => { setBgImage(images_array["data"][0].imageUrl); console.log("image url: ", images_array['data'][0].imageUrl);}
     ).catch((error) => {console.log(error);});
    
   }, []);
 
+  let StyledDiv = styled.div`
+  &:before {
+    content: '';
+    position: absolute;
+   background-image: url('${bgImage}');
+   background-size: cover;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    opacity: 0.6;
+  }
+  `;
+
+
+  useEffect(() => {
+    connectToIndexedDB();
+  }, []);
+
   return (
-    <div style={{backgroundImage : `url("${bgImage}")`, height: '100%'}}>
+  
+    <StyledDiv id="app">
+    
     <ThemeProvider theme={theme}>
       
    <AppBar/>
-    <Grid container sx={{mt: 4}}>
+    <Grid container sx={{my: 2}} rowSpacing={2}>
     <Grid item xs='8'>
-    <Grid container>
+    <Grid item container>
     <Quote/>
     <MonthlyGoals/>
-    <HabitTracker/>
-    <Grid container sx={{ mx: '10vw',width: '50vw', justifyContent: 'space-between'}}>
+    <Grid item container> <HabitTracker/></Grid>
+   
+    <Grid item container sx={{ mx: '10vw',width: '50vw', justifyContent: 'space-around', transform: 'scale(1.25)'}}>
       <Grid item><Priority/></Grid>
       <Grid item><Tasks/></Grid>
     </Grid>
     </Grid>
-    </Grid>
-    <Grid item>
-    <Grid container>
+    </Grid> 
+    <Grid item xs='4'>
       <HighLights/>
+  
     </Grid>
     </Grid>
-    </Grid>
-   
-    
-   
     </ThemeProvider>
-    </div>
+    </StyledDiv>
+
   );
 }
 

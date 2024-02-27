@@ -4,7 +4,7 @@ import Profile from "./MenuItem";
 
 function Header() {
   return (
-    <AppBar position="static" sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+    <AppBar position="static" sx={{transform: 'scale(1.0)',display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
       <Toolbar>
         <Typography variant="h6" sx={{ marginLeft: "1rem", }}>
           Good morning, Harsha!

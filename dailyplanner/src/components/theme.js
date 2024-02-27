@@ -2,7 +2,7 @@
 import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 import {shadows} from '@mui/system';
 
-const bgcolor=alpha('#ffffff', 0.4);
+const bgcolor=alpha('#ffffff', 0.5);
 
 export const theme = createTheme({
     palette: {
@@ -10,33 +10,26 @@ export const theme = createTheme({
         main: bgcolor,
       }
     },
-    overrides: {
-      MuiCssBaseline: {
-        styleOverrides: {
-          scrollbar: {
-            '::-webkit-scrollbar': {
-              width: '10px',
-              height: '10px',
-            },
-            '::-webkit-scrollbar-thumb': {
-              background: '#ccc',
-              borderRadius: '10px',
-            },
-            '::-webkit-scrollbar-track': {
-              background: '#fff',
-            },
-          },
-        },
-      },
-    },
     components: {
       // Name of the component\
+      MuiAppBar: {
+        styleOverrides: {
+            root: {
+              backgroundColor: bgcolor,
+              transform: 'scale(0.8),'
+            }
+        }
+      },
       MuiContainer: {
         styleOverrides: {
           root: {
+            fontSize: '1rem',
+            transform: "scale(0.8)",
+            marginLeft: '0',
             backgroundColor: bgcolor,
-            borderRadius: 25,
+            padding: 15,
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
+            borderRadius: 25,
           }
         }
       },
@@ -46,9 +39,9 @@ export const theme = createTheme({
           root: {
             // Some CSS
             fontSize: '1rem',
-            transform: "scale(0.75)",
+            transform: "scale(0.8)",
             marginLeft: '0',
-            backgroundColor: bgcolor,
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
             padding: 15,
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
             borderRadius: 25,
@@ -61,7 +54,7 @@ export const theme = createTheme({
             root: {
                 align: 'center',
                 padding: '2px',
-                backgroundColor: 'transparent',
+
             }
         }
       },
@@ -109,7 +102,6 @@ export const theme = createTheme({
           root: {
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
             borderRadius: 25,
-            boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
           }
         }
       }

@@ -64,7 +64,7 @@ function HabitTracker() {
   return (
     <ThemeProvider theme = {theme}>
    
-    <TableContainer style={{maxHeight: 400}}>
+    <TableContainer style={{maxHeight: 400, width: '100%', minHeight: 200}}>
     <Box sx={{justifyContent: 'space-between',  display: "flex", flexDirection:"row"}}>
           <Typography variant='h5'>Habit Tracker</Typography>
           <Button onClick={handleClick} sx={{backgroundColor: 'white', borderRadius: '10%', color: 'black', boxShadow: '1'}}>+Add Habit</Button>
