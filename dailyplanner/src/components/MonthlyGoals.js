@@ -7,7 +7,7 @@ import {theme} from './theme.js';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Container, FormControl, TextField, Input, InputLabel} from '@mui/material';
 
-import {add_object, delete_object, getAllObjects} from '../database/backend.js';
+import {add_object, delete_object, getAllObjects, connectToIndexedDB} from '../database/backend.js';
 export default function MonthyGoals() {
    let [goals, setGoals] = useState([]);
    console.log("goals: ", goals);
@@ -28,6 +28,18 @@ export default function MonthyGoals() {
 
     setAnchorEl(null);
   };
+  function SetGoals() {
+   
+        getAllObjects("MonthlyGoals")
+        .then(
+        
+            (goals)=> {
+                setGoals(goals);
+            }
+        );
+  }
+    
+  
    function addGoal(event) {
 
     if(event.key=='Enter') {
@@ -59,7 +71,29 @@ export default function MonthyGoals() {
 
       }
    }
+   function handleCheck(event) {
+    let id=(event.currentTarget.getAttribute('customAttribute'));
+    connectToIndexedDB().then(
+      (db)=> {
+        const transaction = db.transaction("MonthlyGoals", "readwrite");
+        const objectStore = transaction.objectStore("MonthlyGoals");
+        const getRequest = objectStore.get(id);
+        getRequest.onsuccess = (event) =>{
+          let obj = event.target.result; 
+          obj.checked=!obj.checked;
+          const putRequest = objectStore.put(obj);
+          putRequest.onsuccess = (event) => {
+            console.log("object with id: ", id, "updated successfully");
+          }
 
+        }
+        transaction.onsuccess=(event) => {console.log("transaction success");}
+        SetGoals();
+        db.close();
+      }
+     
+    )
+   }
    function deleteGoal(event) {
     console.log("inside delete goal");
     console.log(event.currentTarget);
@@ -108,7 +142,7 @@ export default function MonthyGoals() {
                         <Paper id={goal.id} align="left" elevation='2' sx={{my: 0.5, width: '100%', display: 'flex', justifyContent: 'space-between'}}>
                        
                         <div style={{display: 'inline-block', flexDirection:"row", justifyContent: 'space-between'}}>
-                        <Checkbox checked={goal.checked} onClick />
+                        <Checkbox checked={goal.checked} onClick={handleCheck} customAttribute={goal.id}/>
                         <span>id: {goal.id}</span> 
                        
                         </div>

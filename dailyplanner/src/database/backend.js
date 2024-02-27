@@ -128,3 +128,34 @@ export function delete_object(storeName, key) {
    
   }
   
+  export function  update_object(storeName, Object) {
+    return new Promise(function(resolve, reject) {
+      connectToIndexedDB().then(
+        (db)=> {
+  
+         
+          const transaction = db.transaction(storeName, "readwrite");
+          const store = transaction.objectStore(storeName);
+        
+          const updateRequest = store.put(Object);
+      
+          updateRequest.onsuccess = function(event) {
+          console.log("Object updated successfully:", event);
+          };
+      
+          updateRequest.onerror = function(event) {
+          console.error("Error deleting object:", event.target.error);
+          };
+      
+          transaction.oncomplete = function() {
+           
+            resolve("success");
+            db.close();
+          };
+          transaction.onerror = function(event) {console.log(event); reject(event.target.error);db.close();};
+        }
+      ).catch(
+        (error)=> {console.log(error);}
+      );
+      });
+  }
