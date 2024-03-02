@@ -49,7 +49,7 @@ export default function MonthyGoals() {
         let curr_date = new Date();
         const newGoal = 
         {
-            month: curr_date.getMonth(),
+            month: curr_date.getMonth()+1,
             year: curr_date.getFullYear(),
             goal: goal,
             checked: false,
@@ -143,7 +143,7 @@ export default function MonthyGoals() {
                        
                         <div style={{display: 'inline-block', flexDirection:"row", justifyContent: 'space-between'}}>
                         <Checkbox checked={goal.checked} onClick={handleCheck} customAttribute={goal.id}/>
-                        <span>id: {goal.id}</span> 
+                        <span>{goal.goal}</span> 
                        
                         </div>
                         <Button customAttribute ={goal.id}  onClick={deleteGoal}> <DeleteIcon customAttribute ={goal.id}/></Button>

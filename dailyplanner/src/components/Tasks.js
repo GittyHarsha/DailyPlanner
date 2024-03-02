@@ -5,8 +5,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MonthDropdown from './MonthDropdown.js';
 import {theme} from './theme.js';
 import {Container, FormControl, TextField, Input, InputLabel} from '@mui/material';
-export default function Priority() {
-   
+export default function Tasks() {
+   let [tasks, setTasks] = useState([]);
     return (
         <ThemeProvider theme={theme}>
         <Container align="center" sx={{width: 'auto',}}>
@@ -19,16 +19,13 @@ export default function Priority() {
                 Meetings/Tasks
                 <Button>+New</Button>
             </Typography>
-                
-                <Paper elevation='2' sx={{my: 1}}>
-                <TextField variant='standard' id='1'/>
-                </Paper>
-                <Paper elevation='2' id='2' sx={{my: 1}}>
-                <TextField variant='standard' />
-                </Paper>
-                <Paper elevation='2' id='3' sx={{my: 1}}>
-                <TextField variant='standard'/>
-                </Paper>
+            {
+                tasks.map((task) => (
+                    <Paper elevation='2' sx={{my: 1}}>
+                    <TextField variant='standard' id='1'/>
+                    </Paper>
+                ))
+            }
             </FormControl>
         </Container>
         </ThemeProvider>

@@ -15,11 +15,17 @@ export function connectToIndexedDB() {
       window.alert("database upgradeneeded");
       console.log("upgradeneeded", event.target.result);
       const db=event.target.result;
-      const objectStore = db.createObjectStore("MonthlyGoals", 
+      const MonthlyGoals = db.createObjectStore("MonthlyGoals", 
       {
         keyPath: 'id',
         autoIncrement: 'true'
-      });}
+      });
+      const Priority = db.createObjectStore("Priority", 
+      {
+        keyPath: 'date',
+      });
+    }
+
   });
 }
 
@@ -145,6 +151,40 @@ export function delete_object(storeName, key) {
       
           updateRequest.onerror = function(event) {
           console.error("Error deleting object:", event.target.error);
+          };
+      
+          transaction.oncomplete = function() {
+           
+            resolve("success");
+            db.close();
+          };
+          transaction.onerror = function(event) {console.log(event); reject(event.target.error);db.close();};
+        }
+      ).catch(
+        (error)=> {console.log(error);}
+      );
+      });
+  }
+
+
+  export function get_object(storeName, id) {
+    return new Promise(function(resolve, reject) {
+      connectToIndexedDB().then(
+        (db)=> {
+  
+         
+          const transaction = db.transaction(storeName, "readonly");
+          const store = transaction.objectStore(storeName);
+        
+          const getRequest = store.get(id);
+      
+          getRequest.onsuccess = function(event) {
+          console.log("Object retrieved successfully:", event);
+          };
+      
+          getRequest.onerror = function(event) {
+            console.log(event.target.error);
+            reject("error");
           };
       
           transaction.oncomplete = function() {
