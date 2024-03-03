@@ -21,6 +21,7 @@ export default function HighLights() {
                 console.log("obtained data; ",data);
                 for(let order in data ) {
                     console.log("order: ", order);
+                    if(order!='date')
                     setValue(order ,data[order]);
                 }
         }
@@ -29,8 +30,8 @@ export default function HighLights() {
                 let obj={"date": today};
              
                 
-                console.log(obj);
-                add_object("Priority", obj).then((msg)=> {
+                console.log("key: ", today, "not found: ", obj);
+                add_object("Highlights", obj).then((msg)=> {
                     console.log("new object added for today's current date", msg);
                 });
             } 
@@ -39,7 +40,7 @@ export default function HighLights() {
     function onSubmit(data) {
         let today = new Date(); today = today.toDateString();
         console.log("form values: ", data);
-        update_object('Priority', {...data, "date": today}).then(
+        update_object('Highlights', {...data, "date": today}).then(
             (msg)=> {}
         );
     }
@@ -76,7 +77,14 @@ export default function HighLights() {
                     Highlight of Today
                 </Typography>
                 <Paper>
-                <TextField variant='standard' multiline>Today was a great day</TextField>
+                <Controller
+                name="highlight_of_the_day"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                    <TextField {...field} sx={{width: '25vw'}} multiline variant='standard'/>
+                )}
+            />
                 </Paper>
             </Container>
             </form>
