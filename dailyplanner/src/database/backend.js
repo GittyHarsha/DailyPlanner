@@ -24,6 +24,10 @@ export function connectToIndexedDB() {
       {
         keyPath: 'date',
       });
+      const Highlights = db.createObjectStore("Highlights", 
+      {
+        keyPath: 'date',
+      });
     }
 
   });
@@ -175,11 +179,16 @@ export function delete_object(storeName, key) {
          
           const transaction = db.transaction(storeName, "readonly");
           const store = transaction.objectStore(storeName);
-        
+          console.log("id: ", id);
           const getRequest = store.get(id);
       
           getRequest.onsuccess = function(event) {
-          console.log("Object retrieved successfully:", event);
+          console.log("Object retrieved successfully:", getRequest.result);
+          if(getRequest.result == undefined) {
+            reject("error");
+          }
+          else
+          resolve(getRequest.result);
           };
       
           getRequest.onerror = function(event) {

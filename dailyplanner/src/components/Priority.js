@@ -7,33 +7,45 @@ import {Container, FormControl, TextField, Input, InputLabel, Menu, MenuItem} fr
 import {useForm, Controller, control} from 'react-hook-form';
 import {get_object, add_object, update_object} from '../database/backend.js';
 export default function Priority() {
-    let [num, setNum] = useState(3);
-    const {register, handleSubmit, control} = useForm();
+    const {register, handleSubmit, control, setValue} = useForm();
     let [focus, setFocus] = useState(false);
     useEffect(() => {
         let today = new Date();
         today = today.toDateString();
-        get_object("Prority", today).then(
-            (message) => {console.log(message);}
+       
+        get_object("Priority", today).then(
+    
+            (data) => 
+            {
+                console.log("obtained data; ",data);
+                for(let order in data ) {
+                    console.log("order: ", order);
+                    setValue(order ,data[order]);
+                }
+        }
         ).catch(
             (message) => {
-                let obj;
-                obj["date"] = today;
-                obj["Priorities"] = [];
-                add_object("Priority", obj).then((msg)=> {});
+                let obj={"date": today};
+             
+                
+                console.log(obj);
+                add_object("Priority", obj).then((msg)=> {
+                    console.log("new object added for today's current date", msg);
+                });
             } 
         )
-    }, []);
-    function addPriority(e) {
-        setNum(e.target.value);
-    }
+    });
     
+    
+
     function onSubmit(data) {
+     
         let today = new Date(); today = today.toDateString();
         console.log("form values: ", data);
         update_object('Priority', {...data, "date": today}).then(
-            (msg)=> {}
+            (msg)=> {console.log(msg);}
         );
+      
     }
 
     return (
@@ -46,10 +58,9 @@ export default function Priority() {
             </Typography>
             <Menu>
             <MenuItem>
-          <TextField onKeyDown={addPriority}/>
+          <TextField/>
           </MenuItem>
             </Menu>
-           
             <FormControl>
             <form onSubmit = {handleSubmit(onSubmit)}>
                 {
@@ -59,46 +70,47 @@ export default function Priority() {
                     <Controller
                 name="1"
                 control={control}
-                defaultValue=""
+               
                 render={({ field }) => (
                 <TextField 
                      {...field}
+                   
                     variant='standard'  
+                    style={{left: '5px'}}
                     
                 />
                 )}
             />
-              
                 </Paper>
                 <Paper elevation='2' sx={{my: 1}}>
                     <Controller
                 name="2"
                 control={control}
-                defaultValue=""
+              
                 render={({field }) => (
                 <TextField 
                     {...field}
+                    style={{left: '5px'}}
                     variant='standard'  
                     
                 />
                 )}
             />
-              
                 </Paper>
                 <Paper elevation='2'  sx={{my: 1}}>
                     <Controller
                 name="3"
                 control={control}
-                defaultValue=""
+              
                 render={({ field }) => (
                 <TextField 
+               
                     {...field}
                     variant='standard'  
-                   
+                    style={{left: '5px'}}
                 />
                 )}
             />
-              
                 </Paper>
                 </form>
             </FormControl>
