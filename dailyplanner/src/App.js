@@ -22,7 +22,7 @@ function App() {
     useEffect(()=> {
    
     axios.get("https://peapix.com/bing/feed").then(
-      (images_array) => { setBgImage(images_array["data"][0].imageUrl); console.log("image url: ", images_array['data'][0].imageUrl);}
+      (images_array) => { setBgImage(images_array["data"][2].imageUrl); console.log("image url: ", images_array['data'][1].imageUrl);}
     ).catch((error) => {console.log(error);});
    
   }, []);

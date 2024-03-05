@@ -36,7 +36,7 @@ export default function HighLights() {
                 });
             } 
         )
-    });
+    }, []);
     function onSubmit(data) {
         let today = new Date(); today = today.toDateString();
         console.log("form values: ", data);

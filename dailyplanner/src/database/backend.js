@@ -28,6 +28,22 @@ export function connectToIndexedDB() {
       {
         keyPath: 'date',
       });
+      const HabitTracker = db.createObjectStore("HabitTracker", 
+      {
+        keyPath: 'id',
+        /*
+
+        Schema->
+        id: 
+        Month:
+        Year:
+        Name:
+        Boolean_array: [1, 0, 0],
+        
+        */
+      });
+      HabitTracker.createIndex("MonthYearIndex", ["month", "year"]);
+    
     }
 
   });
@@ -39,7 +55,8 @@ export function  add_object(storeName, newObject) {
     connectToIndexedDB().then((db) => {
     const transaction = db.transaction(storeName, "readwrite");
     const store = transaction.objectStore(storeName);
-
+    console.log(`${storeName} : key:  ${store.keyPath}`);
+if(store.keyPath =="id") {
     // Open a cursor in reverse direction to get the highest ID first
     const cursorRequest = store.openCursor(null, "prev");
 
@@ -66,6 +83,10 @@ export function  add_object(storeName, newObject) {
       reject(event.target.result);
       db.close();
     }
+  }
+  else {
+    store.add(newObject);
+  }
 
     transaction.oncomplete = function() {
       resolve("success");
@@ -181,6 +202,43 @@ export function delete_object(storeName, key) {
           const store = transaction.objectStore(storeName);
           console.log("id: ", id);
           const getRequest = store.get(id);
+      
+          getRequest.onsuccess = function(event) {
+          console.log("Object retrieved successfully:", getRequest.result);
+          if(getRequest.result == undefined) {
+            reject("error");
+          }
+          else
+          resolve(getRequest.result);
+          };
+      
+          getRequest.onerror = function(event) {
+            console.log(event.target.error);
+            reject("error");
+          };
+      
+          transaction.oncomplete = function() {
+           
+            resolve("success");
+            db.close();
+          };
+          transaction.onerror = function(event) {console.log(event); reject(event.target.error);db.close();};
+        }
+      ).catch(
+        (error)=> {console.log(error);}
+      );
+      });
+  }
+
+  export function getAllIndex(storeName, indexName, keys) {
+    console.log("inside getAllIndex");
+    return new Promise(function(resolve, reject) {
+      connectToIndexedDB().then(
+        (db)=> {
+          const transaction = db.transaction(storeName, "readonly");
+          const store = transaction.objectStore(storeName);
+          let index = store.index(indexName);
+          let getRequest = index.getAll(keys);
       
           getRequest.onsuccess = function(event) {
           console.log("Object retrieved successfully:", getRequest.result);

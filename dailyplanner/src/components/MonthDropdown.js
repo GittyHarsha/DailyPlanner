@@ -2,7 +2,9 @@ import React from 'react';
 import { Select, MenuItem, Typography } from '@mui/material';
 
 export default function MonthDropdown(props) {
-  const [month, setMonth] = React.useState(0);
+ let curr_month = (new Date()).getMonth();
+
+  const [month, setMonth] = React.useState(curr_month);
 
   const handleChange = (event) => {
     console.log("value: ", event.target.value);
