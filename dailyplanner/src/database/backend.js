@@ -28,6 +28,10 @@ export function connectToIndexedDB() {
       {
         keyPath: 'date',
       });
+      const Tasks = db.createObjectStore("Tasks", 
+      {
+        keyPath: 'id',
+      });
       const HabitTracker = db.createObjectStore("HabitTracker", 
       {
         keyPath: 'id',

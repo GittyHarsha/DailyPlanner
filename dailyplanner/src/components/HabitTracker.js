@@ -71,6 +71,8 @@ function HabitTracker() {
     }
   }
   function updateHabits() {
+    console.log("month: ", month.toString());
+    console.log("year: ", year.toString());
     getAllIndex("HabitTracker", "MonthYearIndex", [month.toString(), year.toString()]).then(
 
       (data) => 

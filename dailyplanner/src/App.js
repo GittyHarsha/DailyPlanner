@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useState, setState, useEffect, createContext } from 'react';
 import styled from 'styled-components';
 import {connectToIndexedDB} from './database/backend';
+import PopUpMenu from './components/PopupMenu.js';
 function App() {
   //state storing the url of the background image
   let [bgImage, setBgImage] = useState('');
@@ -45,11 +46,14 @@ function App() {
   useEffect(() => {
     connectToIndexedDB();
   }, []);
-
+  let [anchor, setAnchor] = useState(null);
+  function handleClick(event) {
+    setAnchor(event.currentTarget);
+  }
   return (
   
     <StyledDiv id="app">
-    
+   
     <ThemeProvider theme={theme}>
       
    <AppBar/>
