@@ -56,12 +56,13 @@ export default function Tasks() {
    function onSubmit(data) {
     console.log("task to add: ", data);
     let obj={};
+    console.log("day: ", data.date.date());
     obj["task"] = data.task;
-    obj["day"] = data.date.get('day');
+    obj["day"] = data.date.date();
     obj["month"] = data.date.get('month');
     obj["year"] = data.date.get('year');
     obj["status"] = false;
-    obj["time"] = data.time.format('HH:mm');
+    obj["time"] = data.time.hour() + ":" + date.time.minute();
 
 
    add_object("Tasks", obj).then(
@@ -110,8 +111,8 @@ function update_task(data, id) {
 
    
     return (
-        <ThemeProvider theme={theme}>
-             
+        <ThemeProvider theme={theme} >
+        <div style={{maxWidth: 500}}>          
    
             <Box sx={{justifyContent: 'space-between',  display: "flex", flexDirection:"row"}}>
           <Menu aria-controls={open ? 'basic-menu' : undefined}
@@ -159,21 +160,23 @@ function update_task(data, id) {
                 
             <Typography variant='h6'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
                 Meetings/Tasks
-                <Button onClick={handleClick} sx={{backgroundColor: 'pink'}}>+New</Button>
+                <Button onClick={handleClick} sx={{backgroundColor: 'white'}}>+New</Button>
             </Typography>
+            <div>
             {
                 tasks.map((task) => (
                     <Paper elevation='2' sx={{my: 1}}>
                     <PopUpMenu>
-                    <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'} }}>
-                        <Container key="" sx={{backgroundColor: 'yellow', width: '7vw', padding: '0', margin: '0'}}>
-                           <span sx={{padding: '0px', margin: '0px'}}> {task.day} {months[task.month]}</span>
+                    <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer', width: '100%',} }}>
+                        <Container key="" sx={{backgroundColor: '#f2f2f2', width: '7vw', padding: '0', margin: '0'}}>
+                           <Typography sx={{padding: '0px', margin: '0px'}}> {task.day} {months[task.month]}
                            <br/>
                             {
                                 (task.time)?(<span>{task.time}</span>): (<></>)
                             }
+                            </Typography>
                         </Container>
-                        <p>{task.task}</p>
+                        <Typography sx={{pt: 1}}>{task.task}</Typography>
                     </Box>
                     <form  onSubmit = {handleSubmit((data)=>update_task(data, task.id))}>
                         <Checkbox onClick={(e)=> {handleCheck(task)}}/>
@@ -197,10 +200,11 @@ function update_task(data, id) {
                     </Paper>
                 ))
             }
+            </div>
             </FormControl>
         </Container>
         
-       
+        </div>
         </ThemeProvider>
         
     )

@@ -51,10 +51,11 @@ export default function HighLights() {
        
         <FormControl>
             <form onSubmit = {handleSubmit(onSubmit)}>
-            <div style={{overflow: 'scroll'}}>
             <Typography align="center" variant='h4'>How was the day?
             <Button type='submit'>submit</Button>
             </Typography>
+            <div style={{overflow: 'scroll', maxHeight: '80vh'}}>
+            
             {
                 timestamps.map(
                     (timestamp)=> (
@@ -82,7 +83,7 @@ export default function HighLights() {
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                    <TextField {...field} sx={{width: '25vw'}} multiline variant='standard'/>
+                    <TextField {...field} sx={{width: '25vw', left: '5px'}} multiline variant='standard'/>
                 )}
             />
                 </Paper>

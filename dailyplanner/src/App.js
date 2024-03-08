@@ -34,12 +34,13 @@ function App() {
     position: absolute;
    background-image: url('${bgImage}');
    background-size: cover;
-    height: 100%;
+    height: 120%;
     width: 100%;
     top: 0px;
     left: 0px;
     opacity: 0.6;
   }
+  
   `;
 
 
@@ -62,11 +63,11 @@ function App() {
     <Grid item container>
     <Quote/>
     <MonthlyGoals/>
-    <Grid item container> <HabitTracker/></Grid>
+    <Grid item container sx={{my: -4}}> <HabitTracker/></Grid>
    
-    <Grid item container sx={{ mx: '10vw',width: '50vw', justifyContent: 'space-around', transform: 'scale(1.25)'}}>
+    <Grid item container sx={{mt: 2 ,mx: '10vw',width: '50vw', justifyContent: 'space-around', transform: 'scale(1.25)'}}>
       <Grid item><Priority/></Grid>
-      <Grid item><Tasks/></Grid>
+      <Grid item sx={{mt: 1.5}}><Tasks/></Grid>
     </Grid>
     </Grid>
     </Grid> 

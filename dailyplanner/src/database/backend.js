@@ -59,14 +59,15 @@ export function  add_object(storeName, newObject) {
     connectToIndexedDB().then((db) => {
     const transaction = db.transaction(storeName, "readwrite");
     const store = transaction.objectStore(storeName);
+    let success=true;
     console.log(`${storeName} : key:  ${store.keyPath}`);
 if(store.keyPath =="id") {
     // Open a cursor in reverse direction to get the highest ID first
     const cursorRequest = store.openCursor(null, "prev");
-
+   
     cursorRequest.onsuccess = function(event) {
       const cursor = event.target.result;
-
+     
       if (cursor) {
         const highestId = cursor.key;
         const newId = Number(highestId) + 1;
@@ -84,23 +85,38 @@ if(store.keyPath =="id") {
     };
 
     cursorRequest.onerror = function(event) {
-      reject(event.target.result);
-      db.close();
+     success=false;
+  
     }
   }
   else {
-    store.add(newObject);
+    let key = store.keyPath;
+    let id = newObject[key];
+    get_object(storeName, id).then(
+      (msg)=> {}
+    )
+    .catch((err)=> {
+     add_object(storeName, newObject);
+    })
+   
   }
 
     transaction.oncomplete = function() {
-      resolve("success");
       db.close();
+      if(success) {
+      resolve("success");
+      }
+      else {
+        reject("error");
+      }
+      
     };
 
     transaction.onerror = function(event) {
+      db.close();
       console.error("IndexedDB error:", event.target.error);
       reject(event.target.error);
-      db.close();
+      
     };
   });
 });
@@ -209,22 +225,23 @@ export function delete_object(storeName, key) {
       
           getRequest.onsuccess = function(event) {
           console.log("Object retrieved successfully:", getRequest.result);
-          if(getRequest.result == undefined) {
-            reject("error");
           }
-          else
-          resolve(getRequest.result);
-          };
       
           getRequest.onerror = function(event) {
             console.log(event.target.error);
-            reject("error");
+            
           };
       
           transaction.oncomplete = function() {
-           
-            resolve("success");
             db.close();
+            if(getRequest.result == undefined) {
+              reject("error");
+            }
+            else{
+            resolve(getRequest.result);
+            }
+                      
+           
           };
           transaction.onerror = function(event) {console.log(event); reject(event.target.error);db.close();};
         }

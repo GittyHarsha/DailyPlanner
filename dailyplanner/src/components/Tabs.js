@@ -50,7 +50,7 @@ export default function BasicTabs({dateChange, timeChange}) {
 
   return (
     <Box>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'green'}}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#81b8ee'}}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Date" {...a11yProps(0)} />
           <Tab label="Time" {...a11yProps(1)} />

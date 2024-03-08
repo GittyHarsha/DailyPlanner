@@ -63,9 +63,8 @@ export default function Priority() {
             </Menu>
             <FormControl>
             <form onSubmit = {handleSubmit(onSubmit)}>
-                {
-                    (true)?(<Button type="submit" sx={{backgroundColor: 'yellow'}}> Submit</Button>): (null)
-                }
+                <Button type="submit" sx={{backgroundColor: 'white'}}> Submit</Button>
+               
             <Paper elevation='2'  sx={{my: 1}}>
                     <Controller
                 name="1"

@@ -29,7 +29,8 @@ function HabitTracker() {
   let curr_year = curr_date.getFullYear();
   let curr_month = curr_date.getMonth();
 
-  
+  let local_month = curr_month;
+  let local_year = curr_year;
 
   console.log("today: ", curr_day);
   let [month, setMonth] = useState(curr_month);
@@ -50,7 +51,9 @@ function HabitTracker() {
   function handleMonth(input) {
     console.log("hello, input: ", input);
     setMonth(input);
+    local_month = input;
     setDates(Array.from({length: daysInMonth[input]}, (_, i) => ({num: i+1, bool: Math.random() >= 0.5})));
+    updateHabits();
   }
   
   function addHabit(event) {
@@ -73,7 +76,7 @@ function HabitTracker() {
   function updateHabits() {
     console.log("month: ", month.toString());
     console.log("year: ", year.toString());
-    getAllIndex("HabitTracker", "MonthYearIndex", [month.toString(), year.toString()]).then(
+    getAllIndex("HabitTracker", "MonthYearIndex", [local_month.toString(), year.toString()]).then(
 
       (data) => 
       {
@@ -134,7 +137,7 @@ function HabitTracker() {
           {
             dates.map(
               (date)=> (
-                <TableCell sx={{border: 'white', justifyContent:'center',}}><Typography sx={{px: 'auto',backgroundColor: (date.num == curr_day)?'lightgreen': 'white', borderRadius: '50%'}}>{date.num}</Typography></TableCell>
+                <TableCell sx={{border: 'white', justifyContent:'center',}}><Typography sx={{px: 'auto',backgroundColor: (date.num == curr_day)?'#dcdcdc': 'white', borderRadius: '10%'}}>{date.num}</Typography></TableCell>
               )
             )
           }
