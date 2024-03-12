@@ -10,16 +10,34 @@ export const theme = createTheme({
         main: bgcolor,
       }
     },
+    typography: {
+      fontFamily: 'Times New Roman',
+    },
+    
     components: {
       // Name of the component\
       MuiAppBar: {
         styleOverrides: {
             root: {
-              backgroundColor: bgcolor,
+              backgroundColor: 'transparent',
               transform: 'scale(0.8),'
             }
         }
       },
+      MuiTextField: {
+        defaultProps: {
+          InputLabelProps: {
+            sx: {
+              color: 'black', // Replace with your preferred color
+              '&.Mui-focused': {
+                color: 'black', // Adjust for focused state
+              },
+            },
+          },
+        },
+      },
+    
+    
       MuiContainer: {
         styleOverrides: {
           root: {
@@ -27,9 +45,9 @@ export const theme = createTheme({
             transform: "scale(0.8)",
             marginLeft: '0',
             backgroundColor: bgcolor,
-            padding: 15,
+           
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
-            borderRadius: 25,
+            borderRadius: '1.25rem',
           }
         }
       },
@@ -44,7 +62,7 @@ export const theme = createTheme({
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             padding: 15,
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
-            borderRadius: 25,
+            borderRadius: '1.25rem',
             
           },
         },
@@ -80,11 +98,11 @@ export const theme = createTheme({
           // Name of the slot
           root: {
             backgroundColor: 'white',
-             borderRadius: '10%', 
+             borderRadius: '1.25rem', 
              color: 'black',
               boxShadow: '1',
               backgroundColor: 'white',
-              borderRadius: 25,
+             
           }
       }
       },
@@ -93,7 +111,7 @@ export const theme = createTheme({
           // Name of the slot
           root: {
              my: 2,
-             borderRadius: 25,
+             borderRadius: '0.625rem',
           }
       }
       },
@@ -101,7 +119,14 @@ export const theme = createTheme({
         styleOverrides: {
           root: {
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
-            borderRadius: 25,
+            borderRadius: '1.125rem',
+          }
+        }
+      },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+              fontWeight: 'bold'
           }
         }
       }

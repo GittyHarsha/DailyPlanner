@@ -7,33 +7,47 @@ import MonthDropdown from './MonthDropdown.js';
 import {Container, FormControl, TextField, Input, InputLabel, TableContainer} from '@mui/material';
 import {useForm, Controller, control} from 'react-hook-form';
 import {get_object, add_object, update_object} from '../database/backend.js';
-
+import _ from 'lodash';
 export default function HighLights() {
-    const {register, handleSubmit, control, setValue} = useForm();
+    const {register, handleSubmit, control, setValue, getValues, getValue, formState: {dirty}} = useForm();
+    let [highlights, setHighlights] = useState({});
     useEffect(() => {
         let today = new Date();
         today = today.toDateString();
-       
+        let data={};
+       for(let timestamp of timestamps) {
+        data.timestamp='';
+       }
+       setHighlights(data);
         get_object("Highlights", today).then(
     
             (data) => 
             {
                 console.log("obtained data; ",data);
+                
+                for(let timestamp of timestamps) {
+                    if(!data[timestamp]) {
+                        data[timestamp]='';
+                    }
+                }
+                setHighlights(data);
+             
                 for(let order in data ) {
                     console.log("order: ", order);
-                    if(order!='date')
+                    if(order!='date') {
                     setValue(order ,data[order]);
+                   
+                    }
+                   console.log("highlights: ", highlights);
                 }
         }
         ).catch(
             (message) => {
                 let obj={"date": today};
              
-                
-                console.log("key: ", today, "not found: ", obj);
                 add_object("Highlights", obj).then((msg)=> {
-                    console.log("new object added for today's current date", msg);
-                });
+                   
+                }).catch((msg)=> {console.log(msg)});
             } 
         )
     }, []);
@@ -44,29 +58,40 @@ export default function HighLights() {
             (msg)=> {}
         );
     }
-    let timestamps = ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM'];
+    const debouncedSubmit = _.debounce(() => {
+        
+       
+            let today = new Date(); today = today.toDateString();
+            let data = getValues();
+            console.log("debounce dude");
+            update_object('Highlights', {...data, "date": today}).then(
+                (msg)=> {}
+            );
+        
+      
+      }, 3000); // Delay submission by 750ms
+    let timestamps = ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM', '12AM'];
  return (
 
-    <TableContainer sx={{display: 'flex', flexDirection: 'col', height: '100vh', width: '25vw', right: '0px', mt: -10}}>
-       
+    <TableContainer sx={{display: 'flex', flexDirection: 'col', height: 'auto', width: '25vw', right: '0px', mt: -10, overflowX: 'hidden'}}>
+    
         <FormControl>
             <form onSubmit = {handleSubmit(onSubmit)}>
-            <Typography align="center" variant='h4'>How was the day?
-            <Button type='submit'>submit</Button>
+            <Typography align="center" sx={{fontFamily: 'Itim' }} variant='h4'>How was the day?
+          
             </Typography>
             <div style={{overflow: 'scroll', maxHeight: '80vh'}}>
             
             {
                 timestamps.map(
                     (timestamp)=> (
-                        <Controller
-                name={timestamp}
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                    <TextField {...field} sx={{width: '25vw'}} label={timestamp} variant='standard'/>
-                )}
-            />
+                       
+               
+                <div style={{display: 'flex', justifyContent: 'space-between', width: '95%'}}>
+                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value); console.log("timetamps"); debouncedSubmit()}} sx={{width: '25vw', left: '0.5rem', right: '0px'}} variant='standard'/>
+                   </div>
+                
+            
                        
                         
                     )
@@ -78,14 +103,7 @@ export default function HighLights() {
                     Highlight of Today
                 </Typography>
                 <Paper>
-                <Controller
-                name="highlight_of_the_day"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                    <TextField {...field} sx={{width: '25vw', left: '5px'}} multiline variant='standard'/>
-                )}
-            />
+                    <TextField  InputProps={{ disableUnderline: true,}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); console.log("hello there");debouncedSubmit()}}sx={{width: '25vw', left: '5px'}} multiline variant='standard'/>
                 </Paper>
             </Container>
             </form>

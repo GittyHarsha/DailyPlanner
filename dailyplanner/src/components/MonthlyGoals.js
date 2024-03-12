@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState, setState, useContext, useEffect} from 'react';
-import { Button, Checkbox, Grid, Typography, Box, Paper, Menu, MenuItem} from '@mui/material';
+import { Button, Checkbox, Grid, Typography, Box, Paper, Menu, MenuItem, InputAdornment, IconButton} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MonthDropdown from './MonthDropdown.js';
 import {theme} from './theme.js';
@@ -10,6 +10,7 @@ import {Container, FormControl, TextField, Input, InputLabel} from '@mui/materia
 import {add_object, delete_object, getAllObjects, connectToIndexedDB} from '../database/backend.js';
 export default function MonthyGoals() {
    let [goals, setGoals] = useState([]);
+   let [goal, setGoal] = useState(null);
    console.log("goals: ", goals);
    useEffect(
     () => {
@@ -42,9 +43,7 @@ export default function MonthyGoals() {
   
    function addGoal(event) {
 
-    if(event.key=='Enter') {
-        let goal = event.target.value;
-        console.log(goal);
+    if(!goal) return;
         
         let curr_date = new Date();
         const newGoal = 
@@ -69,7 +68,7 @@ export default function MonthyGoals() {
         (error)=> {console.log(error);}
       )
 
-      }
+      
    }
    function handleCheck(event) {
     let id=(event.currentTarget.getAttribute('customAttribute'));
@@ -120,9 +119,9 @@ export default function MonthyGoals() {
            
             <FormControl sx={{width: '100%'}}>
                 
-            <Typography variant='h6'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
+            <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
                 Monthly Goals
-                <Button onClick={handleClick} sx={{backgroundColor: 'white', borderRadius: '10%', color: 'black', boxShadow: '1'}}>+Add Goal</Button>
+                <Button onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1'}}>+Add Goal</Button>
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           anchorEl={anchorEl}
@@ -130,7 +129,29 @@ export default function MonthyGoals() {
           open={open}
           onClose={handleClose}
           >
-          <MenuItem><TextField onKeyDown={addGoal}/></MenuItem>
+          <MenuItem>
+       
+       
+         
+          <br/>
+          <TextField 
+          InputProps={{
+            style: {width: '10rem'},
+            endAdornment: (
+              
+              <InputAdornment position="end">
+                <IconButton>
+                <img src='submit.png' style={{':hover': {cursor: 'pointer'}}} onClick={addGoal}/>
+                  
+                </IconButton>
+              </InputAdornment>
+            ),
+            disableUnderline: true,
+          }}
+          
+          label="Add Goal" multiline onChange={(e)=> {setGoal(e.target.value)}}/>
+        
+          </MenuItem>
           </Menu>
             </Typography>
             

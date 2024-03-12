@@ -18,12 +18,11 @@ export default function MonthDropdown(props) {
       value={month}
       onChange={handleChange}
       displayEmpty
-      inputProps={{ 'aria-label': 'Without label' }}
-      sx={{padding: '0'}}
+      style={{width: '8rem'}}
+
+      sx={{padding: '0', fontSize: '1.4rem'}}
     >
-      <MenuItem value="" disabled>
-       {month}
-      </MenuItem>
+   
       <MenuItem value={0}>January</MenuItem>
       <MenuItem value={1}>February</MenuItem>
       <MenuItem value={2}>March</MenuItem>

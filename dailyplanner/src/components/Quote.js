@@ -27,7 +27,7 @@ const Quote = function() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            minHeight: '6vh',
+            minHeight: '4vh',
 
             padding: '15px',
             maxWidth: '50vw',

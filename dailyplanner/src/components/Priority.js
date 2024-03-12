@@ -47,15 +47,19 @@ export default function Priority() {
         );
       
     }
-
+    let width = '15.438rem';
+    let paperWidth = '14.348rem';
     return (
         
-        <Container align="center">
-          
-            <Typography variant='h5'align='center' >
-                Top 3 Priority
-                
-            </Typography>
+        <Container style={{paddingLeft: '0.5vw', paddingRight: '0.5vw', transform: 'scale(1.0)'}} align="center" sx={{ width: width, height: '13.375rem',px: 0}}>
+          <FormControl>
+                <div style={{display: 'flex', width: '14.348rem', justifyContent:'space-between',}}>
+            <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5rem'}}>
+                Top Priorities
+                </Typography>
+                <Button  sx={{backgroundColor: 'white', boxShadow: 1}}>+New</Button>
+                </div>
+                </FormControl>
             <Menu>
             <MenuItem>
           <TextField/>
@@ -63,9 +67,9 @@ export default function Priority() {
             </Menu>
             <FormControl>
             <form onSubmit = {handleSubmit(onSubmit)}>
-                <Button type="submit" sx={{backgroundColor: 'white'}}> Submit</Button>
+            
                
-            <Paper elevation='2'  sx={{my: 1}}>
+            <Paper elevation='2'  sx={{my: 1.5, width: paperWidth, mx: 0}}>
                     <Controller
                 name="1"
                 control={control}
@@ -73,40 +77,41 @@ export default function Priority() {
                 render={({ field }) => (
                 <TextField 
                      {...field}
-                   
+                    InputProps={{ disableUnderline: true,}}
                     variant='standard'  
-                    style={{left: '5px'}}
+                    style={{left: '5px', width: '100%'}}
                     
                 />
                 )}
             />
                 </Paper>
-                <Paper elevation='2' sx={{my: 1}}>
+                <Paper elevation='2' sx={{my: 1.5}}>
                     <Controller
                 name="2"
                 control={control}
               
                 render={({field }) => (
                 <TextField 
+                InputProps={{ disableUnderline: true,}}
                     {...field}
-                    style={{left: '5px'}}
+                    style={{left: '5px', width: '100%'}}
                     variant='standard'  
                     
                 />
                 )}
             />
                 </Paper>
-                <Paper elevation='2'  sx={{my: 1}}>
+                <Paper elevation='2'  sx={{my: 1.5}}>
                     <Controller
                 name="3"
                 control={control}
               
                 render={({ field }) => (
                 <TextField 
-               
+                InputProps={{ disableUnderline: true,}}
                     {...field}
                     variant='standard'  
-                    style={{left: '5px'}}
+                    style={{left: '5px', width: '100%'}}
                 />
                 )}
             />

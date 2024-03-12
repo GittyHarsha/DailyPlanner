@@ -8,13 +8,16 @@ export function connectToIndexedDB() {
     };
 
     request.onsuccess = (event) => {
-      let db = event.target.result;
+    
       resolve(event.target.result);
     };
     request.onupgradeneeded = (event) => {
-      window.alert("database upgradeneeded");
-      console.log("upgradeneeded", event.target.result);
+     
       const db=event.target.result;
+      const  Name = db.createObjectStore("Name", 
+      {
+        keyPath: 'name'
+      });
       const MonthlyGoals = db.createObjectStore("MonthlyGoals", 
       {
         keyPath: 'id',
@@ -90,14 +93,13 @@ if(store.keyPath =="id") {
     }
   }
   else {
-    let key = store.keyPath;
-    let id = newObject[key];
-    get_object(storeName, id).then(
-      (msg)=> {}
-    )
-    .catch((err)=> {
-     add_object(storeName, newObject);
-    })
+   
+    
+    const transaction = db.transaction(storeName, "readwrite");
+    const store = transaction.objectStore(storeName);
+    store.add(newObject);
+    transaction.onsuccess = (event)=> { db.close();resolve("success")}
+    transaction.onerror = (event)=> {db.close();reject("error");}
    
   }
 
@@ -167,13 +169,22 @@ export function delete_object(storeName, key) {
   
     return new Promise((resolve, reject) => {
       request.onsuccess = (event) => {
-        resolve(event.target.result);
+        if(!event.target.result) {
+          db.close();
+          reject("error");
+        }
+        else {
+          db.close();
+          resolve(event.target.result);
+        }
+       
       };
       request.onerror = (event) => {
+        db.close();
         reject(event.target.error);
       };
     });
-    db.close();
+  
       }
     ).catch((error)=> {console.log(error);});
    

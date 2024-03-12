@@ -15,7 +15,7 @@ export default function PopUpMenu({children}) {
     setAnchorEl(null);
   };
   return (
-    <>
+    <div style={{width: '100%', height: '100%'}}>
     {
         Children.map(children, (child)=> {
             if(child.key=='button') {
@@ -46,7 +46,7 @@ export default function PopUpMenu({children}) {
     })}
     </MenuItem>
     </Menu>
-    </>
+    </div>
   )
 
  
