@@ -113,15 +113,16 @@ export default function MonthyGoals() {
    }
     return (
         <ThemeProvider theme={theme}>
-        <Container align="center" sx={{my: 1, minHeight: 150, maxHeight: 300, overflow: 'scroll'}}>
+        <Container align="center" sx={{my: 1, minHeight: 150, maxHeight: 300, overflow: 'scroll', width: '100%'}}>
   
             
            
             <FormControl sx={{width: '100%'}}>
                 
             <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
-                Monthly Goals
-                <Button onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1'}}>+Add Goal</Button>
+              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5rem',}}> Monthly Goals
+                <Button onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1'}}>+Add Goal</Button></div>
+               
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           anchorEl={anchorEl}

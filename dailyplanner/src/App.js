@@ -46,7 +46,7 @@ function App() {
 
   useEffect(() => {
     getAllObjects("Name").then(
-      (names)=> {if(names.length) {setName(names[0]);}}
+      (names)=> {if(names.length) {setName(names[0].name);}}
     ).catch((msg)=> {console.log("error on getting name")})
   },[]);
   let [anchor, setAnchor] = useState(null);

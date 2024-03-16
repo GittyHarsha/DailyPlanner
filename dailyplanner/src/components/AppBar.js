@@ -27,7 +27,7 @@ function Header({name}) {
     <AppBar position="static" sx={{transform: 'scale(1.0)',display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: '10vh'}}>
       <Toolbar>
         <Typography variant="h6" sx={{ marginLeft: "1rem", }}>
-        { (name)?(<>{Greeting()} {name.name} !</> ):(<></>)}
+        { (name)?(<>{Greeting()} {name} !</> ):(<></>)}
         </Typography>
        
       </Toolbar>

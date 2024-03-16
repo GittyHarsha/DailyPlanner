@@ -224,7 +224,7 @@ function update_task(data, id) {
                 tasks.map((task) => (
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                        
-                    <Paper elevation='2' sx={{my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: '15rem'}}>
+                    <Paper elevation='2' sx={{my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: '15rem',}}>
                    
                     <PopUpMenu >
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
@@ -233,7 +233,7 @@ function update_task(data, id) {
                            <Typography> {task.day} {months[task.month]}
                            <br/>
                             {
-                                (task.time)?(<span>{task.time}</span>): (<></>)
+                                (task.time)?(<span >{task.time}</span>): (<></>)
                             }
                             </Typography>
                         </Container>

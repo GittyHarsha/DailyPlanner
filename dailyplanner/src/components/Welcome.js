@@ -4,7 +4,7 @@ import { Typography,TextField, InputAdornment, IconButton } from '@mui/material'
 export default function Welcome({onSubmit}) {
     let [name, setName] = useState('');
     return (
-        <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor:'#33333380', zIndex: '1', display: 'flex', justifyContent:'center', alignItems: 'center'}}>
+        <div style={{position: 'absolute', width: '100%', height: '100%', backgroundColor:'#333333E6', zIndex: '1', display: 'flex', justifyContent:'center', alignItems: 'center'}}>
    <div style=
    {{
         display:'flex',

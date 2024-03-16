@@ -59,7 +59,7 @@ function HabitTracker() {
   
   function addHabit(event) {
   
-      console.log(event.target.value);
+     
       if(!habit) return;
       let habit_object = {
         name: habit,
@@ -133,7 +133,7 @@ function HabitTracker() {
           <MenuItem>
           <TextField 
         
-          onKeyDown={(e) => {alert(e.target.value);console.log("key: ", e.key);if(e.key=='Enter'){addHabit();}}}
+          onKeyDown={(e) => {if(e.key=='Enter'){addHabit();}}}
           InputProps={{
             style: {width: '15rem'},
           
