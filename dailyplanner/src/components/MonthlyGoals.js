@@ -1,15 +1,16 @@
 import React from 'react';
 import {useState, setState, useContext, useEffect} from 'react';
-import { Button, Checkbox, Grid, Typography, Box, Paper, Menu, MenuItem} from '@mui/material';
+import { Button, Checkbox, Grid, Typography, Box, Paper, Menu, MenuItem, InputAdornment, IconButton} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MonthDropdown from './MonthDropdown.js';
 import {theme} from './theme.js';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Container, FormControl, TextField, Input, InputLabel} from '@mui/material';
 
-import {add_object, delete_object, getAllObjects} from '../database/backend.js';
+import {add_object, delete_object, getAllObjects, connectToIndexedDB} from '../database/backend.js';
 export default function MonthyGoals() {
    let [goals, setGoals] = useState([]);
+   let [goal, setGoal] = useState(null);
    console.log("goals: ", goals);
    useEffect(
     () => {
@@ -28,16 +29,26 @@ export default function MonthyGoals() {
 
     setAnchorEl(null);
   };
+  function SetGoals() {
+   
+        getAllObjects("MonthlyGoals")
+        .then(
+        
+            (goals)=> {
+                setGoals(goals);
+            }
+        );
+  }
+    
+  
    function addGoal(event) {
 
-    if(event.key=='Enter') {
-        let goal = event.target.value;
-        console.log(goal);
+    if(!goal) return;
         
         let curr_date = new Date();
         const newGoal = 
         {
-            month: curr_date.getMonth(),
+            month: curr_date.getMonth()+1,
             year: curr_date.getFullYear(),
             goal: goal,
             checked: false,
@@ -57,9 +68,31 @@ export default function MonthyGoals() {
         (error)=> {console.log(error);}
       )
 
-      }
+      
    }
+   function handleCheck(event) {
+    let id=(event.currentTarget.getAttribute('customAttribute'));
+    connectToIndexedDB().then(
+      (db)=> {
+        const transaction = db.transaction("MonthlyGoals", "readwrite");
+        const objectStore = transaction.objectStore("MonthlyGoals");
+        const getRequest = objectStore.get(id);
+        getRequest.onsuccess = (event) =>{
+          let obj = event.target.result; 
+          obj.checked=!obj.checked;
+          const putRequest = objectStore.put(obj);
+          putRequest.onsuccess = (event) => {
+            console.log("object with id: ", id, "updated successfully");
+          }
 
+        }
+        transaction.onsuccess=(event) => {console.log("transaction success");}
+        SetGoals();
+        db.close();
+      }
+     
+    )
+   }
    function deleteGoal(event) {
     console.log("inside delete goal");
     console.log(event.currentTarget);
@@ -80,15 +113,16 @@ export default function MonthyGoals() {
    }
     return (
         <ThemeProvider theme={theme}>
-        <Container align="center" sx={{my: 1, minHeight: 150, maxHeight: 300, overflow: 'scroll'}}>
+        <Container align="center" sx={{my: 1, minHeight: 150, maxHeight: 300, overflow: 'scroll', width: '100%'}}>
   
             
            
             <FormControl sx={{width: '100%'}}>
                 
-            <Typography variant='h6'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
-                Monthly Goals
-                <Button onClick={handleClick} sx={{backgroundColor: 'white', borderRadius: '10%', color: 'black', boxShadow: '1'}}>+Add Goal</Button>
+            <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
+              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5rem',}}> Monthly Goals
+                <Button onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1'}}>+Add Goal</Button></div>
+               
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           anchorEl={anchorEl}
@@ -96,7 +130,29 @@ export default function MonthyGoals() {
           open={open}
           onClose={handleClose}
           >
-          <MenuItem><TextField onKeyDown={addGoal}/></MenuItem>
+          <MenuItem>
+       
+       
+         
+          <br/>
+          <TextField 
+          InputProps={{
+            style: {width: '10rem'},
+            endAdornment: (
+              
+              <InputAdornment position="end">
+                <IconButton>
+                <img src='submit.png' style={{':hover': {cursor: 'pointer'}}} onClick={addGoal}/>
+                  
+                </IconButton>
+              </InputAdornment>
+            ),
+            disableUnderline: true,
+          }}
+          
+          label="Add Goal" multiline onChange={(e)=> {setGoal(e.target.value)}}/>
+        
+          </MenuItem>
           </Menu>
             </Typography>
             
@@ -108,8 +164,8 @@ export default function MonthyGoals() {
                         <Paper id={goal.id} align="left" elevation='2' sx={{my: 0.5, width: '100%', display: 'flex', justifyContent: 'space-between'}}>
                        
                         <div style={{display: 'inline-block', flexDirection:"row", justifyContent: 'space-between'}}>
-                        <Checkbox checked={goal.checked} onClick />
-                        <span>id: {goal.id}</span> 
+                        <Checkbox checked={goal.checked} onClick={handleCheck} customAttribute={goal.id}/>
+                        <span>{goal.goal}</span> 
                        
                         </div>
                         <Button customAttribute ={goal.id}  onClick={deleteGoal}> <DeleteIcon customAttribute ={goal.id}/></Button>

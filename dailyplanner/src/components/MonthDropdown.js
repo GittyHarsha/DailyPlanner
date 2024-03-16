@@ -2,7 +2,9 @@ import React from 'react';
 import { Select, MenuItem, Typography } from '@mui/material';
 
 export default function MonthDropdown(props) {
-  const [month, setMonth] = React.useState(0);
+ let curr_month = (new Date()).getMonth();
+
+  const [month, setMonth] = React.useState(curr_month);
 
   const handleChange = (event) => {
     console.log("value: ", event.target.value);
@@ -16,12 +18,11 @@ export default function MonthDropdown(props) {
       value={month}
       onChange={handleChange}
       displayEmpty
-      inputProps={{ 'aria-label': 'Without label' }}
-      sx={{padding: '0'}}
+      style={{width: '8rem'}}
+
+      sx={{padding: '0', fontSize: '1.4rem'}}
     >
-      <MenuItem value="" disabled>
-       {month}
-      </MenuItem>
+   
       <MenuItem value={0}>January</MenuItem>
       <MenuItem value={1}>February</MenuItem>
       <MenuItem value={2}>March</MenuItem>
