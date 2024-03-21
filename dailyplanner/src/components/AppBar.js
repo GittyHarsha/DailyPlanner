@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Avatar,TextField, Paper } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
+import React from "react";
+import { AppBar, Toolbar, Typography} from "@mui/material";
+
 import dayjs from 'dayjs';
 import SearchBar from './SearchBar';
 function Header({name}) {
@@ -32,7 +32,17 @@ function Header({name}) {
        
       </Toolbar>
      <div><SearchBar style={{width: '1px'}}/>
-     <img src="goalsaathi.png" style={{height: '25%', width: '20%', borderRadius: '0.675rem'}}/>
+     <div style={{ marginLeft:'10px', marginRight:'50px',display:'flex',flexDirection:'row',backgroundColor: 'white', borderRadius: '0.625rem',height: '2.1rem', width: '6rem', display: 'inline-block', justifyContent:'space-between'}}>
+     <div style={{display:'inline-block', marginRight:'2px'}}>
+     <img src="dailyplanner.png" style={{height: '2rem', }}/>
+     </div>
+      <div style={{height: '100%', width: '40%', display:'inline-block', p:0, fontSize:'0.85rem', fontWeight:'bold'}}>
+      Daily Planner
+    </div>
+    
+     </div>
+     
+    
     
     </div>
       

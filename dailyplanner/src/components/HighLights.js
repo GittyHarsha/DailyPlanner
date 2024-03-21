@@ -69,11 +69,11 @@ export default function HighLights() {
             );
         
       
-      }, 3000); // Delay submission by 750ms
+      }, 1000);
     let timestamps = ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM', '12AM'];
  return (
 
-    <TableContainer sx={{display: 'flex', flexDirection: 'col', height: 'auto', width: '25vw', right: '0px', mt: -10, overflowX: 'hidden'}}>
+    <TableContainer sx={{display: 'flex', flexDirection: 'col', height: 'auto', width: '30vw', right: '0px', mt: -10, overflowX: 'hidden'}}>
     
         <FormControl>
             <form onSubmit = {handleSubmit(onSubmit)}>
@@ -88,7 +88,7 @@ export default function HighLights() {
                        
                
                 <div style={{display: 'flex', justifyContent: 'space-between', width: '95%'}}>
-                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value); console.log("timetamps"); debouncedSubmit()}} sx={{width: '25vw', left: '0.5rem', right: '0px'}} variant='standard'/>
+                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value); console.log("timetamps"); debouncedSubmit()}} sx={{width: '30vw', left: '0.5rem', right: '0px'}} variant='standard'/>
                    </div>
                 
             

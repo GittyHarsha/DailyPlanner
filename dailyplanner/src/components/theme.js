@@ -45,7 +45,7 @@ export const theme = createTheme({
             transform: "scale(0.8)",
             marginLeft: '0',
             backgroundColor: bgcolor,
-           
+          
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
             borderRadius: '1.25rem',
           }
@@ -93,15 +93,28 @@ export const theme = createTheme({
           }
       },
     },
+    MuiButtonBase: {
+      
+        defaultProps: {
+          disableRipple: true, 
+        },
+      
+      
+    },
       MuiButton: {
         styleOverrides: {
           // Name of the slot
           root: {
             backgroundColor: 'white',
+            '&:hover' : {
+              opacity: 0.7,
+              backgroundColor: 'white',
+            },
              borderRadius: '1.25rem', 
              color: 'black',
               boxShadow: '1',
               backgroundColor: 'white',
+             
              
           }
       }

@@ -119,8 +119,8 @@ function HabitTracker() {
   return (
     <ThemeProvider theme = {theme} style={{padding: 0}}>
    
-    <TableContainer style={{ maxHeight: 200, overflowX: 'hidden', width: '100%', minHeight: 200, pt: 0}}>
-    <Box sx={{pb: 1,justifyContent: 'space-between',  display: "flex", flexDirection:"row", borderRadius: '1.125rem'}}>
+    <TableContainer style={{ maxHeight: 200, overflowX: 'hidden', width: '100vw', minHeight: 200, pt: 0}}>
+    <Box sx={{pb: 1,justifyContent: 'space-between',  display: "flex", flexDirection:"row", borderRadius: '1.125rem'}} style={{paddingLeft: '0px', paddingRight: '0px'}}>
           <Typography variant='h5'>Habit Tracker</Typography>
           <Button onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1'}}>+Add Habit</Button>
           <Menu aria-controls={open ? 'basic-menu' : undefined}
@@ -133,7 +133,7 @@ function HabitTracker() {
           <MenuItem>
           <TextField 
         
-          onKeyDown={(e) => {if(e.key=='Enter'){addHabit();}}}
+         onKeyDown={(e) => {if(e.key=='Enter'){addHabit();}}}
           InputProps={{
             style: {width: '15rem'},
           
@@ -157,7 +157,7 @@ function HabitTracker() {
    
       <Table >
           <TableRow sx={{backgroundColor: 'white', position: 'sticky', top: '0',zIndex: '1', mt: 3,}}>
-            <TableCell sx={{width: '8vw', backgroundColor:'white'}}>
+            <TableCell sx={{width: '7vw', backgroundColor:'white'}}>
             <MonthDropdown onChange={handleMonth} default={month}></MonthDropdown>
             </TableCell>
            
@@ -165,11 +165,11 @@ function HabitTracker() {
           {
             dates.map(
               (date)=> (
-                <TableCell sx={{border: 'none', justifyContent:'center', width: '3vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num == curr_day)?'#dcdcdc': 'white', borderRadius: '10%', width: '1.45vw'}}>{date.num}</Typography></TableCell>
+                <TableCell sx={{border: 'none', justifyContent:'center', width: '6vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num == curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
               )
             )
           }
-          <TableCell  style={{visibility: 'hidden'}}><DeleteIcon/></TableCell>
+          <TableCell  style={{visibility: 'hidden'}}><DeleteIcon sx={{opacity: 0.6}}/></TableCell>
           </TableRow>
           
        
@@ -200,7 +200,7 @@ function HabitTracker() {
             }
              <TableCell sx={{width: '10vw'}}> 
               
-              <Typography customAttribute={habit.id} sx={{transform: 'scale(0.85)', width: '100%', p: 0, m: 0,':hover': {cursor: 'pointer', width: '100%',}}} onClick={(e)=> {deleteHabit(habit.id)}}><DeleteIcon/></Typography>
+              <Typography customAttribute={habit.id} sx={{transform: 'scale(0.85)', width: '100%', p: 0, m: 0,':hover': {cursor: 'pointer', width: '100%',}}} onClick={(e)=> {deleteHabit(habit.id)}}><DeleteIcon sx={{opacity:0.6}}/></Typography>
               </TableCell>
             </TableRow>
             )

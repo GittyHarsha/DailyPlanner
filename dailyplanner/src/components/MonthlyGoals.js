@@ -1,11 +1,10 @@
 import React from 'react';
-import {useState, setState, useContext, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper, Menu, MenuItem, InputAdornment, IconButton} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import MonthDropdown from './MonthDropdown.js';
+import { ThemeProvider } from '@mui/material/styles';
 import {theme} from './theme.js';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Container, FormControl, TextField, Input, InputLabel} from '@mui/material';
+import {Container, FormControl, TextField} from '@mui/material';
 
 import {add_object, delete_object, getAllObjects, connectToIndexedDB} from '../database/backend.js';
 export default function MonthyGoals() {
@@ -44,9 +43,10 @@ export default function MonthyGoals() {
    function addGoal(event) {
 
     if(!goal) return;
+    setAnchorEl(null);
         
         let curr_date = new Date();
-        const newGoal = 
+        let newGoal = 
         {
             month: curr_date.getMonth()+1,
             year: curr_date.getFullYear(),
@@ -55,6 +55,7 @@ export default function MonthyGoals() {
             
         };        
       add_object("MonthlyGoals", newGoal).then(
+        
         (message)=> {
             getAllObjects("MonthlyGoals")
             .then(
@@ -113,7 +114,7 @@ export default function MonthyGoals() {
    }
     return (
         <ThemeProvider theme={theme}>
-        <Container align="center" sx={{my: 1, minHeight: 150, maxHeight: 300, overflow: 'scroll', width: '100%'}}>
+        <Container align="center" style={{paddingLeft: '10px', paddingRight: '5px'}} sx={{my: 1, minHeight: 150, maxHeight: 200, overflow: 'scroll', width: '100%',}}>
   
             
            
@@ -121,14 +122,16 @@ export default function MonthyGoals() {
                 
             <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
               <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5rem',}}> Monthly Goals
-                <Button onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1'}}>+Add Goal</Button></div>
+                <Button disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1'}}>+Add Goal</Button></div>
                
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           anchorEl={anchorEl}
           aria-expanded={open ? 'true' : undefined}
           open={open}
+
           onClose={handleClose}
+          style={{display: anchorEl? 'block':'none'}}
           >
           <MenuItem>
        
@@ -136,7 +139,9 @@ export default function MonthyGoals() {
          
           <br/>
           <TextField 
+          
           InputProps={{
+            
             style: {width: '10rem'},
             endAdornment: (
               
@@ -150,7 +155,7 @@ export default function MonthyGoals() {
             disableUnderline: true,
           }}
           
-          label="Add Goal" multiline onChange={(e)=> {setGoal(e.target.value)}}/>
+          label="Add Goal" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == goal){setAnchorEl(null); addGoal();}else{ console.log("goal value: ", goal);setGoal(e.target.value)}}}/>
         
           </MenuItem>
           </Menu>
@@ -168,7 +173,7 @@ export default function MonthyGoals() {
                         <span>{goal.goal}</span> 
                        
                         </div>
-                        <Button customAttribute ={goal.id}  onClick={deleteGoal}> <DeleteIcon customAttribute ={goal.id}/></Button>
+                        <Button customAttribute ={goal.id}  onClick={deleteGoal}> <DeleteIcon sx={{opacity:0.6}} customAttribute ={goal.id}/></Button>
                        
                        
                         </Paper>
