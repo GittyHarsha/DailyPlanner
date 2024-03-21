@@ -17,7 +17,7 @@ import Welcome from './components/Welcome.js';
 function App() {
   //state storing the url of the background image
   let [bgImage, setBgImage] = useState('');
-  let [name, setName] = useState(null);
+  let [name, setName] = useState(' ');
 
   // hook to fetch the background image API
     useEffect(()=> {
@@ -46,8 +46,8 @@ function App() {
 
   useEffect(() => {
     getAllObjects("Name").then(
-      (names)=> {if(names.length) {setName(names[0].name);}}
-    ).catch((msg)=> {console.log("error on getting name")})
+      (names)=> {if(names.length) {setName(names[0].name);} else {setName(null)}}
+    ).catch((msg)=> {setName(null);})
   },[]);
   let [anchor, setAnchor] = useState(null);
   function handleClick(event) {

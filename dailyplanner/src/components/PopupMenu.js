@@ -4,7 +4,7 @@ import {Children} from 'react';
 
 export default function PopUpMenu({children}) {
     const [anchorEl, setAnchorEl] = useState(null);
-
+    let [disable, setDisable] = useState(false);
     function handleClick(event) {
         setAnchorEl(event.currentTarget);
     }
@@ -13,9 +13,12 @@ export default function PopUpMenu({children}) {
 
   const handleClose = () => {
     setAnchorEl(null);
+    
   };
   return (
-    <div style={{width: '100%', height: '100%'}}>
+    <div 
+   
+    style={{width: '100%', height: '100%', display: disable?('none'): ('block')}}>
     {
         Children.map(children, (child)=> {
             if(child.key=='button') {
@@ -35,13 +38,22 @@ export default function PopUpMenu({children}) {
     anchorEl={anchorEl}
     aria-expanded={open ? 'true' : undefined}
     open={open}
+   
     onClose={handleClose}
+    
     >
     
     <MenuItem>
     {Children.map(children, (child)=> {
         if(child.key!='button') {
-            return child
+            return (
+                <div
+               
+
+                >
+                    {child}
+                </div>
+            )
         }
     })}
     </MenuItem>

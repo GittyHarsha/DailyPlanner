@@ -2,14 +2,16 @@ import React from 'react';
 import {useState, setState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Done from '@mui/icons-material/Done'
+import HoverCheckbox from './HoverCheckBox.js';
 import Divider from '@mui/material/Divider';
-
-
+import _ from 'lodash';
+import dayjs from 'dayjs';
 import DatePicker from "./DatePicker.js";
 import TimePicker from "./TimePicker.js";
 import {theme} from './theme.js';
 import {useForm, Controller, control} from 'react-hook-form';
-import {get_object, add_object, update_object, getAllObjects, delete_object} from '../database/backend.js';
+import {get_object, add_object, update_object, getAllObjects, delete_object, connectToIndexedDB} from '../database/backend.js';
 import {Container, FormControl, TextField, Input, InputLabel, Menu, MenuItem} from '@mui/material';
 import PopUpMenu from './PopupMenu.js';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,6 +21,7 @@ export default function Tasks() {
    let [tasksData, setTaskData] = useState({});
    let [date, setDate] = useState({"date": null, "time: ": null});
    let tasks_data={};
+   
    const {register, handleSubmit, control, setValue, getValues} = useForm();
    const [anchorEl, setAnchorEl] = useState(null);
    let open = Boolean(anchorEl);
@@ -49,10 +52,59 @@ export default function Tasks() {
     minute = minute < 10 ? '0' + minute : minute;
     return `${hour}:${minute} ${period}`;
 }
+function isBeforeCurrentTime(year, month, day, hour, minute) {
+  
+    const inputTime = dayjs(new Date(year, month, day, hour, minute));
+    
+   
+    const currentTime = dayjs();
+    
+   
+    return inputTime.isBefore(currentTime);
+  }
+  
+ 
 
+  
    function updateTasks() {
     let today = new Date();
         today = today.toDateString();
+        connectToIndexedDB().then(
+            (db)=> {
+                let transaction = db.transaction("Tasks", "readwrite");
+                let store = transaction.objectStore("Tasks");
+                let cursorRequest = store.openCursor();
+  
+                cursorRequest.onsuccess = function(e) {
+                    let cursor = e.target.result;
+                    let today = dayjs();
+                    if (cursor) {
+                    if(cursor.value.status==true) {
+                        cursor.delete();
+                    }
+                
+                        let value = cursor.value;
+                     
+                        if(isBeforeCurrentTime(value.year, value.month, value.day, value.hour, value.minute)) {
+                            cursor.delete();
+                        }
+                        
+                    
+                    
+                    
+                    cursor.continue(); // Move to the next object
+                    } else {
+                    // No more entries
+                    console.log('Iteration complete');
+                    }
+                };
+                
+                cursorRequest.onerror = function(e) {
+                    console.error('Cursor request failed', e.target.error);
+                };
+            }
+        );
+        
     getAllObjects("Tasks").then(
 
         (data) => 
@@ -71,11 +123,12 @@ export default function Tasks() {
         (message) => {
             let obj={"date": today};
             console.log(obj);
-            add_object("Priority", obj).then((msg)=> {
+            add_object("Tasks", obj).then((msg)=> {
                 console.log("new object added for today's current date", msg);
             });
         } 
     )
+    
 }
 function flush_form(data) {
     for(let [key, value] of Object.entries(data)) {
@@ -85,6 +138,7 @@ function flush_form(data) {
     
 }
    function onSubmit(data) {
+    setAnchorEl(null);
     console.log("task to add: ", data);
     let obj={};
     if(!data.title || !data.date) {
@@ -104,8 +158,10 @@ function flush_form(data) {
         obj["month"] = null
         obj["year"] = null;
         obj["day"]=null;
+        
     }
     else {
+      
         obj["day"] = data.date.date();
    
         obj["month"] = data.date.get('month');
@@ -116,13 +172,21 @@ function flush_form(data) {
     if(data.time) {
         console.log(data.time);
     obj["time"] = convertTo12HourFormat(data.time.hour(), date.time.minute());
+    obj['hour']=data.time.hour();
+    obj['minute'] = data.time.minute();
+    
     }
     else{
-        obj["time"]=null;
+
+        obj["time"] = convertTo12HourFormat(23, 59);
+       
+        
+    
     }
 
    add_object("Tasks", obj).then(
     (msg)=> {console.log(msg); 
+        
         updateTasks();
     }
    );
@@ -131,13 +195,9 @@ function flush_form(data) {
     
 }
 
-function handleCheck(task) {
-    task.status = !task.status;
-    console.log("task", task);
-    update_object("Tasks", task).then((msg)=>{console.log(msg);}); updateTasks();
-}
+
 function handleDelete(id) {
-    delete_object("Tasks", id).then((msg)=>{console.log(msg);}); updateTasks();
+    delete_object("Tasks", id).then((msg)=>{ updateTasks();});
 }
 
 function update_task(data, id) {
@@ -157,7 +217,7 @@ function update_task(data, id) {
     useEffect(() => {
         updateTasks();    
     
-    }, []);
+    },[]);
 
     useEffect(()=> {tasks_data = tasksData;})
     
@@ -213,27 +273,27 @@ function update_task(data, id) {
             
            
             <FormControl>
-                <div style={{display: 'flex', width: '17rem', justifyContent:'space-between',}}>
+                <div style={{display: 'flex', width: '17.438rem', justifyContent:'space-between', alignItems:'center'}}>
             <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5rem'}}>
                 Tasks
                 </Typography>
-                <Button onClick={(e)=>{flush_form(getValues()); handleClick(e);}} sx={{backgroundColor: 'white', boxShadow: 1}}>+New</Button>
+                <Button onClick={(e)=>{flush_form(getValues()); handleClick(e);}} sx={{backgroundColor: 'white', boxShadow: 1, height:'2rem'}}>+New</Button>
                 </div>
             <div style={{padding: '0px'}}>
             {
                 tasks.map((task) => (
-                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}>
                        
-                    <Paper elevation='2' sx={{my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: '15rem',}}>
+                    <Paper elevation='2' sx={{my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: '16rem',}}>
                    
                     <PopUpMenu >
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
                         <Container style={{padding: 0, left: 0, fontStyle: 'Irina Sans', width: '5rem'}} sx={{backgroundColor: '#f2f2f2', width: '5rem', overflowX: 'hidden', left: '0', margin: '0'}}>
-                           <Typography> {task.day} {months[task.month]}
-                           <br/>
+                           <Typography sx={{display:'flex', justifyContent: 'center', alignItems:'center'}}> {task.day} {months[task.month]}
+                    
                             {
-                                (task.time)?(<span >{task.time}</span>): (<></>)
+                                (task.time)?(<span >{task.time}</span>): (null)
                             }
                             </Typography>
                         </Container>
@@ -283,17 +343,24 @@ function update_task(data, id) {
                     
                     </Paper>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <Checkbox sx={{m: 0, p: 0}} 
+                    <HoverCheckbox  
+                   
+                    
+                    
+                    sx={{m: 0, p: 0, transform: 'scale(0.75)'}} 
                     onClick={(e)=> {
                         tasks_data[task.id]["status"]=!tasks_data[task.id]['status'];
-                        update_task(tasks_data[task.id], task.id);
+                        let debouncedUpdate = _.debounce(()=> {update_task(tasks_data[task.id], task.id);}, 100);
+                        debouncedUpdate();
+                       
                     }}/>
                     <DeleteIcon
+                
                     onClick={(e)=> {
                         delete_object("Tasks", task.id).then((e)=>{updateTasks();})
                     }}
                     
-                    sx={{':hover': {cursor: 'pointer'}}}/>
+                    sx={{':hover': {cursor: 'pointer'}, transform: 'scale(0.75)', opacity:0.6}}/>
                     </div>
                    
                     </div>
@@ -309,3 +376,33 @@ function update_task(data, id) {
     )
 
 };
+
+/* 
+
+import * as React from 'react';
+import Checkbox from '@mui/joy/Checkbox';
+import Done from '@mui/icons-material/Done';
+
+export default function HoverCheckbox() {
+  return (
+    <Checkbox
+      uncheckedIcon={<Done />}
+      label="My unchecked icon appears on hover"
+      slotProps={{
+        root: ({ checked, focusVisible }) => ({
+          sx: !checked
+            ? {
+                '& svg': { opacity: focusVisible ? 1 : 0 },
+                '&:hover svg': {
+                  opacity: 1,
+                },
+              }
+            : undefined,
+        }),
+      }}
+    />
+  );
+}
+
+
+*/
