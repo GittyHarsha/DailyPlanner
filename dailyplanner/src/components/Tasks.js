@@ -3,7 +3,7 @@ import {useState, setState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Done from '@mui/icons-material/Done'
-import HoverCheckbox from './HoverCheckBox.js';
+//import HoverCheckbox from './HoverCheckBox.js';
 import Divider from '@mui/material/Divider';
 import _ from 'lodash';
 import dayjs from 'dayjs';
@@ -343,17 +343,7 @@ function update_task(data, id) {
                     
                     </Paper>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <HoverCheckbox  
                    
-                    
-                    
-                    sx={{m: 0, p: 0, transform: 'scale(0.75)'}} 
-                    onClick={(e)=> {
-                        tasks_data[task.id]["status"]=!tasks_data[task.id]['status'];
-                        let debouncedUpdate = _.debounce(()=> {update_task(tasks_data[task.id], task.id);}, 100);
-                        debouncedUpdate();
-                       
-                    }}/>
                     <DeleteIcon
                 
                     onClick={(e)=> {
