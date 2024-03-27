@@ -1,6 +1,7 @@
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities/';
 import {Paper} from '@mui/material';
+import {w, h} from '../services/dimensions.js';
 import styled from 'styled-components';
 export const Task = ({id, title}) => {
 
@@ -14,9 +15,13 @@ export const Task = ({id, title}) => {
         marginLeft: '0px',
         marginTop: '5px',
         zIndex: 1,
-        width : '90%',
-        height: '3vh',
+        width : `${w(223)}`,
+        height: `${h(36)}`,
         paddingLeft: '10px',
+        display:'flex',
+        alignItems:'center',
+        textAlign:'center',
+        fontWeight: 'bold',
        
        
     };
@@ -24,6 +29,7 @@ export const Task = ({id, title}) => {
         <Paper ref={setNodeRef}
         {...attributes} {...listeners}
         style={style}
+        sx={{my: 1}}
         >
         {title}
         </Paper>

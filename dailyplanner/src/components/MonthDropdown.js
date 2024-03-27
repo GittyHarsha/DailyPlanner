@@ -18,9 +18,19 @@ export default function MonthDropdown(props) {
       value={month}
       onChange={handleChange}
       displayEmpty
-      style={{width: '8rem'}}
 
-      sx={{padding: '0', fontSize: '1.4rem'}}
+
+      sx={{
+        '.MuiSelect-select': {
+          paddingTop: '0px',
+          paddingBottom: '0px',
+          paddingLeft: 'auto',
+    
+          // Add other styles as needed
+        },
+        width: '8rem',
+        height: '100%'
+      }}
     >
    
       <MenuItem value={0}>January</MenuItem>

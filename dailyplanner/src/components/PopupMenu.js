@@ -2,9 +2,15 @@ import {useState, setState, useEffect} from 'react';
 import {Menu, MenuItem, Button} from '@mui/material'
 import {Children} from 'react';
 
-export default function PopUpMenu({children}) {
+export default function PopUpMenu({detach, children}) {
     const [anchorEl, setAnchorEl] = useState(null);
     let [disable, setDisable] = useState(false);
+    useEffect(()=> {
+        if(detach.detach) {setAnchorEl(null);
+            detach.callback();
+        }
+    },[detach]);
+    
     function handleClick(event) {
         setAnchorEl(event.currentTarget);
     }

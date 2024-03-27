@@ -1,6 +1,7 @@
+import {w, h} from '../services/dimensions';
 import React from "react";
 import { AppBar, Toolbar, Typography} from "@mui/material";
-
+import FlexDiv from './FlexDiv';
 import dayjs from 'dayjs';
 import SearchBar from './SearchBar';
 function Header({name}) {
@@ -24,31 +25,37 @@ function Header({name}) {
   }
   console.log("Inside Header Name: ", name)
   return (
-    <AppBar position="static" sx={{transform: 'scale(1.0)',display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: '10vh'}}>
-      <Toolbar>
-        <Typography variant="h6" sx={{ marginLeft: "1rem", }}>
-        { (name)?(<>{Greeting()} {name} !</> ):(<></>)}
-        </Typography>
+    <FlexDiv style={{marginLeft: `${w(23)}`, marginRight: `${w(23)}`}}>
+      
+        <FlexDiv  style={{color:'black',fontFamily: 'inter',fontSize: '1.5rem',fontWeight: 'bold', width: '350px', height: '3.5rem',}}>
+        
+        { (name)?(<>{Greeting()} {name} :)</> ):(<></>)}
+          
+        </FlexDiv>
        
-      </Toolbar>
-     <div><SearchBar style={{width: '1px'}}/>
-     <div style={{ marginLeft:'10px', marginRight:'50px',display:'flex',flexDirection:'row',backgroundColor: 'white', borderRadius: '0.625rem',height: '2.1rem', width: '6rem', display: 'inline-block', justifyContent:'space-between'}}>
-     <div style={{display:'inline-block', marginRight:'2px'}}>
-     <img src="dailyplanner.png" style={{height: '2rem', }}/>
-     </div>
-      <div style={{height: '100%', width: '40%', display:'inline-block', p:0, fontSize:'0.85rem', fontWeight:'bold'}}>
-      Daily Planner
-    </div>
+
+     <FlexDiv><SearchBar style={{width: '30.49421021377672rem'}}/>
+   
+     <div style={{display:'inline-block', marginLeft:'1.15rem',}}>
+     <img src="dailyplanner.png" style={{width: '8rem', height: '2.25rem'}}/>
     
      </div>
+     <div style={{display:'inline-block', marginRight:'1.15rem',}}>
+     <img src="goalsaathi_appbar.png" style={{width: '6rem', height: '2.25rem' }}/>
+    
+     </div>
+
+   
+   
+    
      
     
     
-    </div>
+    </FlexDiv>
       
     
 
-    </AppBar>
+    </FlexDiv>
   );
 };
 
