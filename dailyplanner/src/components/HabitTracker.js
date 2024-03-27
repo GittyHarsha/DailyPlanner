@@ -63,6 +63,7 @@ function HabitTracker({style}) {
   
      
       if(!habit) return;
+      setAnchorEl(null);
       let habit_object = {
         name: habit,
         month: month.toString(),
@@ -134,11 +135,11 @@ function HabitTracker({style}) {
           >
           <MenuItem>
           <TextField 
-        
-         onKeyDown={(e) => {if(e.key=='Enter'){addHabit();}}}
+         
+         onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == habit){setAnchorEl(null); addHabit();}else{console.log("habit value: ", habit);setHabit(e.target.value)}}}
+
           InputProps={{
             style: {width: '15rem'},
-          
             endAdornment: (
               <InputAdornment position="end">
               <IconButton>
@@ -151,7 +152,7 @@ function HabitTracker({style}) {
           }}
           
           
-          label="Add Habit"   onChange={(e)=> {console.log("e.target: ", e.target.value);setHabit(e.target.value)}}/>
+          label="Add Habit"  multiline/>
          
           </MenuItem>
           </Menu>
