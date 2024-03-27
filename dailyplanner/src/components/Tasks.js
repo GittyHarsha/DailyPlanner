@@ -4,7 +4,9 @@ import {useState, setState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Done from '@mui/icons-material/Done'
+
 import {w, h} from '../services/dimensions.js';
+
 import Divider from '@mui/material/Divider';
 import _ from 'lodash';
 import dayjs from 'dayjs';
@@ -355,6 +357,7 @@ function update_task(data, id) {
                     
                     </Paper>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
+
                     <Checkbox  
                    
                     
@@ -366,6 +369,7 @@ function update_task(data, id) {
                         debouncedUpdate();
                        
                     }}/>
+
                     <DeleteIcon
                 
                     onClick={(e)=> {
