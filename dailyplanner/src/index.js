@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+let d = document.getElementById('root');
+console.log("client width: ",d.clientWidth);
 if (process.env.NODE_ENV === 'production') {
   console.log = () => {}
   console.error = () => {}

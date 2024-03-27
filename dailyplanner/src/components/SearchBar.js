@@ -3,7 +3,7 @@ import { TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import {useState, setState} from 'react';
 
-function SearchBar() {
+function SearchBar({style}) {
   let [query, setQuery] = useState('');
   let local_query = query;
   function googleSearch(query) {
@@ -14,6 +14,7 @@ function SearchBar() {
 
   return (
     <TextField
+    style={{...(style? style: null)}}
     onChange={(e)=> {setQuery(e.target.value);}}
     onKeyDown={(e)=>{if(e.key==='Enter'){googleSearch(query)}}}
       InputProps={{

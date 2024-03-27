@@ -1,3 +1,4 @@
+import {w, h} from '../services/dimensions.js'
 import React from 'react';
 import {useState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper, Menu, MenuItem, InputAdornment, IconButton} from '@mui/material';
@@ -7,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {Container, FormControl, TextField} from '@mui/material';
 
 import {add_object, delete_object, getAllObjects, connectToIndexedDB} from '../database/backend.js';
-export default function MonthyGoals() {
+export default function MonthyGoals({style}) {
    let [goals, setGoals] = useState([]);
    let [goal, setGoal] = useState(null);
    console.log("goals: ", goals);
@@ -114,7 +115,9 @@ export default function MonthyGoals() {
    }
     return (
         <ThemeProvider theme={theme}>
-        <Container align="center" style={{paddingLeft: '10px', paddingRight: '5px'}} sx={{my: 1, minHeight: 150, maxHeight: 200, overflow: 'scroll', width: '100%',}}>
+        <Container align="center" style={{paddingLeft: 10, paddingRight: 10}} sx={{my: 1, width: '100%', marginLeft: 0,
+        ...(style? style: null)
+      }}>
   
             
            
@@ -122,7 +125,7 @@ export default function MonthyGoals() {
                 
             <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
               <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5rem',}}> Monthly Goals
-                <Button disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1'}}>+Add Goal</Button></div>
+                <Button disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Goal</Button></div>
                
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
@@ -160,20 +163,20 @@ export default function MonthyGoals() {
           </MenuItem>
           </Menu>
             </Typography>
-            
+            <div style={{overflow: 'scroll', maxHeight: `${h(80)}`}}>
                 {
                     goals.length?(
                     goals.map((goal)=> {
                         return (
                     
-                        <Paper id={goal.id} align="left" elevation='2' sx={{my: 0.5, width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+                        <Paper id={goal.id} align="left" elevation='2' sx={{my: 0.5, height:`${h(24)}` ,width: '100%', display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
                        
                         <div style={{display: 'inline-block', flexDirection:"row", justifyContent: 'space-between'}}>
                         <Checkbox checked={goal.checked} onClick={handleCheck} customAttribute={goal.id}/>
                         <span>{goal.goal}</span> 
                        
                         </div>
-                        <Button customAttribute ={goal.id}  onClick={deleteGoal}> <DeleteIcon sx={{opacity:0.6}} customAttribute ={goal.id}/></Button>
+                        <Button customAttribute ={goal.id}  sx={{height: '100%'}} onClick={deleteGoal}> <DeleteIcon sx={{opacity:0.6}} customAttribute ={goal.id}/></Button>
                        
                        
                         </Paper>
@@ -181,7 +184,7 @@ export default function MonthyGoals() {
                     })
                     ):( <p>No goals found.</p>)
                 }
-                    
+            </div>
                 
             </FormControl>
         </Container>

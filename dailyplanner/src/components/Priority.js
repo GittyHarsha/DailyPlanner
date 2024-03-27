@@ -2,12 +2,14 @@ import {useState, setState, useEffect} from 'react';
 import {DndContext, closestCorners} from '@dnd-kit/core';
 import {SortableContext,verticalListSortingStrategy, arrayMove} from '@dnd-kit/sortable';
 import {Task} from './Task';
+import {w, h} from '../services/dimensions.js';
 import {Button, Container, Typography, Checkbox, Menu, MenuItem, TextField, IconButton, InputAdornment} from '@mui/material';
 import { add_object, update_object, get_object, connectToIndexedDB } from '../database/backend';
-export default function Priority() {
+export default function Priority({style}) {
   let today = (new Date()).toDateString();
   let [priority ,setPriority] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+
   let open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -17,31 +19,41 @@ export default function Priority() {
     setAnchorEl(null);
   };
   function addPriority(event) {
-
+    
     if(!priority) return;
-    setAnchorEl(null);
         
-        let curr_date = new Date();
-        let newObj = 
-        {
-           ...list,
-
-            
-        };        
-      add_object("Priority", newObj).then(
-        
-        (message)=> {
-            get_object("Priority", today, message)
-            .then(
-            
-                (list)=> {
-                    setList(list);
-                }
-            );
+        let old_list=[];
+        let newPriority = {name: priority};
+        let curr_date = (new Date()).toDateString();
+       get_object("Priority", curr_date).then(
+        (e)=> {if(!e) {
+          console.log("couldn't find priority objdect");
+          add_object("Priority", {list: [newPriority]}).then((e)=> {return e;})
+          .then((e)=>{
+            console.log("got the new list");
+            get_object("Priority", curr_date).then((list)=>{setList(list.list); old_list=list.list; return e;})
+          })
         }
-      ).catch(
-        (error)=> {console.log(error);}
-      )
+        else {
+          console.log("found befoer only, now adding the new priority");
+          setList(e.list);
+          let old_list = e.list;
+          let newList = [...old_list, newPriority];
+          add_object("Priority", newList).then((e)=> {setList(newList);});
+        
+        }
+       }
+       ).catch((e)=> {
+        console.log("couldn't find priority objdect");
+        add_object("Priority", {list: [newPriority]}).then((e)=> {return e;})
+        .then((e)=>{
+          console.log("got the new list");
+          get_object("Priority", curr_date).then((list)=>{setList(list.list); old_list=list.list; return e;})
+        })
+
+       })
+       ;     
+      
 
       
    }
@@ -73,9 +85,6 @@ export default function Priority() {
 
 
   let [list, setList] = useState([
-    {name: 'Item-1', id: "1"},
-    {name: 'Item-2', id: "2"},
-    {name: 'item-3', id: "3"},
   ]);
 /*
   useEffect(() =>
@@ -111,13 +120,15 @@ export default function Priority() {
   }
 
   return (
-<Container style={{backgroundColor:'lightcoral', paddingLeft: '1vw', paddingRight: '1vw'}}>
+<Container style={{paddingLeft: '1vw', paddingRight: '1vw', paddingTop: 10,
+...(style? style: null)
+}}>
   
   <Typography
     variant='h5' sx={{display:'flex', justifyContent: 'space-between'}}
   >Top Priorities
 
-    <Button onClick={handleClick}>+ Add</Button>
+    <Button onClick={handleClick} sx={{width: `${w(48)}`, height: `${h(20)}`, boxShadow: 1}}>+ Add</Button>
     <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           anchorEl={anchorEl}
@@ -133,7 +144,7 @@ export default function Priority() {
          
           <br/>
           <TextField 
-          
+         
           InputProps={{
             
             style: {width: '10rem'},
@@ -141,7 +152,7 @@ export default function Priority() {
               
               <InputAdornment position="end">
                 <IconButton>
-                <img src='submit.png' style={{':hover': {cursor: 'pointer'}}} />
+                <img onClick={addPriority} src='submit.png' style={{':hover': {cursor: 'pointer' }}} />
                   
                 </IconButton>
               </InputAdornment>
@@ -149,7 +160,7 @@ export default function Priority() {
             disableUnderline: true,
           }}
           
-          label="Add Priority" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == priority){setAnchorEl(null); }else{}}}/>
+          label="Add Priority" multiline onChange={(e)=> {setPriority(e.target.value);}}/>
         
           </MenuItem>
           </Menu>
@@ -166,7 +177,7 @@ export default function Priority() {
         list.map(
           (item)=> (
            <div style={{display:'flex', width: '100%', m:0, alignItems: 'center', }}>
-            <Checkbox/>
+            
             <Task 
             
             id={item.id} title={item.name} key={item.id}/>

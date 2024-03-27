@@ -1,4 +1,5 @@
 import React from 'react';
+import {w, h} from '../services/dimensions.js';
 import {useState, setState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper} from '@mui/material';
 import {theme} from './theme.js';
@@ -8,7 +9,8 @@ import {Container, FormControl, TextField, Input, InputLabel, TableContainer} fr
 import {useForm, Controller, control} from 'react-hook-form';
 import {get_object, add_object, update_object} from '../database/backend.js';
 import _ from 'lodash';
-export default function HighLights() {
+import { DIGITAL_CLOCK_VIEW_HEIGHT } from '@mui/x-date-pickers/internals/constants/dimensions.js';
+export default function HighLights({style}) {
     const {register, handleSubmit, control, setValue, getValues, getValue, formState: {dirty}} = useForm();
     let [highlights, setHighlights] = useState({});
     useEffect(() => {
@@ -72,15 +74,19 @@ export default function HighLights() {
       }, 1000);
     let timestamps = ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM', '12AM'];
  return (
-
-    <TableContainer sx={{display: 'flex', flexDirection: 'col', height: 'auto', width: '30vw', right: '0px', mt: -10, overflowX: 'hidden'}}>
-    
-        <FormControl>
-            <form onSubmit = {handleSubmit(onSubmit)}>
-            <Typography align="center" sx={{fontFamily: 'Itim' }} variant='h4'>How was the day?
+    <ThemeProvider theme={theme}>
+       
+    <Container sx={{display: 'flex', flexDirection: 'column', width: '10.13355997624703rem',   overflowX: 'hidden', margin:0, transform: 'scale(1.0)', overflowY:'hidden',
+        ...(style? style:null),
+    }}>
+        <div>
+        <Typography align="center" sx={{fontFamily: 'Itim',m:0,}} variant='h4'>How was the day?
           
-            </Typography>
-            <div style={{overflow: 'scroll', maxHeight: '80vh'}}>
+          </Typography>
+        </div>
+           
+            <div>
+            <div style={{overflowY: 'scroll', height: '73%', }}>
             
             {
                 timestamps.map(
@@ -98,16 +104,17 @@ export default function HighLights() {
                 )
             }
             </div>
-            <Container sx={{mt: 2, mx: 0, borderRadius: 0, boxshadow: '0', transform: 'scale(1.15)'}}>
-                <Typography variant='h6'>
+            <div style={{ marginLeft: 0, borderRadius: 0, boxshadow: '0', transform: 'scale(1.0)', position:'fixed', bottom: '1.0rem', width: `${w(234)}`}}>
+                <Typography variant='h6' sx={{my: 1}}>
                     Highlight of Today
                 </Typography>
-                <Paper>
-                    <TextField  InputProps={{ disableUnderline: true,}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); console.log("hello there");debouncedSubmit()}}sx={{width: '25vw', left: '5px'}} multiline variant='standard'/>
+                <Paper sx={{width: `${w(230)}`}}>
+                    <TextField  InputProps={{ disableUnderline: true,}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); console.log("hello there");debouncedSubmit()}}sx={{width: `${w(230)}`, left: '5px'}} multiline variant='standard'/>
                 </Paper>
-            </Container>
-            </form>
-        </FormControl>
-    </TableContainer>
+            </div>
+            </div>
+  
+    </Container>
+    </ThemeProvider>
  )
 };

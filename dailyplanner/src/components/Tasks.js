@@ -1,9 +1,12 @@
 import React from 'react';
+import FlexDiv from './FlexDiv.js'
 import {useState, setState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Done from '@mui/icons-material/Done'
-//import HoverCheckbox from './HoverCheckBox.js';
+
+import {w, h} from '../services/dimensions.js';
+
 import Divider from '@mui/material/Divider';
 import _ from 'lodash';
 import dayjs from 'dayjs';
@@ -15,12 +18,13 @@ import {get_object, add_object, update_object, getAllObjects, delete_object, con
 import {Container, FormControl, TextField, Input, InputLabel, Menu, MenuItem} from '@mui/material';
 import PopUpMenu from './PopupMenu.js';
 import DeleteIcon from '@mui/icons-material/Delete';
-export default function Tasks() {
+export default function Tasks({style}) {
    let [tasks, setTasks] = useState([]);
    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
    let [tasksData, setTaskData] = useState({});
    let [date, setDate] = useState({"date": null, "time: ": null});
    let tasks_data={};
+   let [detach, setDetach] = useState(false);
    
    const {register, handleSubmit, control, setValue, getValues} = useForm();
    const [anchorEl, setAnchorEl] = useState(null);
@@ -221,27 +225,34 @@ function update_task(data, id) {
 
     useEffect(()=> {tasks_data = tasksData;})
     
+    let component_width = `${w(247)}`;
   
    
     return (
         <ThemeProvider theme={theme} >
-        <div style={{ width: '18.438rem',paddingLeft: '0', paddingRight: '0', height: '13.375rem', transform: 'scale(1.25)'}}>          
+        <div style={{paddingLeft: '0', paddingRight: '0',
+            ...(style? style: null)
+        }}>          
    
             <Box sx={{justifyContent: 'space-between',  display: "flex", flexDirection:"row"}}>
           <Menu aria-controls={open ? 'basic-menu' : undefined}
+          disableRipple
           aria-haspopup="true"
           anchorEl={anchorEl}
           aria-expanded={open ? 'true' : undefined}
           open={open}
           onClose={handleClose}
+          sx={{backgroundColor: 'F0ECEC50'}}
           >
-            <MenuItem >
-            <form  onSubmit = {handleSubmit(onSubmit)} >
+            <MenuItem disableRipple>
+            <form  onSubmit = {handleSubmit(onSubmit)} style={{width: '20vw', height: '28vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-between', 
+            backgroundColor: '#F0ECEC50'
+        }}>
                     <div>
                     <TextField 
                     onChange={(e)=> {setValue("title", e.target.value)}}
                     label="Title"
-                    variant='standard'  
+                    variant='outlined'  
                     style={{left: '5px', width: '100%'}}
                    />
                    </div>
@@ -249,16 +260,16 @@ function update_task(data, id) {
                    <TextField 
                     onChange={(e)=> {setValue("description", e.target.value)}}
                     label="Link/Description"
-                    variant='standard'  
+                    variant='outlined'  
                     style={{left: '5px', width: '100%'}}
                    />
                     </div>
 
-                <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '17rem', margin: 0}}>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '100%', margin: 0}}>
                    <DatePicker onChange={(newValue)=>{setValue("date", newValue); let _date = {...date};_date["date"]=newValue; setDate(_date); console.log("dateChange: ", _date);}} />
                    
                     <TimePicker onChange={(newValue)=> {setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); console.log("timeChange: ", _date);}} />
-                   <Button sx={{borderRadius: '0.625rem', boxShadow: '1'}}><img style={{transform: 'scale(0.75)'}} onClick={handleSubmit(onSubmit)}src='submit.png' alt="submit"/></Button> 
+                  <img style={{transform: 'scale(1.0)'}} onClick={handleSubmit(onSubmit)}src='submit.png' alt="submit"/>
                     </div>
                 <br/>
               
@@ -268,45 +279,48 @@ function update_task(data, id) {
             
           </Menu>
     </Box>
-        <Container align="center" sx={{width: '100%'}} style={{paddingLeft: 0, paddingRight: 0, height: '13.375rem', overflow: 'scroll'}}>
+        <Container align="center" sx={{width: '100%',}} style={{paddingLeft: 0, paddingRight: 0, height: '100%', overflow: 'scroll',  ...(style? style: null)}}>
   
             
            
-            <FormControl>
-                <div style={{display: 'flex', width: '17.438rem', justifyContent:'space-between', alignItems:'center'}}>
+            <FormControl style={{width: '99%', marginLeft: '0.25rem'}}>
+                <div style={{display: 'flex', width: '100%', justifyContent:'space-between', alignItems:'center',}}>
             <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5rem'}}>
                 Tasks
                 </Typography>
-                <Button onClick={(e)=>{flush_form(getValues()); handleClick(e);}} sx={{backgroundColor: 'white', boxShadow: 1, height:'2rem'}}>+New</Button>
+                <Button onClick={(e)=>{flush_form(getValues()); handleClick(e);}} sx={{backgroundColor: 'white', boxShadow: 1, height:`${h(20)}`, width: `${w(57)}`}}>+New</Button>
                 </div>
-            <div style={{padding: '0px'}}>
+            <div style={{padding: '0px', width: '100%'}}>
             {
                 tasks.map((task) => (
-                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}>
+                    <div style={{display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center',}}>
                        
-                    <Paper elevation='2' sx={{my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: '16rem',}}>
+                    <Paper elevation='2' sx={{marginLeft:'0.05rem' ,my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: `${w(234)}`, height: `${h(36)}` }}>
                    
-                    <PopUpMenu >
+                    <PopUpMenu detach={{detach: detach, callback: ()=> {setDetach(false);}}}>
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
-                        <Container style={{padding: 0, left: 0, fontStyle: 'Irina Sans', width: '5rem'}} sx={{backgroundColor: '#f2f2f2', width: '5rem', overflowX: 'hidden', left: '0', margin: '0'}}>
-                           <Typography sx={{display:'flex', justifyContent: 'center', alignItems:'center'}}> {task.day} {months[task.month]}
+                           <FlexDiv style={{flexDirection: 'column', backgroundColor: '#D9D9D9', width: `${46}`, height: `${h(31)}`,borderRadius: '0.625rem', marginTop:'0.25rem',}}> 
+                           <span style={{fontWeight: 'bold',}}>{task.day} {months[task.month]}</span>
                     
                             {
                                 (task.time)?(<span >{task.time}</span>): (null)
                             }
-                            </Typography>
-                        </Container>
-                        <div style={{width: '10vw', display: 'flex',justifyContent: 'left'}}> <Typography sx={{pt: 1, overflowX: 'scroll'}}><div>{task.title}</div><Divider /> <div>{task.description}</div></Typography></div>
+                            </FlexDiv>
+                    
+                        <Typography sx={{paddingLeft: '0.2rem',overflowX: 'hidden', width: `${w(190)}`, height: `${h(36)}`, }}><div style={{fontWeight:'bold',textAlign:'left'}}>{task.title}</div><Divider /> <div style={{textAlign:'left'}}>{task.description}</div></Typography>
                        
                     </Box>
-                    <form >
+                    <form 
+                    style={{width: '20vw', height: '25vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-between', 
+                    backgroundColor: '#F0ECEC50'}}
+                    >
                     <div>
                     <TextField 
                     onChange={(e)=> {tasks_data[task.id]["title"] = e.target.value;}}
                     defaultValue = {task.title}
                     label="Title"
-                    variant='standard'  
+                    variant='outlined'  
                     style={{left: '5px', width: '100%'}}
                    />
                    </div>
@@ -314,12 +328,12 @@ function update_task(data, id) {
                    <TextField 
                     onChange={(e)=> {tasks_data[task.id]["description"] = e.target.value;}}
                     label="Link/Description"
-                    variant='standard'  
+                    variant='outlined'  
                     defaultValue={task.description}
                     style={{left: '5px', width: '100%'}}
                    />
                     </div>
-                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '17rem', margin: 0}}>
+                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '100%', margin: 0}}>
                    <DatePicker onChange={(newValue)=>{
                     console.log("new value: ", newValue);
                    tasks_data[task.id]["day"] = newValue.date();
@@ -334,7 +348,7 @@ function update_task(data, id) {
                         tasks_data[task.id]["time"] = convertTo12HourFormat(newValue.get('hour'), newValue.get('minute'))
                       
                       }} />
-                   <Button sx={{borderRadius: '0.625rem', boxShadow: '1'}}><img style={{transform: 'scale(0.75)'}} onClick={()=>update_task(tasks_data[task.id], task.id)}src='submit.png' alt="submit"/></Button> 
+                   <img style={{transform: 'scale(1.0)'}} onClick={()=>{update_task(tasks_data[task.id], task.id); setDetach(true);}}src='submit.png' alt="submit"/>
                     </div>
 
                 
@@ -343,14 +357,26 @@ function update_task(data, id) {
                     
                     </Paper>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
+
+                    <Checkbox  
                    
+                    
+                    
+                    sx={{m: 0, p: 0, transform: 'scale(1.0)'}} 
+                    onClick={(e)=> {
+                        tasks_data[task.id]["status"]=!tasks_data[task.id]['status'];
+                        let debouncedUpdate = _.debounce(()=> {update_object("Tasks",tasks_data[task.id]);}, 100);
+                        debouncedUpdate();
+                       
+                    }}/>
+
                     <DeleteIcon
                 
                     onClick={(e)=> {
                         delete_object("Tasks", task.id).then((e)=>{updateTasks();})
                     }}
                     
-                    sx={{':hover': {cursor: 'pointer'}, transform: 'scale(0.75)', opacity:0.6}}/>
+                    sx={{':hover': {cursor: 'pointer'}, transform: 'scale(1.0)', opacity:0.6}}/>
                     </div>
                    
                     </div>

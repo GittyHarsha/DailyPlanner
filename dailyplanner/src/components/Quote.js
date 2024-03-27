@@ -6,7 +6,7 @@ import {theme} from './theme.js';
 import {shadows} from '@mui/system';
 import {useContext} from 'react';
 import {DatabaseContext} from './DbContext.js';
-const Quote = function() {
+const Quote = function({style}) {
   let db = useContext(DatabaseContext);
   console.log("db",db);
     let [quote, setQuote] = useState("");
@@ -30,14 +30,14 @@ const Quote = function() {
             minHeight: '4vh',
 
             padding: '15px',
-            maxWidth: '50vw',
-            margin: 'auto',
-            my: -2,
+          
+            margin: 0,
+          
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
-            borderRadius: 50,
+       
             backgroundColor: theme.palette.primary.main,
-            transform: 'scale(1.0)'
-        
+            transform: 'scale(1.0)',
+            ...(style?style: null),
             
           }}
         >
@@ -49,7 +49,20 @@ const Quote = function() {
               fontWeight: 'bold',
             }}
           >
-            "{quote}"
+            "{quote["quote"]}"
+          </Typography>
+          <Typography
+          sx={{
+            display:'flex',
+            width: '100%',
+            flexDirection: 'row-reverse',
+            fontSize: '20px',
+            fontStyle: 'Italianno',
+            fontWeight: 'bold',
+            paddingRight: '122px',
+          }}>
+            {quote["author"]}
+
           </Typography>
           
         </Box>

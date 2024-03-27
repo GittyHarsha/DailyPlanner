@@ -42,7 +42,7 @@ export const theme = createTheme({
         styleOverrides: {
           root: {
             fontSize: '1rem',
-            transform: "scale(0.8)",
+          
             marginLeft: '0',
             backgroundColor: bgcolor,
           
@@ -57,10 +57,11 @@ export const theme = createTheme({
           root: {
             // Some CSS
             fontSize: '1rem',
-            transform: "scale(0.8)",
+            transform: "scale(1.0)",
             marginLeft: '0',
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
             padding: 15,
+            paddingTop: 5,
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
             borderRadius: '1.25rem',
             

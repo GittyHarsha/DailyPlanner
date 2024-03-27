@@ -1,4 +1,5 @@
 import React from 'react';
+import {w, h} from '../services/dimensions.js';
 import {useState, setState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, TextField, InputAdornment, IconButton, Icon, Tooltip} from '@mui/material';
 import Table from '@mui/material/Table';
@@ -13,7 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import CustomMenu from './MenuItem.js';
 import {get_object, add_object, update_object, delete_object, getAllIndex, deleteObject} from '../database/backend.js';
 import DeleteIcon from '@mui/icons-material/Delete';
-function HabitTracker() {
+import { transform } from 'lodash';
+function HabitTracker({style}) {
   
      let [habits, setHabits] = useState([]);
      let [habit, setHabit] = useState(null);
@@ -119,10 +121,10 @@ function HabitTracker() {
   return (
     <ThemeProvider theme = {theme} style={{padding: 0}}>
    
-    <TableContainer style={{ maxHeight: 200, overflowX: 'hidden', width: '100vw', minHeight: 200, pt: 0}}>
+    <TableContainer style={{  overflowX: 'scroll', pt: 0, ...(style? style: null)}}>
     <Box sx={{pb: 1,justifyContent: 'space-between',  display: "flex", flexDirection:"row", borderRadius: '1.125rem'}} style={{paddingLeft: '0px', paddingRight: '0px'}}>
-          <Typography variant='h5'>Habit Tracker</Typography>
-          <Button onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1'}}>+Add Habit</Button>
+          <Typography variant='h5' sx={{fontFamily:'Itim'}}>Habit Tracker</Typography>
+          <Button onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Habit</Button>
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           anchorEl={anchorEl}
@@ -156,10 +158,12 @@ function HabitTracker() {
     </Box>
    
       <Table >
-          <TableRow sx={{backgroundColor: 'white', position: 'sticky', top: '0',zIndex: '1', mt: 3,}}>
-            <TableCell sx={{width: '7vw', backgroundColor:'white'}}>
+          <TableRow sx={{backgroundColor: 'white', position: 'sticky', top: '0',zIndex: '1', mt: 1, borderTopLeftRadius: '4rem'}}
+            style={{borderRadius: '16rem', height: `${h(25)}`}}
+          >
+            <TableCell sx={{width: '7vw', backgroundColor:'white', }}>
             <MonthDropdown onChange={handleMonth} default={month}></MonthDropdown>
-            </TableCell>
+            </TableCell> 
            
          
           {
@@ -169,7 +173,7 @@ function HabitTracker() {
               )
             )
           }
-          <TableCell  style={{visibility: 'hidden'}}><DeleteIcon sx={{opacity: 0.6}}/></TableCell>
+          <TableCell  style={{ backgroundColor:'white'}}><DeleteIcon sx={{opacity: 0.6, visibility: 'hidden',}}/></TableCell>
           </TableRow>
           
        
@@ -177,7 +181,7 @@ function HabitTracker() {
           
           habits.map(
             (habit) => (
-              <TableRow sx={{backgroundColor: 'transparent', overflow: 'scroll'}}>
+              <TableRow sx={{backgroundColor: 'transparent', overflow: 'scroll', height: '1rem'}}>
                 <TableCell> 
                   <Tooltip 
                  PopperProps={{
@@ -193,7 +197,7 @@ function HabitTracker() {
               {
               habit["days"].map(
                 (day, index)=> (
-                  <TableCell sx={{width: '10vw', backgroundColor: 'transparent'}}><Checkbox checked={day} onClick={()=> {handleCheck(habit.id, index);}} sx={{width: '1px', height: '1px' ,backgroundColor: 'transparent', pt: 0, m:0}}/></TableCell>
+                  <TableCell sx={{width: '10vw', backgroundColor: 'transparent'}}><Checkbox checked={day} onClick={()=> {handleCheck(habit.id, index);}} sx={{width: '1px', height: '1px' ,transform: 'scale(0.95)',backgroundColor: 'transparent', pt: 0, m:0}}/></TableCell>
                 )
               )
               
