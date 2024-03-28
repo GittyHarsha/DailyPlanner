@@ -1,8 +1,8 @@
 import {w, h} from './services/dimensions.js';
 import Quote from './components/Quote';
 import AppBar from './components/AppBar';
+import DateFilter from './components/DateFilter';
 
-import {Grid, Container} from '@mui/material';
 import {ThemeProvider} from '@mui/material/styles';
 import MonthlyGoals from './components/MonthlyGoals';
 import HabitTracker from './components/HabitTracker';
@@ -16,18 +16,21 @@ import styled from 'styled-components';
 import {connectToIndexedDB, getAllObjects, add_object} from './database/backend';
 import FlexDiv from './components/FlexDiv';
 import Welcome from './components/Welcome.js';
+import StaticDatePicker from './components/StaticDatePicker.js';
+import dayjs from 'dayjs';
 function App() {
   
   //state storing the url of the background image
   let [bgImage, setBgImage] = useState('');
   let [name, setName] = useState(' ');
+  let [date, setDate] = useState(dayjs());
 
   // hook to fetch the background image API
     useEffect(()=> {
    
     axios.get("https://peapix.com/bing/feed").then(
       (images_array) => { setBgImage(images_array["data"][5].imageUrl); console.log("image url: ", images_array['data'][1].imageUrl);}
-    ).catch((error) => {console.log(error);});
+    ).catch((error) => {alert("couldnt find a background image");console.log(error);});
    
   }, []);
 
@@ -45,7 +48,10 @@ function App() {
   }
   
   `;
-
+  function handleDate(e) {
+    setDate(e);
+    console.log('date getting updated');
+  }
 
   useEffect(() => {
     getAllObjects("Name").then(
@@ -86,12 +92,15 @@ function App() {
       </FlexDiv>
 
 
-
-      <HighLights style={{height: '100%', width: `${w(247)}`}}/>
+    <FlexDiv style={{flexDirection:'column', height: '100%'}}>
+    <DateFilter date={date} setDate={handleDate}/>
+    <HighLights date={date} style={{height: '100%', width: `${w(247)}`}}/>
+    </FlexDiv>
+      
      
    </FlexDiv>
     </ThemeProvider>
-   
+    
     </StyledDiv>
 
   );

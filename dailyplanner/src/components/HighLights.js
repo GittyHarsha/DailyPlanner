@@ -2,6 +2,7 @@ import React from 'react';
 import {w, h} from '../services/dimensions.js';
 import {useState, setState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper} from '@mui/material';
+import dayjs from 'dayjs';
 import {theme} from './theme.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import MonthDropdown from './MonthDropdown.js';
@@ -9,11 +10,27 @@ import {Container, FormControl, TextField, Input, InputLabel, TableContainer} fr
 import {useForm, Controller, control} from 'react-hook-form';
 import {get_object, add_object, update_object} from '../database/backend.js';
 import _ from 'lodash';
-import { DIGITAL_CLOCK_VIEW_HEIGHT } from '@mui/x-date-pickers/internals/constants/dimensions.js';
-export default function HighLights({style}) {
+export default function HighLights({style, date}) {
+    let today = dayjs().format('DD-MM-YYYY');
+  
+    console.log("highlights: date obtained: ", date);
     const {register, handleSubmit, control, setValue, getValues, getValue, formState: {dirty}} = useForm();
+
+    let [disable, setDisable] = useState(false);
     let [highlights, setHighlights] = useState({});
+    
+    function check_disable(curr, target) {
+        curr=curr.startOf('day');
+        target = target.startOf('day');
+        if(curr.isBefore(target && !disable)) {
+            setDisable(true);
+        }
+    }
+    
+    
+    
     useEffect(() => {
+        
         let today = new Date();
         today = today.toDateString();
         let data={};
@@ -45,7 +62,7 @@ export default function HighLights({style}) {
         }
         ).catch(
             (message) => {
-                let obj={"date": today};
+                let obj={"date":today, "dayjs":dayjs()};
              
                 add_object("Highlights", obj).then((msg)=> {
                    
@@ -54,19 +71,18 @@ export default function HighLights({style}) {
         )
     }, []);
     function onSubmit(data) {
-        let today = new Date(); today = today.toDateString();
+
         console.log("form values: ", data);
-        update_object('Highlights', {...data, "date": today}).then(
+        update_object('Highlights', {...data, "date": today, "dayjs":dayjs()}).then(
             (msg)=> {}
         );
     }
     const debouncedSubmit = _.debounce(() => {
         
-       
-            let today = new Date(); today = today.toDateString();
+     
             let data = getValues();
             console.log("debounce dude");
-            update_object('Highlights', {...data, "date": today}).then(
+            update_object('Highlights', {...data, "date": today, "dayjs": dayjs()}).then(
                 (msg)=> {}
             );
         
@@ -86,7 +102,7 @@ export default function HighLights({style}) {
         </div>
            
             <div>
-            <div style={{overflowY: 'scroll', height: '73%', }}>
+            <div style={{overflowY: 'scroll', height: '68%', zIndex:10}}>
             
             {
                 timestamps.map(
@@ -104,7 +120,7 @@ export default function HighLights({style}) {
                 )
             }
             </div>
-            <div style={{ marginLeft: 0, borderRadius: 0, boxshadow: '0', transform: 'scale(1.0)', position:'fixed', bottom: '1.0rem', width: `${w(234)}`}}>
+            <div style={{ marginLeft: 0, borderRadius: 0, boxshadow: '0', transform: 'scale(1.0)', position:'fixed', bottom: '0.2rem', width: `${w(234)}`}}>
                 <Typography variant='h6' sx={{my: 1}}>
                     Highlight of Today
                 </Typography>

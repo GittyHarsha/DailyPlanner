@@ -103,7 +103,9 @@ export default function Priority({style}) {
         setList(a);
         console.log(a);
       }
-    )
+    ).catch(
+      (e)=> {}
+      )
   }
   useEffect(() =>
   {
