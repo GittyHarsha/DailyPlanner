@@ -209,6 +209,7 @@ const QuoteOfTheDay = async () => {
   {
          "quote":"If you can dream it, you can achieve it.","author":"Zig Ziglar"}
   ]
+  return quotes[Math.floor(Math.random() * quotes.length)];
   
     try {
       const response = await axios.get('https://favqs.com/api/qotd');
@@ -218,7 +219,7 @@ const QuoteOfTheDay = async () => {
    
     } catch (error) {
       console.error('Error fetching quote:', error);
-      return quotes[Math.floor(Math.random() * quotes.length)];
+      
     }
   };
 

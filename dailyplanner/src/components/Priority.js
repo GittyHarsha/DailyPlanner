@@ -5,6 +5,8 @@ import {Task} from './Task';
 import {w, h} from '../services/dimensions.js';
 import {Button, Container, Typography, Checkbox, Menu, MenuItem, TextField, IconButton, InputAdornment} from '@mui/material';
 import { add_object, update_object, get_object, connectToIndexedDB } from '../database/backend';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 export default function Priority({style}) {
   let today = (new Date()).toDateString();
   let [priority ,setPriority] = useState(null);
@@ -28,10 +30,10 @@ export default function Priority({style}) {
        get_object("Priority", curr_date).then(
         (e)=> {if(!e) {
           console.log("couldn't find priority objdect");
-          add_object("Priority", {list: [newPriority]}).then((e)=> {return e;})
+          add_object("Priority", {date: curr_date,list: [newPriority]}).then((e)=> {return e;})
           .then((e)=>{
             console.log("got the new list");
-            get_object("Priority", curr_date).then((list)=>{setList(list.list); old_list=list.list; return e;})
+            get_object("Priority", curr_date).then((list)=>{list.list[0]['id']=0;setList(list.list); old_list=list.list; return e;})
           })
         }
         else {
@@ -39,13 +41,17 @@ export default function Priority({style}) {
           setList(e.list);
           let old_list = e.list;
           let newList = [...old_list, newPriority];
-          add_object("Priority", newList).then((e)=> {setList(newList);});
+          update_object("Priority", {date: e.date, list: newList}).then((e)=> {
+            for(let i =0;i<newList.length;i++) {
+              newList[i]['id']=i;
+            }
+            setList(newList);});
         
         }
        }
        ).catch((e)=> {
         console.log("couldn't find priority objdect");
-        add_object("Priority", {list: [newPriority]}).then((e)=> {return e;})
+        add_object("Priority", {date: curr_date, list: [newPriority]}).then((e)=> {return e;})
         .then((e)=>{
           console.log("got the new list");
           get_object("Priority", curr_date).then((list)=>{setList(list.list); old_list=list.list; return e;})
@@ -86,19 +92,28 @@ export default function Priority({style}) {
 
   let [list, setList] = useState([
   ]);
-/*
+
+  function updateList() {
+    get_object("Priority", today).then(
+      (list)=> {
+        let a = [...list.list];
+        for(let i =0;i<a.length;i++) {
+          a[i]["id"]=i;
+        }
+        setList(a);
+        console.log(a);
+      }
+    ).catch(
+      (e)=> {}
+      )
+  }
   useEffect(() =>
   {
      
-      get_object("Priority", today).then((list)=> {
-        setList(list);
-      }).catch((msg)=> {
-        let obj = {date: (new Date().toDateString()), list: []};
-        add_object("Priority", obj);
-      });
+    updateList();
   }
   ,[]);
-*/
+
 
   const getTaskPos = (id) => list.findIndex((item) => item.id === id);
   function handleDragEnd(event) {
@@ -107,16 +122,30 @@ export default function Priority({style}) {
     if(active.id == over.id) {
       return;
     }
+
     let newList =  (list)=> {
       const originalPos = getTaskPos(active.id);
       const newPos = getTaskPos(over.id);
       return arrayMove(list, originalPos, newPos);
     };
+    newList = newList(list);
     setList(
      newList
     );
+    console.log("new list after dragging: ", newList);
+      
+    update_object("Priority",{date: today, list: newList}).then((msg)=> {}).catch((err)=> {alert(err)});
+  }
 
-    update_object("Priority",newList).then((msg)=> {});
+  function deletePriority(id) {
+    const filtered_priority = list.filter(obj => obj.id != id);
+  
+    console.log("filtered priority: ", filtered_priority);
+    for(let i=0;i<filtered_priority.length;i++) {
+        delete filtered_priority[i]['id'];
+    }
+    update_object("Priority", {date: today, list: filtered_priority});
+    updateList();
   }
 
   return (
@@ -160,7 +189,8 @@ export default function Priority({style}) {
             disableUnderline: true,
           }}
           
-          label="Add Priority" multiline onChange={(e)=> {setPriority(e.target.value);}}/>
+          label="Add Priority" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == priority){setAnchorEl(null); addPriority();}else{ console.log("priority value: ", priority);setPriority(e.target.value)}}}
+          />
         
           </MenuItem>
           </Menu>
@@ -169,10 +199,11 @@ export default function Priority({style}) {
     onDragStart={()=> {document.body.style.cursor = 'grabbing';}}
     onDragEnd={handleDragEnd}
   >
-    <div style={{ width: '100%'}}>
+    <div style={{ height: `${h(155)}`, overflow: 'scroll',}}>
     <SortableContext items={list}
       strategy={verticalListSortingStrategy}
     >
+      
       {
         list.map(
           (item)=> (
@@ -180,7 +211,7 @@ export default function Priority({style}) {
             
             <Task 
             
-            id={item.id} title={item.name} key={item.id}/>
+            id={item.id} title={item.name} key={item.id}/> <DeleteIcon sx={{'&:hover': {cursor:'pointer'}}} opacity={0.6} onClick={(e)=> {deletePriority(item.id);}}/>
            
 
            </div>
@@ -189,6 +220,7 @@ export default function Priority({style}) {
           )
         )
       }
+     
       
      
 

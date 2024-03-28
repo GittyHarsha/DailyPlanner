@@ -4,7 +4,7 @@ import { Select, MenuItem, Typography } from '@mui/material';
 export default function MonthDropdown(props) {
  let curr_month = (new Date()).getMonth();
 
-  const [month, setMonth] = React.useState(curr_month);
+  const [month, setMonth] = React.useState(props.default);
 
   const handleChange = (event) => {
     console.log("value: ", event.target.value);
@@ -18,7 +18,7 @@ export default function MonthDropdown(props) {
       value={month}
       onChange={handleChange}
       displayEmpty
-
+      disabled={props.disabled}
 
       sx={{
         '.MuiSelect-select': {

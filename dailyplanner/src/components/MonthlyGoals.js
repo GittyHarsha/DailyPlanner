@@ -3,24 +3,40 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper, Menu, MenuItem, InputAdornment, IconButton} from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
+import dayjs from 'dayjs';
 import {theme} from './theme.js';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Container, FormControl, TextField} from '@mui/material';
 
-import {add_object, delete_object, getAllObjects, connectToIndexedDB} from '../database/backend.js';
-export default function MonthyGoals({style}) {
+import {add_object, delete_object, getAllObjects, connectToIndexedDB, getAllIndex} from '../database/backend.js';
+export default function MonthyGoals({style, date}) {
    let [goals, setGoals] = useState([]);
    let [goal, setGoal] = useState(null);
+   let [disable, setDisable] = useState(false);
+   let month =date.month().toString();
+   let year = date.year().toString();
+
+   function check_disable(curr, target) {
+    curr=curr.startOf('day');
+    target = target.startOf('day');
+    if(curr.isBefore(target) && !disable) {
+        setDisable(true);
+  
+    }
+    }
+check_disable(date, dayjs());
    console.log("goals: ", goals);
    useEffect(
     () => {
-        getAllObjects("MonthlyGoals").then((goals)=> {if(goals==undefined) {setGoals([])} else setGoals(goals);});
+        getAllIndex("MonthlyGoals", "MonthYearIndex", [month, year]).then((goals)=> {setGoals(goals);}).catch((err)=> {setGoals([])});
     }, []);
    
  
    const [anchorEl, setAnchorEl] = useState(null);
   let open = Boolean(anchorEl);
   const handleClick = (event) => {
+    if(disable) return;
+    alert("what "+disable);
     setAnchorEl(event.currentTarget);
     console.log("+ add habit clicked");
     console.log('target: ', event.currentTarget);  
@@ -46,11 +62,11 @@ export default function MonthyGoals({style}) {
     if(!goal) return;
     setAnchorEl(null);
         
-        let curr_date = new Date();
+        let curr_date = dayjs();
         let newGoal = 
         {
-            month: curr_date.getMonth()+1,
-            year: curr_date.getFullYear(),
+            month: curr_date.month().toString(),
+            year: curr_date.year().toString(),
             goal: goal,
             checked: false,
             
@@ -58,7 +74,7 @@ export default function MonthyGoals({style}) {
       add_object("MonthlyGoals", newGoal).then(
         
         (message)=> {
-            getAllObjects("MonthlyGoals")
+            getAllIndex("MonthlyGoals", "MonthYearIndex", [month, year])
             .then(
             
                 (goals)=> {
@@ -125,7 +141,7 @@ export default function MonthyGoals({style}) {
                 
             <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
               <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5rem',}}> Monthly Goals
-                <Button disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Goal</Button></div>
+                <Button disabled={disable} disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Goal</Button></div>
                
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
@@ -172,11 +188,11 @@ export default function MonthyGoals({style}) {
                         <Paper id={goal.id} align="left" elevation='2' sx={{my: 0.5, height:`${h(24)}` ,width: '100%', display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
                        
                         <div style={{display: 'inline-block', flexDirection:"row", justifyContent: 'space-between'}}>
-                        <Checkbox checked={goal.checked} onClick={handleCheck} customAttribute={goal.id}/>
+                        <Checkbox visibility={disable?'hidden':'visible'}checked={goal.checked} onClick={handleCheck} customAttribute={goal.id}/>
                         <span>{goal.goal}</span> 
                        
                         </div>
-                        <Button customAttribute ={goal.id}  sx={{height: '100%'}} onClick={deleteGoal}> <DeleteIcon sx={{opacity:0.6}} customAttribute ={goal.id}/></Button>
+                        <Button customAttribute ={goal.id}  sx={{height: '100%'}} onClick={deleteGoal}> <DeleteIcon visible={disable? 'hidden': 'visible'} sx={{opacity:0.6}} customAttribute ={goal.id}/></Button>
                        
                        
                         </Paper>
@@ -193,6 +209,3 @@ export default function MonthyGoals({style}) {
     )
 
 };
-/* 
-<button class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-127pno0-MuiButtonBase-root-MuiButton-root" tabindex="0" type="button"> <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DeleteIcon"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"></path></svg><span class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"></span></button>
-*/
