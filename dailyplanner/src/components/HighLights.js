@@ -22,23 +22,26 @@ export default function HighLights({style, date}) {
     function check_disable(curr, target) {
         curr=curr.startOf('day');
         target = target.startOf('day');
-        if(curr.isBefore(target && !disable)) {
+        if(curr.isBefore(target) && !disable) {
             setDisable(true);
+            alert("disabled set to true");
         }
+        
     }
+    check_disable(date, dayjs());
+    date = date.format('DD-MM-YYYY');
     
     
     
     useEffect(() => {
-        
-        let today = new Date();
-        today = today.toDateString();
+      
+ 
         let data={};
        for(let timestamp of timestamps) {
         data.timestamp='';
        }
-       setHighlights(data);
-        get_object("Highlights", today).then(
+    
+        get_object("Highlights", date).then(
     
             (data) => 
             {
@@ -110,7 +113,7 @@ export default function HighLights({style, date}) {
                        
                
                 <div style={{display: 'flex', justifyContent: 'space-between', width: '95%'}}>
-                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value); console.log("timetamps"); debouncedSubmit()}} sx={{width: '30vw', left: '0.5rem', right: '0px'}} variant='standard'/>
+                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  disabled={disable} defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value); console.log("timetamps"); debouncedSubmit()}} sx={{width: '30vw', left: '0.5rem', right: '0px'}} variant='standard'/>
                    </div>
                 
             
@@ -125,7 +128,7 @@ export default function HighLights({style, date}) {
                     Highlight of Today
                 </Typography>
                 <Paper sx={{width: `${w(230)}`}}>
-                    <TextField  InputProps={{ disableUnderline: true,}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); console.log("hello there");debouncedSubmit()}}sx={{width: `${w(230)}`, left: '5px'}} multiline variant='standard'/>
+                    <TextField disabled={disable} defaultValue={highlights['hightlight_of_the_day']} InputProps={{ disableUnderline: true,}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); console.log("hello there");debouncedSubmit()}}sx={{width: `${w(230)}`, left: '5px'}} multiline variant='standard'/>
                 </Paper>
             </div>
             </div>

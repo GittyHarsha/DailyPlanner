@@ -15,8 +15,9 @@ import CustomMenu from './MenuItem.js';
 import {get_object, add_object, update_object, delete_object, getAllIndex, deleteObject} from '../database/backend.js';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { transform } from 'lodash';
-function HabitTracker({style}) {
-  
+import dayjs from 'dayjs';
+function HabitTracker({style, date}) {
+    let [disable, setDisable] = useState(false);
      let [habits, setHabits] = useState([]);
      let [habit, setHabit] = useState(null);
     let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -26,18 +27,12 @@ function HabitTracker({style}) {
   states: 
   1. month: it has range from 0 to 11. 0 maps to January, 1 maps to February and so on 
   */
-  let curr_date = new Date();
-  let today = curr_date.toDateString();
-  let curr_day = curr_date.getDate();
-  let curr_year = curr_date.getFullYear();
-  let curr_month = curr_date.getMonth();
 
-  let local_month = curr_month;
-  let local_year = curr_year;
-  console.log("curr_month: ", curr_month);
-  console.log("today: ", curr_day);
-  let [month, setMonth] = useState(curr_month);
-  let [year, setYear] = useState(curr_year);
+  let today = dayjs().format('DD-MM-YYYY');
+  let curr_day = date.date();
+  let [month, setMonth] = useState(date.month());
+  
+  let [year, setYear] = useState(date.year());
 
   let[dates, setDates] = useState(Array.from({length: daysInMonth[month]}, (_, i) => ({num: i+1, bool: Math.random() >= 0.5})));
   const [anchorEl, setAnchorEl] = useState(null);
@@ -51,12 +46,24 @@ function HabitTracker({style}) {
     setAnchorEl(null);
   };
 
-  function handleMonth(input) {
-    console.log("hello, input: ", input);
-    setMonth(input);
+  function check_disable(curr, target) {
+    curr=curr.year();
+    target = target.year();
+   
+    if(curr<target && !disable) {
+        setDisable(true);
   
-    setDates(Array.from({length: daysInMonth[input]}, (_, i) => ({num: i+1, bool: Math.random() >= 0.5})));
-    updateHabits(input);
+    }
+    }
+    check_disable(date, dayjs());
+    
+
+  function handleMonth(month) {
+    
+    setMonth(month);
+  
+    setDates(Array.from({length: daysInMonth[month]}, (_, i) => ({num: i+1, bool: Math.random() >= 0.5})));
+    updateHabits(month, year);
   }
   
   function addHabit(event) {
@@ -72,13 +79,14 @@ function HabitTracker({style}) {
       };
       console.log("adding a habit");
       add_object("HabitTracker", habit_object).then(
-        (msg)=> {updateHabits(month); console.log(msg);}
+        (msg)=> {updateHabits(month, year); console.log(msg);}
       )
 
       
     
   }
-  function updateHabits(month) {
+  function updateHabits(month, year) {
+    alert("month: "+ month, "year: "+year);
     console.log("month: ", month.toString());
     console.log("year: ", year.toString());
 
@@ -116,7 +124,7 @@ function HabitTracker({style}) {
         )
   }
   useEffect(() => {
-    updateHabits(month);
+    updateHabits(month, year);
 }, []);
   
   return (
@@ -125,7 +133,7 @@ function HabitTracker({style}) {
     <TableContainer style={{  overflowX: 'scroll', pt: 0, ...(style? style: null)}}>
     <Box sx={{pb: 1,justifyContent: 'space-between',  display: "flex", flexDirection:"row", borderRadius: '1.125rem'}} style={{paddingLeft: '0px', paddingRight: '0px'}}>
           <Typography variant='h5' sx={{fontFamily:'Itim'}}>Habit Tracker</Typography>
-          <Button onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Habit</Button>
+          <Button disabled={disable} onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Habit</Button>
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           anchorEl={anchorEl}
@@ -163,14 +171,14 @@ function HabitTracker({style}) {
             style={{borderRadius: '16rem', height: `${h(25)}`}}
           >
             <TableCell sx={{width: '7vw', backgroundColor:'white', }}>
-            <MonthDropdown onChange={handleMonth} default={month}></MonthDropdown>
+            <MonthDropdown disabled={disable} onChange={handleMonth} default={month}></MonthDropdown>
             </TableCell> 
            
          
           {
             dates.map(
               (date)=> (
-                <TableCell sx={{border: 'none', justifyContent:'center', width: '6vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num == curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
+                <TableCell sx={{border: 'none', justifyContent:'center', width: '6vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num ==curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
               )
             )
           }
@@ -198,14 +206,14 @@ function HabitTracker({style}) {
               {
               habit["days"].map(
                 (day, index)=> (
-                  <TableCell sx={{width: '10vw', backgroundColor: 'transparent'}}><Checkbox checked={day} onClick={()=> {handleCheck(habit.id, index);}} sx={{width: '1px', height: '1px' ,transform: 'scale(0.95)',backgroundColor: 'transparent', pt: 0, m:0}}/></TableCell>
+                  <TableCell sx={{width: '10vw', backgroundColor: 'transparent'}}><Checkbox disabled={disable} checked={day} onClick={()=> {handleCheck(habit.id, index);}} sx={{width: '1px', height: '1px' ,transform: 'scale(0.95)',backgroundColor: 'transparent', pt: 0, m:0}}/></TableCell>
                 )
               )
               
             }
              <TableCell sx={{width: '10vw'}}> 
               
-              <Typography customAttribute={habit.id} sx={{transform: 'scale(0.85)', width: '100%', p: 0, m: 0,':hover': {cursor: 'pointer', width: '100%',}}} onClick={(e)=> {deleteHabit(habit.id)}}><DeleteIcon sx={{opacity:0.6}}/></Typography>
+              <Typography customAttribute={habit.id} sx={{transform: 'scale(0.85)', width: '100%', p: 0, m: 0,':hover': {cursor: 'pointer', width: '100%',}}} onClick={(e)=> {if(!disable)deleteHabit(habit.id)}}><DeleteIcon sx={{opacity:0.6}}/></Typography>
               </TableCell>
             </TableRow>
             )

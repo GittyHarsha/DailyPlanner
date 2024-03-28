@@ -50,6 +50,7 @@ export function connectToIndexedDB() {
         */
       });
       HabitTracker.createIndex("MonthYearIndex", ["month", "year"]);
+      MonthlyGoals.createIndex("MonthYearIndex", ['month', 'year']);
     
     }
 
@@ -276,9 +277,11 @@ export function delete_object(storeName, key) {
           console.log("Object retrieved successfully:", getRequest.result);
           if(getRequest.result == undefined) {
             reject("error");
+          
           }
           else
           resolve(getRequest.result);
+         
           };
       
           getRequest.onerror = function(event) {

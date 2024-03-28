@@ -11,7 +11,7 @@ export default function StaticDatePickerLandscape({style, setDate, resetOpen, op
       <StaticDatePicker orientation="portrait" 
       defaultValue = {dayjs()}
         
-        sx={{...(style?style:null), visibility: open? 'visible': 'hidden'}}
+        sx={{...(style?style:null), visibility: open? 'visible': 'hidden', borderRadius: '0.625rem'}}
         minDate={threeMonthsAgo}
         maxDate={dayjs()}
         onAccept = {(value)=> {
