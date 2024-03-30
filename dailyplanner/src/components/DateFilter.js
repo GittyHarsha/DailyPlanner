@@ -5,6 +5,8 @@ import SignalCellular4BarIcon from '@mui/icons-material/SignalCellular4Bar';
 import dayjs from 'dayjs';
 import FlexDiv from './FlexDiv.js';
 import {useState, setState} from 'react';
+import {ThemeProvider} from '@mui/material';
+import {theme} from './theme.js';
 export default function DateFilter({date, setDate}) {
    
     let [open, setOpen] = useState(false);
@@ -14,6 +16,7 @@ export default function DateFilter({date, setDate}) {
         setOpen(false);
     }
     return (
+        <ThemeProvider theme={theme}>
         <FlexDiv  onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)} 
         onClick={(e)=> {setOpen(true)}}
@@ -25,7 +28,7 @@ export default function DateFilter({date, setDate}) {
                 open={open}
                 resetOpen={resetOpen}
                 setDate={setDate}
-                style={{ position:'absolute',top:'6rem', right: '15rem',zIndex: 100, backgroundColor:'white',  }}
+                style={{ position:'absolute',top:`${h(60)}`, right: `${w(75)}`,zIndex: 100, backgroundColor:'white',  transform: 'scale(0.9)'}}
                 />
               
                 <Typography sx={{fontWeight: 'bold', fontFamily:'Itim', fontSize: '1.5rem',}}>
@@ -36,5 +39,6 @@ export default function DateFilter({date, setDate}) {
               </Typography>
               
             </FlexDiv>
+            </ThemeProvider>
     )
 }
