@@ -9,7 +9,7 @@ export default function StaticDatePickerLandscape({style, setDate, resetOpen, op
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <StaticDatePicker orientation="portrait" 
-      defaultValue = {dayjs()}
+      default = {dayjs()}
         
         sx={{...(style?style:null), visibility: open? 'visible': 'hidden', borderRadius: '0.625rem',
         "& .MuiPickersDay-root": { // Targets the days in the picker
@@ -19,7 +19,7 @@ export default function StaticDatePickerLandscape({style, setDate, resetOpen, op
         minDate={threeMonthsAgo}
         maxDate={dayjs()}
         onAccept = {(value)=> {
-      
+            if(value==null) value=dayjs();
             setDate(value);
         }}
         onClose = {(value)=> {resetOpen();}}

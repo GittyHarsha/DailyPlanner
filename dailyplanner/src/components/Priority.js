@@ -25,7 +25,13 @@ export default function Priority({style}) {
     if(!priority) return;
         setAnchorEl(null);
         let old_list=[];
-        let newPriority = {name: priority};
+        let id = 0;
+        for(let i=0;i<list.length;i++) {
+          if(id < list[i]['id']) {
+            id = list[i]['id'];
+          }
+        }
+        let newPriority = {name: priority, id: id};
    
        get_object("Priority", today).then(
         (e)=> {if(!e) {
@@ -173,7 +179,7 @@ export default function Priority({style}) {
             disableUnderline: true,
           }}
           
-          label="Add Priority" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == priority){setAnchorEl(null); addPriority();}else{ console.log("priority value: ", priority);setPriority(e.target.value)}}}
+          label="`Enter Priority" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == priority){setAnchorEl(null); addPriority();}else{ console.log("priority value: ", priority);setPriority(e.target.value)}}}
           />
         
           </MenuItem>
