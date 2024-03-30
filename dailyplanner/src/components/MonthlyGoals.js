@@ -158,7 +158,7 @@ check_disable(date, dayjs());
          
           <br/>
           <TextField 
-          
+       
           InputProps={{
             
             style: {width: `${w(110)}`},
@@ -174,7 +174,7 @@ check_disable(date, dayjs());
             disableUnderline: true,
           }}
           
-          label="Add Goal" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == goal){setAnchorEl(null); addGoal();}else{ console.log("goal value: ", goal);setGoal(e.target.value)}}}/>
+          label="`Enter Goal" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == goal){setAnchorEl(null); addGoal();}else{ console.log("goal value: ", goal);setGoal(e.target.value)}}}/>
         
           </MenuItem>
           </Menu>
@@ -192,7 +192,7 @@ check_disable(date, dayjs());
                         <span>{goal.goal}</span> 
                        
                         </div>
-                        <Button customAttribute ={goal.id}  sx={{height: '100%'}} onClick={deleteGoal}> <DeleteIcon visible={disable? 'hidden': 'visible'} sx={{opacity:0.6}} customAttribute ={goal.id}/></Button>
+                       <DeleteIcon  onClick={deleteGoal} visible={disable? 'hidden': 'visible'} sx={{opacity:0.6, mx: 2, '&:hover': {cursor:'pointer'}}} customAttribute ={goal.id}/>
                        
                        
                         </Paper>

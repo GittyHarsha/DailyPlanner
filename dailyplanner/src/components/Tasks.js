@@ -250,7 +250,7 @@ function update_task(data, id) {
                     <div>
                     <TextField 
                     onChange={(e)=> {setValue("title", e.target.value)}}
-                    label="Title"
+                    label="`Title"
                     variant='outlined'  
                     style={{left: '5px', width: '100%'}}
                    />
@@ -330,7 +330,7 @@ function update_task(data, id) {
                     <TextField 
                     onChange={(e)=> {tasks_data[task.id]["title"] = e.target.value;}}
                     defaultValue = {task.title}
-                    label="Title"
+                    label="`Title"
                     variant='outlined'  
                     style={{left: '5px', width: '100%'}}
                    />
@@ -338,7 +338,7 @@ function update_task(data, id) {
                    <div>
                    <TextField 
                     onChange={(e)=> {tasks_data[task.id]["description"] = e.target.value;}}
-                    label="Link/Description"
+                    label="`Link/Description"
                     variant='outlined'  
                     defaultValue={task.description}
                     style={{left: '5px', width: '100%'}}

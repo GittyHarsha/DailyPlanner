@@ -166,7 +166,7 @@ function HabitTracker({style, date}) {
           }}
           
           
-          label="Add Habit"  multiline/>
+          label="`Enter Habit"  multiline/>
          
           </MenuItem>
           </Menu>
