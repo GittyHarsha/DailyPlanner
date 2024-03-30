@@ -8,15 +8,20 @@ import {useState, setState} from 'react';
 export default function DateFilter({date, setDate}) {
    
     let [open, setOpen] = useState(false);
+    let [hover, setHover] = useState(false);
 
     function resetOpen() {
         setOpen(false);
     }
     return (
-        <FlexDiv style={{width: `${w(247)}`, height: `${h(31)}`, backgroundColor: 'white', borderRadius: '1.125rem', justifyContent:'center', marginBottom: '0.4rem',
+        <FlexDiv  onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)} 
+        onClick={(e)=> {setOpen(true)}}
+        style={{cursor:hover?'pointer': 'default',width: `${w(247)}`, height: `${h(31)}`, backgroundColor: 'white', borderRadius: '1.125rem', justifyContent:'center', marginBottom: '0.4rem',
                
         }}>
             <StaticDatePicker
+                
                 open={open}
                 resetOpen={resetOpen}
                 setDate={setDate}
@@ -26,8 +31,8 @@ export default function DateFilter({date, setDate}) {
                 <Typography sx={{fontWeight: 'bold', fontFamily:'Itim', fontSize: '1.5rem',}}>
                 {date.format('MMMM')} {date.date()}, {date.format('dddd')}
                   <SignalCellular4BarIcon 
-                  onClick={(e)=> {setOpen(true)}}
-                  opacity={0.6} sx={{ transform: 'rotate(45deg)',  '&:hover': {cursor:'pointer'} }}/>
+                 
+                  opacity={0.6} sx={{  mx: 2,transform: 'rotate(45deg)',}}/>
               </Typography>
               
             </FlexDiv>

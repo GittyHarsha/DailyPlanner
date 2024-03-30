@@ -14,6 +14,11 @@ export function connectToIndexedDB() {
     request.onupgradeneeded = (event) => {
      
       const db=event.target.result;
+      const ApiCache = db.createObjectStore("ApiCache", 
+      {
+        keyPath: 'date',
+      });
+  
       const  Name = db.createObjectStore("Name", 
       {
         keyPath: 'name'
@@ -51,6 +56,7 @@ export function connectToIndexedDB() {
       });
       HabitTracker.createIndex("MonthYearIndex", ["month", "year"]);
       MonthlyGoals.createIndex("MonthYearIndex", ['month', 'year']);
+      ApiCache.createIndex("DateTypeIndex", ['date', 'type']);
     
     }
 
@@ -64,7 +70,7 @@ export function  add_object(storeName, newObject) {
     const transaction = db.transaction(storeName, "readwrite");
     const store = transaction.objectStore(storeName);
     let success=true;
-    console.log(`${storeName} : key:  ${store.keyPath}`);
+
 if(store.keyPath =="id") {
     // Open a cursor in reverse direction to get the highest ID first
     const cursorRequest = store.openCursor(null, "prev");
@@ -78,13 +84,13 @@ if(store.keyPath =="id") {
         let obj = {...newObject, id: newId.toString()};
         // Add the new object with incremented ID
         store.add(obj);
-        console.log("object added: ", obj);
+   
 
-        console.log("New object added with ID:", newId.toString());
+      
       } else {
         // No objects in the store, add with ID 1
         store.add({ ...newObject, id: "1" });
-        console.log("New object added with ID:", 1);
+  
       }
     };
 
@@ -117,7 +123,7 @@ if(store.keyPath =="id") {
 
     transaction.onerror = function(event) {
       db.close();
-      console.error("IndexedDB error:", event.target.error);
+
       reject(event.target.error);
       
     };
@@ -131,19 +137,18 @@ export function delete_object(storeName, key) {
     connectToIndexedDB().then(
       (db)=> {
 
-        console.log("key in delete object:", key);
-        console.log("store name: ", storeName);
+  
         const transaction = db.transaction(storeName, "readwrite");
         const store = transaction.objectStore(storeName);
       
         const deleteRequest = store.delete(key);
     
         deleteRequest.onsuccess = function(event) {
-        console.log("Object deleted successfully:", event);
+
         };
     
         deleteRequest.onerror = function(event) {
-        console.error("Error deleting object:", event.target.error);
+     
         };
     
         transaction.oncomplete = function() {
@@ -160,8 +165,7 @@ export function delete_object(storeName, key) {
   }
   
   export async function getAllObjects(storeName) {
-    
-    console.log("trying to get all objects");
+
     return connectToIndexedDB().then(
       (db) => {
         const transaction = db.transaction(storeName, 'readonly');
@@ -203,11 +207,11 @@ export function delete_object(storeName, key) {
           const updateRequest = store.put(Object);
       
           updateRequest.onsuccess = function(event) {
-          console.log("Object updated successfully:", event);
+     
           };
       
           updateRequest.onerror = function(event) {
-          console.error("Error deleting object:", event.target.error);
+       
           };
       
           transaction.oncomplete = function() {
@@ -232,15 +236,15 @@ export function delete_object(storeName, key) {
          
           const transaction = db.transaction(storeName, "readonly");
           const store = transaction.objectStore(storeName);
-          console.log("id: ", id);
+      
           const getRequest = store.get(id);
       
           getRequest.onsuccess = function(event) {
-          console.log("Object retrieved successfully:", getRequest.result);
+        
           }
       
           getRequest.onerror = function(event) {
-            console.log(event.target.error);
+         
             
           };
       
@@ -264,7 +268,9 @@ export function delete_object(storeName, key) {
   }
 
   export function getAllIndex(storeName, indexName, keys) {
-    console.log("inside getAllIndex");
+
+    
+
     return new Promise(function(resolve, reject) {
       connectToIndexedDB().then(
         (db)=> {
@@ -274,30 +280,43 @@ export function delete_object(storeName, key) {
           let getRequest = index.getAll(keys);
       
           getRequest.onsuccess = function(event) {
-          console.log("Object retrieved successfully:", getRequest.result);
-          if(getRequest.result == undefined) {
-            reject("error");
-          
+          console.log(storeName + " Object retrieved successfully:", getRequest.result+ "   with keys: ", keys);
+         
+          if(getRequest.result==undefined || getRequest.result.length==0 ) {
+            console.log("get request is empty");
+           
+         
           }
-          else
-          resolve(getRequest.result);
+          else {
+           console.log("getrequest is not empty");
+          
+           
+          }
+          
          
           };
       
           getRequest.onerror = function(event) {
-            console.log(event.target.error);
+            console.log("get request error");
+          
             reject("error");
           };
       
           transaction.oncomplete = function() {
-           
-            resolve("success");
+            if(getRequest.result.length >0) {
+              resolve(getRequest.result);
+       
+            }
+            else {
+             
+              reject("error");
+            }
             db.close();
           };
-          transaction.onerror = function(event) {console.log(event); reject(event.target.error);db.close();};
+          transaction.onerror = function(event) {console.log(event); db.close();};
         }
       ).catch(
-        (error)=> {console.log(error);}
+        (error)=> {console.log("error opening database");}
       );
       });
   }

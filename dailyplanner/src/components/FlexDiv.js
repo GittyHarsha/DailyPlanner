@@ -9,10 +9,11 @@ justify-content: space-between;
 align-items: center;
 `;
 
-export default function FlexDiv({style,children}) {
+export default function FlexDiv({style,children,...props}) {
 
     return (
         <div
+        {...props}
         style={{
             margin: '0',
             paddingLeft: '0px',

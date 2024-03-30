@@ -13,41 +13,88 @@ import {theme} from './components/theme.js';
 import axios from 'axios';
 import { useState, useEffect} from 'react';
 import styled from 'styled-components';
-import {connectToIndexedDB, getAllObjects, add_object} from './database/backend';
+import {connectToIndexedDB, getAllObjects, add_object, getAllIndex, delete_object} from './database/backend';
 import FlexDiv from './components/FlexDiv';
 import Welcome from './components/Welcome.js';
 import StaticDatePicker from './components/StaticDatePicker.js';
 import dayjs from 'dayjs';
-function App() {
+function App(props) {
   
   //state storing the url of the background image
   let [bgImage, setBgImage] = useState('');
   let [name, setName] = useState(' ');
   let [date, setDate] = useState(dayjs());
+  let today = dayjs().startOf('day');
+  let yesterday = today.subtract(1, 'day');
+  
 
-  // hook to fetch the background image API
+
     useEffect(()=> {
    
-    axios.get("https://peapix.com/bing/feed").then(
-      (images_array) => { setBgImage(images_array["data"][5].imageUrl); console.log("image url: ", images_array['data'][1].imageUrl);}
-    ).catch((error) => {alert("couldnt find a background image");console.log(error);});
+      let today = dayjs().startOf('day');
+      let yesterday = today.subtract(1, 'day').format('DD-MM-YYYY');
+      today = today.format('DD-MM-YYYY');
+      
+      let bgItem = localStorage.getItem('background');
+      if(bgItem){
+        bgItem = JSON.parse(bgItem);
+        if(bgItem['date']==yesterday) {
+          bgItem=null;
+        }
+      }
+     
+      if(bgItem) {
+        if(bgItem.date!=today) {
+          bgItem=null;
+          
+      
+        }
+      }
+      
+      if(bgItem==null){
+          axios.get("https://peapix.com/bing/feed").then(
+          (res) => { 
+            let  bgImage= res.data[0].imageUrl;
+                bgImage = bgImage.toString();
+           
+          localStorage.setItem("background", JSON.stringify({date: today,  content:bgImage}));
+        
+          setBgImage(bgImage);
+         
+        }
+        ).catch((error) => {
+        
+          setBgImage('background.png');
+        }); 
+                
+                  
+      }
+      else {
+     
+        setBgImage(bgItem.content);
+      }
+      
+   
    
   }, []);
-
-  let StyledDiv = styled.div`
-  &:before {
-    content: '';
-    position: absolute;
-   background-image: url('background.png');
-   background-size: cover;
-    height: 100%;
-    width: 100%;
-    top: 0px;
-    left: 0px;
-    opacity: 0.6;
-  }
   
+  let StyledDiv = styled.div.attrs(props => ({
+    backgroundImage: props.backgroundImage
+  }))`
+    &:before {
+      content: '';
+      position: absolute;
+      background-image: url(${props => props.backgroundImage});
+      background-size: cover;
+      height: 100%;
+      width: 100%;
+      top: 0px;
+      left: 0px;
+      opacity: 0.6;
+    }
   `;
+  
+
   function handleDate(e) {
     setDate(e);
     console.log('date getting updated');
@@ -71,7 +118,7 @@ function App() {
 
   return (
   
-    <StyledDiv id="app">
+    <StyledDiv id="app" backgroundImage= {bgImage}>
       
       {(name!=null)? (<></>): (<Welcome onSubmit={onSubmit}/>)}
 

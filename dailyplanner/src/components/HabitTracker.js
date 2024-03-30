@@ -86,7 +86,7 @@ function HabitTracker({style, date}) {
     
   }
   function updateHabits(month, year) {
-    alert("month: "+ month, "year: "+year);
+    
     console.log("month: ", month.toString());
     console.log("year: ", year.toString());
 
@@ -111,7 +111,7 @@ function HabitTracker({style, date}) {
           let habit_copy = {...habit};
           habit_copy.days[index]=!habit_copy.days[index];
           update_object("HabitTracker", habit_copy).then(
-            (msg)=> {console.log(msg); updateHabits(month);}
+            (msg)=> {console.log(msg); updateHabits(month, year);}
           )
         }
       )
@@ -120,7 +120,7 @@ function HabitTracker({style, date}) {
   function deleteHabit(target) {
     
         delete_object("HabitTracker", target).then(
-          (msg)=> {console.log(msg); updateHabits(month);}
+          (msg)=> {console.log(msg); updateHabits(month, year);}
         )
   }
   useEffect(() => {
@@ -130,7 +130,13 @@ function HabitTracker({style, date}) {
   return (
     <ThemeProvider theme = {theme} style={{padding: 0}}>
    
-    <TableContainer style={{  overflowX: 'scroll', pt: 0, ...(style? style: null)}}>
+    <TableContainer style={{  overflowX: 'hidden', pt: 0,
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+    '-ms-overflow-style': 'none', // For Internet Explorer and Edge
+    scrollbarWidth: 'none', // For Firefox
+    ...(style? style: null)}}>
     <Box sx={{pb: 1,justifyContent: 'space-between',  display: "flex", flexDirection:"row", borderRadius: '1.125rem'}} style={{paddingLeft: '0px', paddingRight: '0px'}}>
           <Typography variant='h5' sx={{fontFamily:'Itim'}}>Habit Tracker</Typography>
           <Button disabled={disable} onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Habit</Button>
@@ -147,7 +153,7 @@ function HabitTracker({style, date}) {
          onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == habit){setAnchorEl(null); addHabit();}else{console.log("habit value: ", habit);setHabit(e.target.value)}}}
 
           InputProps={{
-            style: {width: '15rem'},
+            style: {width: `${w(110)}`},
             endAdornment: (
               <InputAdornment position="end">
               <IconButton>
@@ -190,7 +196,7 @@ function HabitTracker({style, date}) {
           
           habits.map(
             (habit) => (
-              <TableRow sx={{backgroundColor: 'transparent', overflow: 'scroll', height: '1rem'}}>
+              <TableRow sx={{backgroundColor: 'transparent', overflow: 'scroll', height: '1rem',}}>
                 <TableCell> 
                   <Tooltip 
                  PopperProps={{
