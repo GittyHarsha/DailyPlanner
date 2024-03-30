@@ -91,7 +91,9 @@ function App(props) {
       top: 0px;
       left: 0px;
       opacity: 0.6;
+     
     }
+  
   `;
   
 

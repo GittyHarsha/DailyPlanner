@@ -1,6 +1,6 @@
 import React from 'react';
 import {w, h} from '../services/dimensions.js';
-import {useState, setState, useEffect} from 'react';
+import {useState, setState, useEffect, createRef} from 'react';
 import { Button, Checkbox, Grid, Typography, Box, Paper} from '@mui/material';
 import dayjs from 'dayjs';
 import {theme} from './theme.js';
@@ -73,6 +73,16 @@ export default function HighLights({style, date}) {
             } 
         )
     }, []);
+    function formatDayjsTo12Hour(dayjsObj) {
+        // Get the hour and format it to 12-hour time with AM or PM
+        const hour = dayjsObj.hour();
+        const hour12 = hour % 12 || 12; // Convert 0 to 12 for 12AM
+        const amOrPm = hour < 12 ? 'AM' : 'PM';
+        
+        return `${hour12}${amOrPm}`;
+      }
+      let timestamp = formatDayjsTo12Hour(dayjs());
+   
     function onSubmit(data) {
 
 
@@ -91,11 +101,17 @@ export default function HighLights({style, date}) {
         
       
       }, 1000);
-    let timestamps = ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM', '12AM'];
+    let timestamps = ['1AM', '2AM', '3AM', '4AM', '5AM','6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM', '12AM'];
+    let [refs, setRefs] = useState([]);
+    useEffect(
+        ()=> {
+            setRefs(timestamps.map((_, i) => refs[i] || createRef()));
+        }
+    ,[])
  return (
     <ThemeProvider theme={theme}>
        
-    <Container sx={{display: 'flex', flexDirection: 'column', margin:0, transform: 'scale(1.0)', overflow:'hidden', px:1,
+    <Container sx={{display: 'flex', flexDirection: 'column', margin:0, transform: 'scale(1.0)', overflow:'clip', px:1,
         ...(style? style:null),
     }}>
         <div>
@@ -109,10 +125,18 @@ export default function HighLights({style, date}) {
             
             {
                 timestamps.map(
-                    (timestamp)=> (
+                    (timestamp, index)=> (
                        
                
-                <div style={{display: 'flex', justifyContent: 'space-between', width: '95%'}}>
+                <div 
+                        ref={(el)=> {
+                            if(!el) return;
+                            let timestamp = formatDayjsTo12Hour(dayjs());
+                            if(timestamps[index]==timestamp) {
+                                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }}
+                style={{display: 'flex', justifyContent: 'space-between', width: '95%'}}>
                    <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  disabled={disable} defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value);  debouncedSubmit()}} sx={{width: '30vw', left: '0.5rem', right: '0px'}} variant='standard'/>
                    </div>
                 
@@ -127,7 +151,7 @@ export default function HighLights({style, date}) {
                 <Typography variant='h5' sx={{my:1}}>
                     Highlight of Today
                 </Typography>
-                <Paper sx={{width: `${w(230)}`, minHeight: `${h(36)}`, display:'flex', alignItems:'center', maxHeight:`${h(50)}`}}>
+                <Paper sx={{width: `${w(230)}`, minHeight: `${h(36)}`, display:'flex', alignItems:'center', maxHeight:`${h(36)}`}}>
                     <TextField disabled={disable} defaultValue={highlights['hightlight_of_the_day']} InputProps={{ disableUnderline: true,}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); debouncedSubmit()}}sx={{width: `${w(230)}`, left: '5px',fontSize:'1.5rem', minHeight:'100%', maxHeight:`${h(50)}`, overflowY:'scroll'}} multiline variant='standard'/>
                 </Paper>
             </div>
