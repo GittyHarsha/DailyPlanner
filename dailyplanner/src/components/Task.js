@@ -3,7 +3,8 @@ import {CSS} from '@dnd-kit/utilities/';
 import {Paper} from '@mui/material';
 import {w, h} from '../services/dimensions.js';
 import styled from 'styled-components';
-export const Task = ({id, title}) => {
+import {Checkbox} from '@mui/material';
+export const Task = ({id, title, handleCheck, isChecked}) => {
 
     
     const {attributes, listeners, setNodeRef, 
@@ -15,23 +16,41 @@ export const Task = ({id, title}) => {
         marginLeft: '0px',
         marginTop: '5px',
         zIndex: 1,
-        width : `${w(223)}`,
+        width : `${w(207)}`,
         height: `${h(36)}`,
         paddingLeft: '10px',
         display:'flex',
         alignItems:'center',
         textAlign:'center',
         fontWeight: 'bold',
-       
+        
        
     };
     return (
-        <Paper ref={setNodeRef}
-        {...attributes} {...listeners}
+        <div  
+       >
+       
+        <Paper
+        ref={setNodeRef}
+        {...attributes} 
+        sx={{my: 1,}}
+       
         style={style}
-        sx={{my: 1}}
+       
         >
-        {title}
+            <Checkbox
+            checked={isChecked}
+            onClick={handleCheck}
+
+            />
+         <div 
+         style={{ width: `${w(180)}`, textAlign:'left'}
+        
+        } {...listeners}>
+         {title}
+         </div>
+        
         </Paper>
+        </div>
     )
 }

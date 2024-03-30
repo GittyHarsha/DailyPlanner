@@ -1,6 +1,8 @@
 // services/api.js
 import axios from 'axios';
-const QuoteOfTheDay = async () => {
+import dayjs from 'dayjs';
+import {getAllIndex, add_object, delete_object} from '../database/backend';
+const QuoteOfTheDay =  () => {
   
    let quotes=[
   
@@ -209,18 +211,13 @@ const QuoteOfTheDay = async () => {
   {
          "quote":"If you can dream it, you can achieve it.","author":"Zig Ziglar"}
   ]
-  return quotes[Math.floor(Math.random() * quotes.length)];
   
-    try {
-      const response = await axios.get('https://favqs.com/api/qotd');
-      console.log(response);
-      const quote = response.data.quote.body;
-      return quote;
+    
+       return quotes[Math.floor(Math.random() * quotes.length)];
+       
+
    
-    } catch (error) {
-      console.error('Error fetching quote:', error);
-      
-    }
+    
   };
 
 

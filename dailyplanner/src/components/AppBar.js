@@ -27,7 +27,7 @@ function Header({name}) {
   return (
     <FlexDiv style={{marginLeft: `${w(23)}`, marginRight: `${w(23)}`}}>
       
-        <FlexDiv  style={{color:'black',fontFamily: 'inter',fontSize: '1.5rem',fontWeight: 'bold', width: '350px', height: '3.5rem',}}>
+        <FlexDiv  style={{color:'black',fontFamily: 'inter',fontSize: '1.5rem',fontWeight: 'bold', width: '45rem', height: '3.5rem',}}>
         
         { (name)?(<>{Greeting()} {name} :)</> ):(<></>)}
           

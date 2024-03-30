@@ -15,24 +15,28 @@ code {
     monospace;
 }
 
+/* Width and background of the scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: 'transparent' !important;
+  background: transparent; /* Removed quotes for valid CSS */
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #fffcfc;
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: inset 0 0 5px rgb(239, 237, 237); /* Subtle shadow for depth */
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #beb8b8;
+  background: #e0e0e0; /* Slightly lighter shade on hover */
 }
+
 ::-webkit-scrollbar-corner {
   background: rgba(0,0,0,0);
 }

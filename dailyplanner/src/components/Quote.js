@@ -3,20 +3,54 @@ import { Typography, ThemeProvider } from '@mui/material';
 import QuoteOfTheDay from '../services/qotd';
 import {useState, useEffect} from 'react';
 import {theme} from './theme.js';
-import {shadows} from '@mui/system';
+import dayjs from 'dayjs';
 import {useContext} from 'react';
 import {DatabaseContext} from './DbContext.js';
+import {getAllIndex, add_object, delete_object} from '../database/backend';
+import axios from 'axios';
 const Quote = function({style}) {
   let db = useContext(DatabaseContext);
   console.log("db",db);
-    let [quote, setQuote] = useState("");
+    let [quote, setQuote] = useState('');
     
     useEffect(()=> {
-        async function fetchQotd() {
-            let q= await QuoteOfTheDay();
-            setQuote(q);
+
+      if(quote!='') return;
+      let today = dayjs().startOf('day');
+      let yesterday = today.subtract(1, 'day').format('DD-MM-YYYY');
+      today = today.format('DD-MM-YYYY');
+      let quoteItem = JSON.parse(localStorage.getItem('quote'));
+     
+      if(quoteItem) {
+        if(quoteItem.date!=today) {
+          quoteItem=null;
+         alert("what!");
         }
-        fetchQotd();
+      }
+      if(!quoteItem){
+
+                
+                     axios.get('https://favqs.com/api/qotd').then(
+                           (res)=> {
+                                  
+                                  let quote = res.data.quote.body;
+                                  localStorage.setItem("quote",JSON.stringify({date: today,content: quote}));
+                                  setQuote(quote);
+                                  
+      
+                           }
+                     ).catch(
+                      ()=> {
+                      let quote ={date: today, content: QuoteOfTheDay()};
+                          setQuote(quote.content);
+                          localStorage.setItem("quote", JSON.stringify(quote));
+                      }
+                     )
+      }
+      else {
+        setQuote(quoteItem.content);
+      }
+       
 
     }, []);
     return (

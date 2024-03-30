@@ -6,9 +6,9 @@ import {w, h} from '../services/dimensions.js';
 import {Button, Container, Typography, Checkbox, Menu, MenuItem, TextField, IconButton, InputAdornment} from '@mui/material';
 import { add_object, update_object, get_object, connectToIndexedDB } from '../database/backend';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import dayjs from 'dayjs';
 export default function Priority({style}) {
-  let today = (new Date()).toDateString();
+  let today = dayjs().format('DD-MM-YYYY');
   let [priority ,setPriority] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -23,17 +23,17 @@ export default function Priority({style}) {
   function addPriority(event) {
     
     if(!priority) return;
-        
+        setAnchorEl(null);
         let old_list=[];
         let newPriority = {name: priority};
-        let curr_date = (new Date()).toDateString();
-       get_object("Priority", curr_date).then(
+   
+       get_object("Priority", today).then(
         (e)=> {if(!e) {
           console.log("couldn't find priority objdect");
-          add_object("Priority", {date: curr_date,list: [newPriority]}).then((e)=> {return e;})
+          add_object("Priority", {date: today,list: [newPriority]}).then((e)=> {return e;})
           .then((e)=>{
             console.log("got the new list");
-            get_object("Priority", curr_date).then((list)=>{list.list[0]['id']=0;setList(list.list); old_list=list.list; return e;})
+            get_object("Priority", today).then((list)=>{list.list[0]['id']=0;setList(list.list); old_list=list.list; return e;})
           })
         }
         else {
@@ -51,10 +51,10 @@ export default function Priority({style}) {
        }
        ).catch((e)=> {
         console.log("couldn't find priority objdect");
-        add_object("Priority", {date: curr_date, list: [newPriority]}).then((e)=> {return e;})
+        add_object("Priority", {date: today, list: [newPriority]}).then((e)=> {return e;})
         .then((e)=>{
           console.log("got the new list");
-          get_object("Priority", curr_date).then((list)=>{setList(list.list); old_list=list.list; return e;})
+          get_object("Priority", today).then((list)=>{setList(list.list); old_list=list.list; return e;})
         })
 
        })
@@ -62,30 +62,6 @@ export default function Priority({style}) {
       
 
       
-   }
-   function handleCheck(id) {
-   let today = (new Date()).toDateString();
-    connectToIndexedDB().then(
-      (db)=> {
-        const transaction = db.transaction("Priority", "readwrite");
-        const objectStore = transaction.objectStore("Priority");
-        const getRequest = objectStore.get(today);
-        getRequest.onsuccess = (event) =>{
-          let obj = event.target.result; 
-          let list =[...obj];
-          list.splice(id, 1);
-          const putRequest = objectStore.put(list);
-          putRequest.onsuccess = (event) => {
-            console.log("object with id: ", id, "updated successfully");
-          }
-
-        }
-        transaction.onsuccess=(event) => {console.log("transaction success");}
-        setList(list);
-        db.close();
-      }
-     
-    )
    }
    
 
@@ -98,7 +74,7 @@ export default function Priority({style}) {
       (list)=> {
         let a = [...list.list];
         for(let i =0;i<a.length;i++) {
-          a[i]["id"]=i;
+          a[i]["id"]=i.toString();
         }
         setList(a);
         console.log(a);
@@ -129,6 +105,7 @@ export default function Priority({style}) {
       return arrayMove(list, originalPos, newPos);
     };
     newList = newList(list);
+ 
     setList(
      newList
     );
@@ -148,8 +125,15 @@ export default function Priority({style}) {
     updateList();
   }
 
+  function handleCheck(id) {
+    let list_copy = [...list];
+    list_copy[id]['checked']=!list_copy[id]['checked'];
+    update_object("Priority", {date: today, list: list_copy}); 
+    setList(list_copy);
+  }
+
   return (
-<Container style={{paddingLeft: '1vw', paddingRight: '1vw', paddingTop: 10,
+<Container style={{paddingLeft: '1vw', paddingRight: '1vw', paddingTop: 10, overflowX: 'hidden',
 ...(style? style: null)
 }}>
   
@@ -176,7 +160,7 @@ export default function Priority({style}) {
          
           InputProps={{
             
-            style: {width: '10rem'},
+            style: {width: `${w(110)}`},
             endAdornment: (
               
               <InputAdornment position="end">
@@ -195,7 +179,8 @@ export default function Priority({style}) {
           </MenuItem>
           </Menu>
   </Typography>
-  <DndContext collisionDetection={closestCorners}
+
+  <DndContext autoScroll={{ layoutShiftCompensation: false }} collisionDetection={closestCorners}
     onDragStart={()=> {document.body.style.cursor = 'grabbing';}}
     onDragEnd={handleDragEnd}
   >
@@ -206,12 +191,13 @@ export default function Priority({style}) {
       
       {
         list.map(
-          (item)=> (
+          (item, index)=> (
            <div style={{display:'flex', width: '100%', m:0, alignItems: 'center', }}>
-            
+          
             <Task 
-            
-            id={item.id} title={item.name} key={item.id}/> <DeleteIcon sx={{'&:hover': {cursor:'pointer'}}} opacity={0.6} onClick={(e)=> {deletePriority(item.id);}}/>
+            isChecked={item.checked}
+            handleCheck = {(e)=> {handleCheck(index)}}
+            id={item.id.toString()} title={item.name} key={item.id}/> <DeleteIcon sx={{'&:hover': {cursor:'pointer'}}} opacity={0.6} onClick={(e)=> {deletePriority(index);}}/>
            
 
            </div>

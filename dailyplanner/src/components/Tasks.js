@@ -36,8 +36,7 @@ export default function Tasks({style}) {
      _date["time"]=null;
      setDate(_date);
     
-     console.log("+ add habit clicked");
-     console.log('target: ', event.currentTarget);
+  
    };
    const handleClose = () => {
      setAnchorEl(null);
@@ -99,12 +98,12 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
                     cursor.continue(); // Move to the next object
                     } else {
                     // No more entries
-                    console.log('Iteration complete');
+                
                     }
                 };
                 
                 cursorRequest.onerror = function(e) {
-                    console.error('Cursor request failed', e.target.error);
+                 
                 };
             }
         );
@@ -113,22 +112,22 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
 
         (data) => 
         {
-            console.log("obtained data:  ",data);
+           
             setTasks(data);
            
             for(let task of data) {
                 tasks_data[task.id] = task;
             }
             setTaskData(tasks_data);
-            console.log("tasks data", tasks_data);
+          
           
         }
     ).catch(
         (message) => {
             let obj={"date": today};
-            console.log(obj);
+       
             add_object("Tasks", obj).then((msg)=> {
-                console.log("new object added for today's current date", msg);
+            
             });
         } 
     )
@@ -143,18 +142,16 @@ function flush_form(data) {
 }
    function onSubmit(data) {
     setAnchorEl(null);
-    console.log("task to add: ", data);
+   
     let obj={};
     if(!data.title || !data.date) {
-        console.log(!data.title);
-        console.log(!data.date);
-        console.log("data: ",data);
+
       
         
         return;
     }
 
-    console.log("day: ", data.date.date());
+
     obj["title"] = data.title;
     obj["description"] = data.description;
    
@@ -174,7 +171,7 @@ function flush_form(data) {
     
     obj["status"] = false;
     if(data.time) {
-        console.log(data.time);
+
     obj["time"] = convertTo12HourFormat(data.time.hour(), date.time.minute());
     obj['hour']=data.time.hour();
     obj['minute'] = data.time.minute();
@@ -189,7 +186,7 @@ function flush_form(data) {
     }
 
    add_object("Tasks", obj).then(
-    (msg)=> {console.log(msg); 
+    (msg)=> {
         
         updateTasks();
     }
@@ -205,13 +202,13 @@ function handleDelete(id) {
 }
 
 function update_task(data, id) {
-   console.log("inside update task: ", data);
+
     
 
     
 
    update_object("Tasks", data).then(
-    (msg)=> {console.log(msg); 
+    (msg)=> {
         updateTasks();
     }
    );
@@ -266,9 +263,9 @@ function update_task(data, id) {
                     </div>
 
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '100%', margin: 0}}>
-                   <DatePicker onChange={(newValue)=>{setValue("date", newValue); let _date = {...date};_date["date"]=newValue; setDate(_date); console.log("dateChange: ", _date);}} />
+                   <DatePicker onChange={(newValue)=>{setValue("date", newValue); let _date = {...date};_date["date"]=newValue; setDate(_date);}} />
                    
-                    <TimePicker onChange={(newValue)=> {setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); console.log("timeChange: ", _date);}} />
+                    <TimePicker onChange={(newValue)=> {setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); }} />
                   <img style={{transform: 'scale(1.0)'}} onClick={handleSubmit(onSubmit)}src='submit.png' alt="submit"/>
                     </div>
                 <br/>
@@ -335,7 +332,7 @@ function update_task(data, id) {
                     </div>
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '100%', margin: 0}}>
                    <DatePicker onChange={(newValue)=>{
-                    console.log("new value: ", newValue);
+                   
                    tasks_data[task.id]["day"] = newValue.date();
                     tasks_data[task.id]["month"] = newValue.get('month');
                     tasks_data[task.id]["year"] = newValue.get('year');
@@ -344,7 +341,7 @@ function update_task(data, id) {
                    }} />
                    
                     <TimePicker onChange={(newValue)=> {
-                        console.log(newValue);
+                     
                         tasks_data[task.id]["time"] = convertTo12HourFormat(newValue.get('hour'), newValue.get('minute'))
                       
                       }} />

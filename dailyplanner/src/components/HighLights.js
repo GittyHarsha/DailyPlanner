@@ -13,7 +13,7 @@ import _ from 'lodash';
 export default function HighLights({style, date}) {
     let today = dayjs().format('DD-MM-YYYY');
   
-    console.log("highlights: date obtained: ", date);
+  
     const {register, handleSubmit, control, setValue, getValues, getValue, formState: {dirty}} = useForm();
 
     let [disable, setDisable] = useState(false);
@@ -24,7 +24,7 @@ export default function HighLights({style, date}) {
         target = target.startOf('day');
         if(curr.isBefore(target) && !disable) {
             setDisable(true);
-            alert("disabled set to true");
+          
         }
         
     }
@@ -45,7 +45,7 @@ export default function HighLights({style, date}) {
     
             (data) => 
             {
-                console.log("obtained data; ",data);
+              
                 
                 for(let timestamp of timestamps) {
                     if(!data[timestamp]) {
@@ -55,12 +55,12 @@ export default function HighLights({style, date}) {
                 setHighlights(data);
              
                 for(let order in data ) {
-                    console.log("order: ", order);
+                
                     if(order!='date') {
                     setValue(order ,data[order]);
                    
                     }
-                   console.log("highlights: ", highlights);
+                   
                 }
         }
         ).catch(
@@ -69,13 +69,13 @@ export default function HighLights({style, date}) {
              
                 add_object("Highlights", obj).then((msg)=> {
                    
-                }).catch((msg)=> {console.log(msg)});
+                }).catch((msg)=> {});
             } 
         )
     }, []);
     function onSubmit(data) {
 
-        console.log("form values: ", data);
+
         update_object('Highlights', {...data, "date": today, "dayjs":dayjs()}).then(
             (msg)=> {}
         );
@@ -84,7 +84,7 @@ export default function HighLights({style, date}) {
         
      
             let data = getValues();
-            console.log("debounce dude");
+            
             update_object('Highlights', {...data, "date": today, "dayjs": dayjs()}).then(
                 (msg)=> {}
             );
@@ -95,7 +95,7 @@ export default function HighLights({style, date}) {
  return (
     <ThemeProvider theme={theme}>
        
-    <Container sx={{display: 'flex', flexDirection: 'column', width: '10.13355997624703rem',   overflowX: 'hidden', margin:0, transform: 'scale(1.0)', overflowY:'hidden',
+    <Container sx={{display: 'flex', flexDirection: 'column', margin:0, transform: 'scale(1.0)', overflow:'hidden', px:1,
         ...(style? style:null),
     }}>
         <div>
@@ -104,8 +104,8 @@ export default function HighLights({style, date}) {
           </Typography>
         </div>
            
-            <div>
-            <div style={{overflowY: 'scroll', height: '68%', zIndex:10}}>
+            <div style={{height:'100%', width:'100%'}}>
+            <div style={{overflowY: 'scroll', height: '75%', zIndex:10}}>
             
             {
                 timestamps.map(
@@ -113,7 +113,7 @@ export default function HighLights({style, date}) {
                        
                
                 <div style={{display: 'flex', justifyContent: 'space-between', width: '95%'}}>
-                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  disabled={disable} defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value); console.log("timetamps"); debouncedSubmit()}} sx={{width: '30vw', left: '0.5rem', right: '0px'}} variant='standard'/>
+                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  disabled={disable} defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value);  debouncedSubmit()}} sx={{width: '30vw', left: '0.5rem', right: '0px'}} variant='standard'/>
                    </div>
                 
             
@@ -123,12 +123,12 @@ export default function HighLights({style, date}) {
                 )
             }
             </div>
-            <div style={{ marginLeft: 0, borderRadius: 0, boxshadow: '0', transform: 'scale(1.0)', position:'fixed', bottom: '0.2rem', width: `${w(234)}`}}>
-                <Typography variant='h6' sx={{my: 1}}>
+            <div style={{ marginLeft: 0, borderRadius: 0, boxshadow: '0', transform: 'scale(1.0)',  bottom: '0.5rem', width: `${w(234)}`, position:'fixed'}}>
+                <Typography variant='h5' sx={{my:1}}>
                     Highlight of Today
                 </Typography>
-                <Paper sx={{width: `${w(230)}`}}>
-                    <TextField disabled={disable} defaultValue={highlights['hightlight_of_the_day']} InputProps={{ disableUnderline: true,}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); console.log("hello there");debouncedSubmit()}}sx={{width: `${w(230)}`, left: '5px'}} multiline variant='standard'/>
+                <Paper sx={{width: `${w(230)}`, minHeight: `${h(36)}`, display:'flex', alignItems:'center', maxHeight:`${h(50)}`}}>
+                    <TextField disabled={disable} defaultValue={highlights['hightlight_of_the_day']} InputProps={{ disableUnderline: true,}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); debouncedSubmit()}}sx={{width: `${w(230)}`, left: '5px',fontSize:'1.5rem', minHeight:'100%', maxHeight:`${h(50)}`, overflowY:'scroll'}} multiline variant='standard'/>
                 </Paper>
             </div>
             </div>

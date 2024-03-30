@@ -36,7 +36,7 @@ check_disable(date, dayjs());
   let open = Boolean(anchorEl);
   const handleClick = (event) => {
     if(disable) return;
-    alert("what "+disable);
+   
     setAnchorEl(event.currentTarget);
     console.log("+ add habit clicked");
     console.log('target: ', event.currentTarget);  
@@ -161,7 +161,7 @@ check_disable(date, dayjs());
           
           InputProps={{
             
-            style: {width: '10rem'},
+            style: {width: `${w(110)}`},
             endAdornment: (
               
               <InputAdornment position="end">
