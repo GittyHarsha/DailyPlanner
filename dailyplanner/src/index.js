@@ -17,23 +17,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-/*
-let today = dayjs().format('DD-MM-YYYY');
- getAllIndex("ApiCache", "DateTypeIndex",[today, 'quote']).then(
-                    (res)=> {
-                         
-                           setQuote(res.content.quote);
-                           alert("quote set");
-                         
-                    }
-                  )
 
-getAllIndex("ApiCache", "DateTypeIndex", [today, 'quote']).then(
-  (e)=> {
-    alert("found indexes", e);
-  }
-
-).catch(err=> alert("couldnt find index"))*/
 root.render(
   <App/>
    

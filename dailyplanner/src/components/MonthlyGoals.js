@@ -198,7 +198,7 @@ check_disable(date, dayjs());
                         </Paper>
                         )
                     })
-                    ):( <p>No goals found.</p>)
+                    ):( <p></p>)
                 }
             </div>
                 
