@@ -131,11 +131,7 @@ function HabitTracker({style, date}) {
     <ThemeProvider theme = {theme} style={{padding: 0}}>
    
     <TableContainer style={{  overflowX: 'hidden', pt: 0,
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-    '-ms-overflow-style': 'none', // For Internet Explorer and Edge
-    scrollbarWidth: 'none', // For Firefox
+   
     ...(style? style: null)}}>
     <Box sx={{pb: 1,justifyContent: 'space-between',  display: "flex", flexDirection:"row", borderRadius: '1.125rem'}} style={{paddingLeft: '0px', paddingRight: '0px'}}>
           <Typography variant='h5' sx={{fontFamily:'Itim'}}>Habit Tracker</Typography>

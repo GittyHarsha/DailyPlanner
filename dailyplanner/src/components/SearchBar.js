@@ -14,28 +14,32 @@ function SearchBar({style}) {
 
   return (
     <TextField
-    style={{...(style? style: null)}}
+    style={{fontSize:'3rem'}}
     onChange={(e)=> {setQuery(e.target.value);}}
     onKeyDown={(e)=>{if(e.key==='Enter'){googleSearch(query)}}}
       InputProps={{
+        style:{fontSize: '1.5rem'},
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton>
-              <SearchIcon onClick={(e)=> {googleSearch(local_query)}}/>
+            <IconButton >
+              <SearchIcon sx={{height: '20rem'}} onClick={(e)=> {googleSearch(local_query)}}/>
               
             </IconButton>
-            <img src="google.png" style={{height: '1.5rem', width: '1.5rem', borderRadius: '0.625rem'}}/>
+            <img src="google.png" style={{height: '2rem', width: '2rem', borderRadius: '0.625rem'}}/>
           </InputAdornment>
         ),
         disableUnderline: true,
       }}
       sx={{
+        
+        font: '2rem',
+        justifyContent:'center',
         paddingLeft: '5px',
         borderRadius: '1.125rem',
-        width: 'auto', // replace 'widthYouWant' with the width you want
-        height: '100%', // replace 'heightYouWant' with the height you want
+        width: 'auto', 
+        height: '100%', 
         backgroundColor: 'white',
-      
+        ...(style? style: null),
         color: 'black',
         '& .MuiOutlinedInput-root': {
           '& fieldset': {

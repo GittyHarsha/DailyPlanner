@@ -115,7 +115,7 @@ export default function HighLights({style, date}) {
         ...(style? style:null),
     }}>
         <div>
-        <Typography align="center" sx={{fontFamily: 'Itim',m:0,}} variant='h4'>How was the day?
+        <Typography align="center" sx={{fontFamily: 'Arial',m:0,}} variant='h4'>How was the day?
           
           </Typography>
         </div>
@@ -152,7 +152,7 @@ export default function HighLights({style, date}) {
                     Highlight of Today
                 </Typography>
                 <Paper sx={{width: `${w(230)}`, minHeight: `${h(36)}`, display:'flex', alignItems:'center', maxHeight:`${h(36)}`}}>
-                    <TextField disabled={disable} defaultValue={highlights['hightlight_of_the_day']} InputProps={{ disableUnderline: true,}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); debouncedSubmit()}}sx={{width: `${w(230)}`, left: '5px',fontSize:'1.5rem', minHeight:'100%', maxHeight:`${h(50)}`, overflowY:'scroll'}} multiline variant='standard'/>
+                    <TextField disabled={disable} defaultValue={highlights['hightlight_of_the_day']} InputProps={{ disableUnderline: true, style: {fontSize: '1.25rem'}}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); debouncedSubmit()}}sx={{width: `${w(230)}`, left: '5px',fontSize:'1.5rem', minHeight:'100%', maxHeight:`${h(50)}`, overflowY:'scroll'}} multiline variant='standard'/>
                 </Paper>
             </div>
             </div>

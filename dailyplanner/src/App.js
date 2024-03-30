@@ -54,6 +54,7 @@ function App(props) {
       if(bgItem==null){
           axios.get("https://peapix.com/bing/feed").then(
           (res) => { 
+            alert("called!");
             let  bgImage= res.data[0].imageUrl;
                 bgImage = bgImage.toString();
            
@@ -131,8 +132,8 @@ function App(props) {
     marginLeft: `${w(23)}`,height:`${h(545)}`}}>
       <FlexDiv style={{flexDirection: 'column', height: '100%', width: `${w(524)}`, alignItems:'space-between'}}>
         <Quote style={{width: '97%', borderRadius: '0.625rem', height: '4.3795536764705885rem'}}/>
-        <MonthlyGoals date={date} style={{height: `${h(120)}`}}/>
-        <HabitTracker date={date} style={{width: '97%', height: `${h(121)}`}}/>
+        <MonthlyGoals date={date} style={{width: '100%',height: `${h(120)}`}}/>
+        <HabitTracker date={date} style={{width: '97.5%', height: `${h(121)}`}}/>
         <FlexDiv style={{height: `${h(210)}`, marginTop: '0.7rem'}}>
         <Priority style={{width: `${w(247)}`, height: '100%'}}/>
         <Tasks style={{width: `${w(247)}`, height: '100%'}}/>
