@@ -117,7 +117,7 @@ export default function Priority({style}) {
     );
     console.log("new list after dragging: ", newList);
       
-    update_object("Priority",{date: today, list: newList}).then((msg)=> {}).catch((err)=> {alert(err)});
+    update_object("Priority",{date: today, list: newList}).then((msg)=> {}).catch((err)=> {});
   }
 
   function deletePriority(id) {
@@ -139,7 +139,7 @@ export default function Priority({style}) {
   }
 
   return (
-<Container style={{paddingLeft: '1vw', paddingRight: '1vw', paddingTop: 10, overflowX: 'hidden',
+<Container style={{paddingLeft: '0.7vw', paddingRight: '0.7vw', paddingTop: 10, overflowX: 'hidden',
 ...(style? style: null)
 }}>
   

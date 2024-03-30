@@ -24,7 +24,7 @@ const Quote = function({style}) {
       if(quoteItem) {
         if(quoteItem.date!=today) {
           quoteItem=null;
-         alert("what!");
+       
         }
       }
       if(!quoteItem){
