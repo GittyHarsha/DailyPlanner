@@ -1,7 +1,7 @@
 import React from 'react';
 import FlexDiv from './FlexDiv.js'
 import {useState, setState, useEffect} from 'react';
-import { Button, Checkbox, Grid, Typography, Box, Paper} from '@mui/material';
+import { Button, Checkbox, Grid, Typography, Box, Paper, Tooltip} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Done from '@mui/icons-material/Done'
 
@@ -24,8 +24,9 @@ export default function Tasks({style}) {
    let [tasksData, setTaskData] = useState({});
    let [date, setDate] = useState({"date": null, "time: ": null});
    let tasks_data={};
+   let time_set = false;
    let [detach, setDetach] = useState(false);
-   
+   let today = dayjs().format('DD-MM-YYYY');
    const {register, handleSubmit, control, setValue, getValues} = useForm();
    const [anchorEl, setAnchorEl] = useState(null);
    let open = Boolean(anchorEl);
@@ -70,8 +71,8 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
 
   
    function updateTasks() {
-    let today = new Date();
-        today = today.toDateString();
+    
+    
         connectToIndexedDB().then(
             (db)=> {
                 let transaction = db.transaction("Tasks", "readwrite");
@@ -170,16 +171,17 @@ function flush_form(data) {
     }
     
     obj["status"] = false;
-    if(data.time) {
+    if(time_set) {
 
     obj["time"] = convertTo12HourFormat(data.time.hour(), date.time.minute());
     obj['hour']=data.time.hour();
     obj['minute'] = data.time.minute();
+    time_set = false;
     
     }
     else{
 
-        obj["time"] = convertTo12HourFormat(23, 59);
+        obj["time"] = null;
        
         
     
@@ -243,7 +245,7 @@ function update_task(data, id) {
           >
             <MenuItem disableRipple>
             <form  onSubmit = {handleSubmit(onSubmit)} style={{width: '20vw', height: '28vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-between', 
-            backgroundColor: '#F0ECEC50'
+          
         }}>
                     <div>
                     <TextField 
@@ -265,7 +267,7 @@ function update_task(data, id) {
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '100%', margin: 0}}>
                    <DatePicker onChange={(newValue)=>{setValue("date", newValue); let _date = {...date};_date["date"]=newValue; setDate(_date);}} />
                    
-                    <TimePicker onChange={(newValue)=> {setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); }} />
+                    <TimePicker onChange={(newValue)=> { time_set=true; setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); }} />
                   <img style={{transform: 'scale(1.0)'}} onClick={handleSubmit(onSubmit)}src='submit.png' alt="submit"/>
                     </div>
                 <br/>
@@ -297,15 +299,27 @@ function update_task(data, id) {
                     <PopUpMenu detach={{detach: detach, callback: ()=> {setDetach(false);}}}>
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
-                           <FlexDiv style={{flexDirection: 'column', backgroundColor: '#D9D9D9', width: `${46}`, height: `${h(31)}`,borderRadius: '0.625rem', marginTop:'0.25rem',}}> 
+                           <FlexDiv style={{flexDirection: 'column', backgroundColor: '#D9D9D9', width: `${40}`,borderRadius: '0.625rem',marginLeft: '0.15rem', padding:'0'}}> 
                            <span style={{fontWeight: 'bold',}}>{task.day} {months[task.month]}</span>
                     
                             {
                                 (task.time)?(<span >{task.time}</span>): (null)
                             }
                             </FlexDiv>
+                            <Tooltip 
+                                    PopperProps={{
+                                    sx: {
+                                        "& .MuiTooltip-tooltip": {
+                                        color: "black",
+                                        backgroundColor: "white"
+                                        }
+                                    }
+                                    }}
+                                    title={<div><div>Title: {task.title}</div><div>Description: {task.description}</div></div>}> 
+                                     <Typography noWrap sx={{ overflow: 'hidden',paddingLeft: '0.5rem',overflowX: 'hidden', width: `${w(180)}`, height: `${h(36)}`, }}><div style={{fontWeight:'bold',textAlign:'left'}}>{task.title}</div><Divider /> <div style={{textAlign:'left'}}>{task.description}</div></Typography>
+                                    </Tooltip>
                     
-                        <Typography sx={{paddingLeft: '0.2rem',overflowX: 'hidden', width: `${w(190)}`, height: `${h(36)}`, }}><div style={{fontWeight:'bold',textAlign:'left'}}>{task.title}</div><Divider /> <div style={{textAlign:'left'}}>{task.description}</div></Typography>
+                       
                        
                     </Box>
                     <form 

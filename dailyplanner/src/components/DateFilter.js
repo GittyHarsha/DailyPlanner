@@ -25,7 +25,7 @@ export default function DateFilter({date, setDate}) {
                 open={open}
                 resetOpen={resetOpen}
                 setDate={setDate}
-                style={{ position:'absolute',top:'6rem', right: '15rem',zIndex: 100, backgroundColor:'white', }}
+                style={{ position:'absolute',top:'6rem', right: '15rem',zIndex: 100, backgroundColor:'white',  }}
                 />
               
                 <Typography sx={{fontWeight: 'bold', fontFamily:'Itim', fontSize: '1.5rem',}}>
