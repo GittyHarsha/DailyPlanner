@@ -27,9 +27,9 @@ code {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #fffcfc;
+  background: #827b7b;
   border-radius: 5px; /* Rounded corners */
-  box-shadow: inset 0 0 5px rgb(239, 237, 237); /* Subtle shadow for depth */
+  box-shadow: inset 0 0 5px rgb(167, 159, 159); /* Subtle shadow for depth */
 }
 
 /* Handle on hover */
