@@ -282,7 +282,7 @@ function resetAlert() {
           onClose={handleClose}
           sx={{backgroundColor: 'F0ECEC50'}}
           >
-            <MenuItem disableRipple>
+            <MenuItem style={{height:'auto'}} disableRipple>
             <form  onSubmit = {handleSubmit(onSubmit)} style={{width: '20vw', height: '28vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-between', 
           
         }}>
@@ -368,10 +368,10 @@ function resetAlert() {
                        
                     </Box>
                     <form 
-                    style={{width: '20vw', height: '25vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-between', 
+                    style={{width: '20vw', height: '50vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-between', 
                     backgroundColor: '#F0ECEC50'}}
                     >
-                    <div>
+                    <div style={{height: '100%', width: '100%'}}>
                     <TextField 
                     onChange={(e)=> {tasks_data[task.id]["title"] = e.target.value;}}
                     defaultValue = {task.title}

@@ -157,7 +157,7 @@ export default function Priority({style, id}) {
           onClose={handleClose}
           style={{display: anchorEl? 'block':'none'}}
           >
-          <MenuItem>
+          <MenuItem style={{height:'auto'}}>
        
        
          
