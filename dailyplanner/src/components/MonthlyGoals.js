@@ -1,7 +1,7 @@
 import {w, h} from '../services/dimensions.js'
 import React from 'react';
 import {useState, useEffect} from 'react';
-import { Button, Checkbox, Typography, Paper, Menu, MenuItem, InputAdornment, IconButton} from '@mui/material';
+import { Button, Checkbox, Typography, Paper, Menu, MenuItem, InputAdornment, IconButton, TableContainer} from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import {theme} from './theme.js';
@@ -131,16 +131,16 @@ check_disable(date, dayjs());
    }
     return (
         <ThemeProvider theme={theme}>
-        <Container id={id}align="center" style={{paddingLeft: 7, paddingRight: 0}} sx={{my: 1, width: '100%', marginLeft: 0,
-        ...(style? style: null)
+        <TableContainer id={id}align="center" style={{paddingLeft: 7, paddingRight: 0,...(style?style:null)}} sx={{my: 1, mx:0,
+        
       }}>
   
             
            
             <FormControl sx={{width: '100%'}}>
                 
-            <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
-              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5rem', paddingRight: '2rem', fontSize:'1.5rem', fontFamily:'Arial'}}> Monthly Goals
+            <Typography variant='h5'  sx={{mx:0,display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
+              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5rem', paddingRight: '0.8rem', fontSize:'1.5rem', fontFamily:'Arial'}}> Monthly Goals
                 <Button disabled={disable} disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Goal</Button></div>
                
           <Menu aria-controls={open ? 'basic-menu' : undefined}
@@ -203,7 +203,7 @@ check_disable(date, dayjs());
             </div>
                 
             </FormControl>
-        </Container>
+        </TableContainer>
         </ThemeProvider>
         
     )

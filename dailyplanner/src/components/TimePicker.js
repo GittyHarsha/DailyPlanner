@@ -12,10 +12,13 @@ export default function ResponsiveTimePickers({onChange, default_value, timeThre
     <LocalizationProvider dateAdapter={AdapterDayjs}>
   
           <DesktopTimePicker 
+         
           shouldDisableTime={(time, clockType) => {
             // Disable times before the current time
-
+            if(timeThresh==null) return false;
+          
             if(timeThresh.isAfter(dayjs()) && timeThresh.format('DD-MM-YYYY')!=dayjs().format('DD-MM-YYYY')) return false;
+            
             if (clockType === 'hours' && time.isBefore(today, 'hour')) {
               return true;
             }
