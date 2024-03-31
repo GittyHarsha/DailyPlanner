@@ -27,7 +27,7 @@ export const Task = ({id, title, handleCheck, isChecked}) => {
         marginLeft: '0px',
         marginTop: '5px',
         zIndex: 1,
-        width : `${w(210)}`,
+        width : '100%',
         height: `${h(36)}`,
         paddingLeft: '10px',
         display:'flex',
@@ -39,6 +39,7 @@ export const Task = ({id, title, handleCheck, isChecked}) => {
     };
     return (
         <div  
+        style={{width:'96%',}}
        >
        
         <Paper
@@ -71,7 +72,7 @@ export const Task = ({id, title, handleCheck, isChecked}) => {
                                     <div 
                                     onMouseEnter={handleTooltipOpen}
                                     onMouseLeave={handleTooltipClose}
-                                            style={{ width: `${w(200)}`, textAlign:'left', overflow:'clip' }
+                                            style={{ width: '100%', textAlign:'left', overflow:'clip' }
                                             
                                             } {...listeners}>
                                             {title}

@@ -141,7 +141,7 @@ check_disable(date, dayjs());
                 
             <Typography variant='h5'  sx={{mx:0,display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
               <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5vw', paddingRight: '0.8vw', fontSize:'1.25rem', fontFamily:'Arial'}}> Monthly Goals
-                <Button disabled={disable} disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: '7vw', }}>+Add Goal</Button></div>
+                <Button disabled={disable} disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: 'auto', }}>+Add Goal</Button></div>
                
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"

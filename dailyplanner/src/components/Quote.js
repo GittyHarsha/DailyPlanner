@@ -75,14 +75,19 @@ const Quote = function({style}) {
           }}
         >
           <Typography
+           
             variant="body1"
             sx={{
               fontSize: '20px',
               fontStyle: 'italic',
               fontWeight: 'bold',
+              height:'40%',
+              width:'100%',
+              justifyContent:'center',
+              display:'flex',
             }}
           >
-            "{quote["quote"]}"
+            "{quote['quote']}"
           </Typography>
           <Typography
           sx={{

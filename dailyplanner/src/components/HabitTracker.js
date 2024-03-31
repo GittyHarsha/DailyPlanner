@@ -134,7 +134,7 @@ function HabitTracker({style, date, id}) {
     ...(style? style: null)}}>
     <Box sx={{pb: 1,justifyContent: 'space-between',  display: "flex", flexDirection:"row", borderRadius: '1.125rem'}} style={{paddingLeft: '0px', paddingRight: '0px'}}>
           <Typography variant='componentHeading'>Habit Tracker</Typography>
-          <Button disabled={disable} onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1', width: '7vw', height: '3vh'}}>+Add Habit</Button>
+          <Button disabled={disable} onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1', width: 'auto', height: `${h(20)}`}}>+Add Habit</Button>
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           anchorEl={anchorEl}
@@ -179,7 +179,7 @@ function HabitTracker({style, date, id}) {
           {
             dates.map(
               (date)=> (
-                <TableCell sx={{border: 'none', justifyContent:'center', width: '4vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num ===curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
+                <TableCell sx={{border: 'none', justifyContent:'center', width: '3vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num ===curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
               )
             )
           }
