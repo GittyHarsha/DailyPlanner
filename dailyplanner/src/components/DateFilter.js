@@ -20,7 +20,7 @@ export default function DateFilter({date, setDate, id}) {
         <FlexDiv id={id} onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)} 
         onClick={(e)=> {setOpen(true)}}
-        style={{cursor:hover?'pointer': 'default',width: `${w(247)}`, height: `${h(31)}`, backgroundColor: 'white', borderRadius: '1.125rem', justifyContent:'center', marginBottom: '0.4rem',
+        style={{cursor:hover?'pointer': 'default',width: `${w(247)}`, height: `${h(31)}`, backgroundColor: 'white', borderRadius: '1.125rem', justifyContent:'center', marginBottom: '1vh',
                
         }}>
             <StaticDatePicker

@@ -140,8 +140,8 @@ check_disable(date, dayjs());
             <FormControl sx={{width: '100%'}}>
                 
             <Typography variant='h5'  sx={{mx:0,display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
-              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5rem', paddingRight: '0.8rem', fontSize:'1.5rem', fontFamily:'Arial'}}> Monthly Goals
-                <Button disabled={disable} disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Goal</Button></div>
+              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5vw', paddingRight: '0.8vw', fontSize:'1.25rem', fontFamily:'Arial'}}> Monthly Goals
+                <Button disabled={disable} disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: '7vw', }}>+Add Goal</Button></div>
                
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
@@ -154,11 +154,9 @@ check_disable(date, dayjs());
           >
           <MenuItem>
        
-       
-         
-          <br/>
+      
           <TextField 
-       
+        
           InputProps={{
             
             style: {width: `${w(110)}`},

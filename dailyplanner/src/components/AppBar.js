@@ -25,16 +25,16 @@ function Header({name}) {
   }
   console.log("Inside Header Name: ", name)
   return (
-    <FlexDiv style={{marginLeft: `${w(23)}`, marginRight: `${w(13)}`, height: `${h(60)}`}}>
+    <FlexDiv style={{marginLeft: `${w(23)}`, marginRight: `${w(13)}`, height: `${h(40)}`}}>
       
-        <FlexDiv  style={{color:'black',fontFamily: 'Inter',fontSize: '1.8rem',fontWeight: 'bold', width: '45rem', height: '3.5rem',}}>
+        <FlexDiv  style={{color:'black',fontFamily: 'Inter',fontSize: '1.8rem',fontWeight: 'bold', width: '50vw', height: '7vh'}}>
         
         { (name)?(<FlexDiv style={{height: '100%'}}>{Greeting()} {name} :)</FlexDiv> ):(<></>)}
           
         </FlexDiv>
        
 
-     <FlexDiv style={{height: '100%', width: '60%', marginRight:'0px'}}><SearchBar style={{width: '90%', height: '50%'}}/>
+     <FlexDiv style={{height: '100%', width: '60%', marginRight:'0px'}}><SearchBar style={{width: '90%', height: '60%'}}/>
    
      <FlexDiv style={{display:'inline-block', textAlign:'center',width:'40%', height:'80%',}}>
      <img src="dailyplanner.png" alt='daily planner' style={{width: '50%', height: '100%', borderRadius: '0.625rem'}}/>

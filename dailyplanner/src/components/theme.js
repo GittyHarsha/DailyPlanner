@@ -12,7 +12,7 @@ export const theme = createTheme({
     },
     typography: {
       componentHeading: {
-        fontSize: '1.5rem',
+        fontSize: '1.25rem',
         fontFamily: 'Arial',
       }
     },
@@ -99,7 +99,22 @@ export const theme = createTheme({
       },
     },
     MuiButtonBase: {
-      
+      styleOverrides: {
+        // Name of the slot
+        root: {
+          // Some CSS
+          fontSize: '0.5rem',
+          margin: '0',
+          height:'3vh',
+          transform: "auto",
+          '&.Mui-checked': {
+            color: 'black'
+          },
+          border: 'none',
+
+          
+        }
+    },
         defaultProps: {
           disableRipple: true, 
         },

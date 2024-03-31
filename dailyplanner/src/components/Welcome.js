@@ -62,8 +62,8 @@ export default function Welcome({onSubmit}) {
     />
 
         </div>
-        <Typography style={{width: '90%', height: '20%', marginTop: '1rem', display:'flex', alignItems:'center',justifyContent:'right', marginRight: '10rem'}}>
-          <Typography sx={{fontSize:'0.75rem', fontWeight:'bold'}}>Powered By</Typography>  <img src="goalsaathi.png" alt='goal saathi logo' style={{width: '6rem', height: '2.5rem', borderRadius: '0.625rem'}}/>
+        <Typography style={{width: '90%', height: '20%', marginTop: '1vh', display:'flex', alignItems:'center',justifyContent:'right', marginRight: '10vw'}}>
+          <Typography sx={{fontSize:'0.75rem', fontWeight:'bold'}}>Powered By</Typography>  <img src="goalsaathi.png" alt='goal saathi logo' style={{width: '6vw', height: '5vh', borderRadius: '0.625rem'}}/>
            
         </Typography>
    </div>

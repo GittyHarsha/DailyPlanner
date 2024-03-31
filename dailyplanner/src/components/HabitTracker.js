@@ -129,12 +129,12 @@ function HabitTracker({style, date, id}) {
   return (
     <ThemeProvider theme = {theme} style={{padding: 0}}>
    
-    <TableContainer id={id} style={{  overflowX: 'hidden', pt: 0,
+    <TableContainer id={id} style={{  overflowX: 'scroll', pt: 0,
    
     ...(style? style: null)}}>
     <Box sx={{pb: 1,justifyContent: 'space-between',  display: "flex", flexDirection:"row", borderRadius: '1.125rem'}} style={{paddingLeft: '0px', paddingRight: '0px'}}>
           <Typography variant='componentHeading'>Habit Tracker</Typography>
-          <Button disabled={disable} onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Habit</Button>
+          <Button disabled={disable} onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1', width: '7vw', height: '3vh'}}>+Add Habit</Button>
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
           anchorEl={anchorEl}
@@ -191,7 +191,7 @@ function HabitTracker({style, date, id}) {
           
           habits.map(
             (habit) => (
-              <TableRow sx={{backgroundColor: 'transparent', overflow: 'scroll', height: '1rem',}}>
+              <TableRow sx={{backgroundColor: 'transparent', overflow: 'scroll', height: '1vh',}}>
                 <TableCell> 
                   <Tooltip 
                  PopperProps={{
