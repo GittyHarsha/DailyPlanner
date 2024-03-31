@@ -1,7 +1,7 @@
 import {w, h} from '../services/dimensions.js'
 import React from 'react';
 import {useState, useEffect} from 'react';
-import { Button, Checkbox, Grid, Typography, Box, Paper, Menu, MenuItem, InputAdornment, IconButton} from '@mui/material';
+import { Button, Checkbox, Typography, Paper, Menu, MenuItem, InputAdornment, IconButton} from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import {theme} from './theme.js';
@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {Container, FormControl, TextField} from '@mui/material';
 
 import {add_object, delete_object, getAllObjects, connectToIndexedDB, getAllIndex} from '../database/backend.js';
-export default function MonthyGoals({style, date}) {
+export default function MonthyGoals({style, date, id}) {
    let [goals, setGoals] = useState([]);
    let [goal, setGoal] = useState(null);
    let [disable, setDisable] = useState(false);
@@ -131,7 +131,7 @@ check_disable(date, dayjs());
    }
     return (
         <ThemeProvider theme={theme}>
-        <Container align="center" style={{paddingLeft: 10, paddingRight: 10}} sx={{my: 1, width: '100%', marginLeft: 0,
+        <Container id={id}align="center" style={{paddingLeft: 7, paddingRight: 0}} sx={{my: 1, width: '100%', marginLeft: 0,
         ...(style? style: null)
       }}>
   
@@ -166,7 +166,7 @@ check_disable(date, dayjs());
               
               <InputAdornment position="end">
                 <IconButton>
-                <img src='submit.png' style={{':hover': {cursor: 'pointer'}}} onClick={addGoal}/>
+                <img src='submit.png' alt='submit.png' style={{':hover': {cursor: 'pointer'}}} onClick={addGoal}/>
                   
                 </IconButton>
               </InputAdornment>
@@ -174,7 +174,7 @@ check_disable(date, dayjs());
             disableUnderline: true,
           }}
           
-          label="`Enter Goal" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == goal){setAnchorEl(null); addGoal();}else{ console.log("goal value: ", goal);setGoal(e.target.value)}}}/>
+          label="`Enter Goal" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') === goal){setAnchorEl(null); addGoal();}else{ console.log("goal value: ", goal);setGoal(e.target.value)}}}/>
         
           </MenuItem>
           </Menu>
@@ -185,7 +185,7 @@ check_disable(date, dayjs());
                     goals.map((goal)=> {
                         return (
                     
-                        <Paper id={goal.id} align="left" elevation='2' sx={{my: 0.5, height:`${h(24)}` ,width: '100%', display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
+                        <Paper id={goal.id} align="left" elevation='2' sx={{my: 0.5, height:`${h(24)}` ,width: '98%', display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
                        
                         <div style={{display: 'inline-block', flexDirection:"row", justifyContent: 'space-between'}}>
                         <Checkbox visibility={disable?'hidden':'visible'}checked={goal.checked} onClick={handleCheck} customAttribute={goal.id}/>

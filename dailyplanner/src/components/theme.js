@@ -1,6 +1,6 @@
 
-import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
-import {shadows} from '@mui/system';
+import { createTheme, alpha } from '@mui/material/styles';
+
 
 const bgcolor=alpha('#ffffff', 0.5);
 
@@ -11,7 +11,10 @@ export const theme = createTheme({
       }
     },
     typography: {
-      fontFamily: 'Times New Roman',
+      componentHeading: {
+        fontSize: '1.5rem',
+        fontFamily: 'Arial',
+      }
     },
     
     components: {
@@ -45,7 +48,7 @@ export const theme = createTheme({
           
             marginLeft: '0',
             backgroundColor: bgcolor,
-          
+            overflowX: 'hidden',
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
             borderRadius: '1.25rem',
           }
@@ -115,7 +118,7 @@ export const theme = createTheme({
              borderRadius: '1.25rem', 
              color: 'black',
               boxShadow: '1',
-              backgroundColor: 'white',
+            
              
              
           }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import {useState, setState} from 'react';
+import {useState} from 'react';
 
 function SearchBar({style}) {
   let [query, setQuery] = useState('');
@@ -25,7 +25,7 @@ function SearchBar({style}) {
               <SearchIcon sx={{height: '20rem'}} onClick={(e)=> {googleSearch(local_query)}}/>
               
             </IconButton>
-            <img src="google.png" style={{height: '2rem', width: '2rem', borderRadius: '0.625rem'}}/>
+            <img src="google.png" alt='google' style={{height: '2rem', width: '2rem', borderRadius: '0.625rem'}}/>
           </InputAdornment>
         ),
         disableUnderline: true,

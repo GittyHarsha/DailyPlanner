@@ -1,5 +1,5 @@
-import {useState, setState, useEffect} from 'react';
-import {Menu, MenuItem, Button} from '@mui/material'
+import {useState, useEffect} from 'react';
+import {Menu, MenuItem} from '@mui/material'
 import {Children} from 'react';
 
 export default function PopUpMenu({detach, children}) {

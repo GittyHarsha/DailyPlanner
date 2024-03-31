@@ -1,6 +1,6 @@
-import {useState, setState} from 'react';
+import {useState,} from 'react';
 import { Typography,TextField, InputAdornment, IconButton } from '@mui/material';
-
+import FlexDiv from './FlexDiv';
 export default function Welcome({onSubmit}) {
     let [name, setName] = useState('');
     return (
@@ -15,23 +15,23 @@ export default function Welcome({onSubmit}) {
         height: '40%',
         borderRadius: '1.125rem',
      }}>
-   <Typography center sx={{display:'flex', justifyContent:'center', width: '100%'}}>Welcome To </Typography>
-    <div style={{display:'flex', justifyContent:'center', alignItems: 'center', height: '6rem', width: '100%', justifyContent: 'space-around',}}>
-        <div >
-        <img src="dailyplanner.png"/> 
-        <Typography sx={{display:'inline-block', px: 1}}>
+   <Typography center sx={{display:'flex', justifyContent:'center', width: '100%', fontWeight:'bold'}}>Welcome To </Typography>
+    <FlexDiv style={{display:'flex', justifyContent:'center', alignItems: 'center', height: '6rem', width: '100%'}}>
+        <FlexDiv style={{justifyContent:'center'}}>
+        <img src="app_logo.png" alt='app logo' style={{width: '40%', height: '40%'}}/> 
+        <Typography sx={{display:'inline-block', px: 1.5, fontWeight:'bold'}}>
             Daily <br/>
             Planner
         </Typography>
-        </div>
+        </FlexDiv>
         
     
        
         
-    </div>
+    </FlexDiv>
     <div style={{display:'flex', justifyContent:'center'}}>
     <TextField
-    onKeyDown={(e)=>{if(e.key=='Enter') {onSubmit(name)}}}
+    onKeyDown={(e)=>{if(e.key==='Enter') {onSubmit(name)}}}
     onChange={(e)=>{setName(e.target.value)}}
       variant="standard"
      helperText="Enter Your Name"
@@ -63,7 +63,7 @@ export default function Welcome({onSubmit}) {
 
         </div>
         <Typography style={{width: '90%', height: '20%', marginTop: '1rem', display:'flex', alignItems:'center',justifyContent:'right', marginRight: '10rem'}}>
-          <Typography sx={{fontSize:'0.75rem'}}>Powered By</Typography>  <img src="goalsaathi.png" style={{width: '5rem', height: '2rem', borderRadius: '0.625rem'}}/>
+          <Typography sx={{fontSize:'0.75rem', fontWeight:'bold'}}>Powered By</Typography>  <img src="goalsaathi.png" alt='goal saathi logo' style={{width: '6rem', height: '2.5rem', borderRadius: '0.625rem'}}/>
            
         </Typography>
    </div>

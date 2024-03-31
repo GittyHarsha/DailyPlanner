@@ -1,9 +1,9 @@
 import React from 'react';
 import FlexDiv from './FlexDiv.js'
-import {useState, setState, useEffect} from 'react';
-import { Button, Checkbox, Grid, Typography, Box, Paper, Tooltip} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Done from '@mui/icons-material/Done'
+import {useState, useEffect} from 'react';
+import { Button, Checkbox, Typography, Box, Paper, Tooltip} from '@mui/material';
+import {ThemeProvider } from '@mui/material/styles';
+
 
 import {w, h} from '../services/dimensions.js';
 
@@ -13,12 +13,12 @@ import dayjs from 'dayjs';
 import DatePicker from "./DatePicker.js";
 import TimePicker from "./TimePicker.js";
 import {theme} from './theme.js';
-import {useForm, Controller, control} from 'react-hook-form';
-import {get_object, add_object, update_object, getAllObjects, delete_object, connectToIndexedDB} from '../database/backend.js';
-import {Container, FormControl, TextField, Input, InputLabel, Menu, MenuItem} from '@mui/material';
+import {useForm} from 'react-hook-form';
+import { add_object, update_object, getAllObjects, delete_object, connectToIndexedDB} from '../database/backend.js';
+import {Container, FormControl, TextField, Menu, MenuItem} from '@mui/material';
 import PopUpMenu from './PopupMenu.js';
 import DeleteIcon from '@mui/icons-material/Delete';
-export default function Tasks({style}) {
+export default function Tasks({style, id}) {
    let [tasks, setTasks] = useState([]);
    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
    let [tasksData, setTaskData] = useState({});
@@ -27,7 +27,7 @@ export default function Tasks({style}) {
    let time_set = false;
    let [detach, setDetach] = useState(false);
    let today = dayjs().format('DD-MM-YYYY');
-   const {register, handleSubmit, control, setValue, getValues} = useForm();
+   const {handleSubmit, setValue, getValues} = useForm();
    const [anchorEl, setAnchorEl] = useState(null);
    let open = Boolean(anchorEl);
    const handleClick = (event) => {
@@ -81,9 +81,9 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
   
                 cursorRequest.onsuccess = function(e) {
                     let cursor = e.target.result;
-                    let today = dayjs();
+                    
                     if (cursor) {
-                    if(cursor.value.status==true) {
+                    if(cursor.value.status===true) {
                         cursor.delete();
                     }
                 
@@ -135,7 +135,7 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
     
 }
 function flush_form(data) {
-    for(let [key, value] of Object.entries(data)) {
+    for(let [key] of Object.entries(data)) {
         data[key]=null;
         setValue(key, null);
     }
@@ -199,9 +199,6 @@ function flush_form(data) {
 }
 
 
-function handleDelete(id) {
-    delete_object("Tasks", id).then((msg)=>{ updateTasks();});
-}
 
 function update_task(data, id) {
 
@@ -229,7 +226,7 @@ function update_task(data, id) {
    
     return (
         <ThemeProvider theme={theme} >
-        <div style={{paddingLeft: '0', paddingRight: '0',
+        <div id={id} style={{paddingLeft: '0', paddingRight: '0',
             ...(style? style: null)
         }}>          
    
@@ -284,7 +281,7 @@ function update_task(data, id) {
            
             <FormControl style={{width: '99%', marginLeft: '0.25rem'}}>
                 <div style={{display: 'flex', width: '100%', justifyContent:'space-between', alignItems:'center',}}>
-            <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5rem'}}>
+            <Typography variant='componentHeading'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5rem'}}>
                 Tasks
                 </Typography>
                 <Button onClick={(e)=>{flush_form(getValues()); handleClick(e);}} sx={{backgroundColor: 'white', boxShadow: 1, height:`${h(20)}`, width: `${w(57)}`}}>+New</Button>
@@ -299,7 +296,7 @@ function update_task(data, id) {
                     <PopUpMenu detach={{detach: detach, callback: ()=> {setDetach(false);}}}>
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
-                           <FlexDiv style={{flexDirection: 'column', backgroundColor: '#D9D9D9', width: `${40}`,borderRadius: '0.625rem',marginLeft: '0.15rem', padding:'0'}}> 
+                           <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`,borderRadius: '0.625rem',marginLeft: '0.15rem', padding:'0'}}> 
                            <span style={{fontWeight: 'bold',}}>{task.day} {months[task.month]}</span>
                     
                             {
