@@ -22,7 +22,7 @@ function SearchBar({style}) {
         endAdornment: (
           <InputAdornment position="end">
             <IconButton >
-              <SearchIcon sx={{height: '20rem'}} onClick={(e)=> {googleSearch(local_query)}}/>
+              <SearchIcon sx={{transform:'scale(1.15)'}} onClick={(e)=> {googleSearch(local_query)}}/>
               
             </IconButton>
             <img src="google.png" alt='google' style={{height: '2rem', width: '2rem', borderRadius: '0.625rem'}}/>

@@ -20,6 +20,7 @@ import PopUpMenu from './PopupMenu.js';
 import DeleteIcon from '@mui/icons-material/Delete';
 export default function Tasks({style, id}) {
    let [tasks, setTasks] = useState([]);
+   let [timeError, setTimeError] = useState(false);
    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
    let [tasksData, setTaskData] = useState({});
    let [date, setDate] = useState({"date": dayjs(), "time: ": null});
@@ -153,7 +154,7 @@ function flush_form(data) {
     
 }
    function onSubmit(data) {
-    setAnchorEl(null);
+    
    
     let obj={};
     if(!data.title || !data.date) {
@@ -187,6 +188,8 @@ function flush_form(data) {
     obj["status"] = false;
     if(time_set.current==true) {
 
+
+
     obj["time"] = convertTo12HourFormat(data.time.hour(), data.time.minute());
     obj['hour']=data.time.hour();
     obj['minute'] = data.time.minute();
@@ -196,6 +199,19 @@ function flush_form(data) {
   .minute(data.time.minute())
   .second(data.time.second())
   .millisecond(data.time.millisecond());
+
+    if(obj['dayjs'].isBefore(dayjs())) {
+       
+        setTimeError("Please select a future date and time.");
+       
+        return;
+
+    }
+    else {
+        alert("No time error");
+        setTimeError(null);
+        
+    }
     
     }
     else{
@@ -208,7 +224,7 @@ function flush_form(data) {
     }
     obj['dayjs']=obj['dayjs'].format();
 
-    if(obj['dayjs'])
+    setAnchorEl(null);
 
    add_object("Tasks", obj).then(
     (msg)=> {
@@ -236,7 +252,9 @@ function update_task(data, id) {
     }
    );
 }
-
+function resetAlert() {
+    setTimeError(null);
+}
    
     useEffect(() => {
         updateTasks();    
@@ -290,7 +308,11 @@ function update_task(data, id) {
                     
                     setValue("date", newValue); let _date = {...date};_date["date"]=newValue; setDate(_date);}} />
                    
-                    <TimePicker timeThresh={date['date']} onChange={(newValue)=> { time_set.current=true; setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); }} />
+                    <TimePicker 
+                    resetAlert={resetAlert}
+                    alert={timeError? timeError: null}
+
+                    onChange={(newValue)=> { time_set.current=true; setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); }} />
                   <img style={{transform: 'scale(1.0)'}} onClick={handleSubmit(onSubmit)}src='submit.png' alt="submit"/>
                     </div>
                 <br/>
@@ -378,7 +400,8 @@ function update_task(data, id) {
                    }} />
                    
                     <TimePicker 
-                    timeThresh={date['date']}
+                    resetAlert={resetAlert}
+                    alert={timeError? timeError: null}
                     onChange={(newValue)=> {
                      
                         tasks_data[task.id]["time"] = convertTo12HourFormat(newValue.get('hour'), newValue.get('minute'))

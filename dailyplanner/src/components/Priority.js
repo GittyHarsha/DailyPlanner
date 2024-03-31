@@ -139,7 +139,7 @@ export default function Priority({style, id}) {
   }
 
   return (
-<Container id={id}style={{paddingLeft: '0.7vw', paddingRight: '0.7vw', paddingTop: 10, 
+<Container id={id}style={{paddingLeft: '0.7vw', paddingRight: '0.7vw', paddingTop: 10, overflowX:'clip',
 ...(style? style: null)
 }}>
   
@@ -203,7 +203,7 @@ export default function Priority({style, id}) {
             <Task 
             isChecked={item.checked}
             handleCheck = {(e)=> {handleCheck(index)}}
-            id={item.id.toString()} title={item.name} key={item.id}/> <DeleteIcon sx={{'&:hover': {cursor:'pointer'}}} opacity={0.6} onClick={(e)=> {deletePriority(index);}}/>
+            id={item.id.toString()} title={item.name} key={item.id}/> <DeleteIcon sx={{mx:1,'&:hover': {cursor:'pointer'}}} opacity={0.6} onClick={(e)=> {deletePriority(index);}}/>
            
 
            </div>
