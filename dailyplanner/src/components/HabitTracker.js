@@ -179,7 +179,7 @@ function HabitTracker({style, date, id}) {
           {
             dates.map(
               (date)=> (
-                <TableCell sx={{border: 'none', justifyContent:'center', width: '6vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num ===curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
+                <TableCell sx={{border: 'none', justifyContent:'center', width: '4vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num ===curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
               )
             )
           }

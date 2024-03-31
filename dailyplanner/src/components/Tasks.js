@@ -207,6 +207,9 @@ function flush_form(data) {
     
     }
     obj['dayjs']=obj['dayjs'].format();
+
+    if(obj['dayjs'])
+
    add_object("Tasks", obj).then(
     (msg)=> {
         
@@ -223,8 +226,9 @@ function flush_form(data) {
 function update_task(data, id) {
 
     
+    let d = data.dayjs;
 
-    
+    console.log("updated task: ", d);
 
    update_object("Tasks", data).then(
     (msg)=> {
@@ -318,7 +322,7 @@ function update_task(data, id) {
                     <PopUpMenu detach={{detach: detach, callback: ()=> {setDetach(false);}}}>
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
-                           <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`,borderRadius: '0.625rem',marginLeft: '0.15rem', padding:'0'}}> 
+                           <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`, height:`${h(35)}`,borderRadius: '0.625rem',marginLeft: '0.15rem', padding:'0'}}> 
                            <span  style={{fontWeight: 'bold',width:'100%'}}>{task.day} {months[task.month]}</span>
                     
                             {
@@ -369,11 +373,13 @@ function update_task(data, id) {
                    tasks_data[task.id]["day"] = newValue.date();
                     tasks_data[task.id]["month"] = newValue.get('month');
                     tasks_data[task.id]["year"] = newValue.get('year');
-                  
+                    
                     
                    }} />
                    
-                    <TimePicker onChange={(newValue)=> {
+                    <TimePicker 
+                    timeThresh={date['date']}
+                    onChange={(newValue)=> {
                      
                         tasks_data[task.id]["time"] = convertTo12HourFormat(newValue.get('hour'), newValue.get('minute'))
                       
