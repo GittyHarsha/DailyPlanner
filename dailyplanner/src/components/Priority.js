@@ -27,11 +27,13 @@ export default function Priority({style, id}) {
         let old_list=[];
         let id = 0;
         for(let i=0;i<list.length;i++) {
-          if(id < list[i]['id']) {
-            id = list[i]['id'];
+          if(id < eval(list[i]['id'], 10)) {
+            id = eval(list[i]['id'], 10);
           }
         }
-        let newPriority = {name: priority, id: id};
+        id = id+1;
+
+        let newPriority = {name: priority, id: id.toString()};
    
        get_object("Priority", today).then(
         (e)=> {if(!e) {
