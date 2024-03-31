@@ -1,6 +1,6 @@
 import React from 'react';
 import FlexDiv from './FlexDiv.js'
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import { Button, Checkbox, Typography, Box, Paper, Tooltip} from '@mui/material';
 import {ThemeProvider } from '@mui/material/styles';
 
@@ -22,10 +22,11 @@ export default function Tasks({style, id}) {
    let [tasks, setTasks] = useState([]);
    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
    let [tasksData, setTaskData] = useState({});
-   let [date, setDate] = useState({"date": null, "time: ": null});
+   let [date, setDate] = useState({"date": dayjs(), "time: ": null});
    let tasks_data={};
-   let time_set = false;
+   let time_set = useRef(false);
    let [detach, setDetach] = useState(false);
+   let dayjs_today = dayjs();
    let today = dayjs().format('DD-MM-YYYY');
    const {handleSubmit, setValue, getValues} = useForm();
    const [anchorEl, setAnchorEl] = useState(null);
@@ -53,6 +54,7 @@ export default function Tasks({style, id}) {
     if (hour > 12) {
         hour = hour - 12;
     }
+    hour = hour < 10 ? '0' + hour : hour;
     minute = minute < 10 ? '0' + minute : minute;
     return `${hour}:${minute} ${period}`;
 }
@@ -112,11 +114,25 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
     getAllObjects("Tasks").then(
 
         (data) => 
-        {
+        {   
+            let a=[...data];
+          
+             a.sort((task1, task2) => {
+               console.log("task1: ", task1);
+               console.log("task2: ", task2);
+                let d1 = dayjs(task1.dayjs);
+                let d2 = dayjs(task2.dayjs);
+                console.log("d1: ", d1);
+                console.log("d2: ", d2);
+                console.log("d1 is before d2: ", d1.isBefore(d2));
+                console.log("*************************");
+                return d1.isBefore(d2) ? -1 : d1.isAfter(d2) ? 1 : 0;
+              });
            
-            setTasks(data);
+              console.log(a);
+            setTasks(a);
            
-            for(let task of data) {
+            for(let task of a) {
                 tasks_data[task.id] = task;
             }
             setTaskData(tasks_data);
@@ -125,12 +141,7 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
         }
     ).catch(
         (message) => {
-            let obj={"date": today};
-       
-            add_object("Tasks", obj).then((msg)=> {
-            
-            });
-        } 
+        }
     )
     
 }
@@ -155,38 +166,47 @@ function flush_form(data) {
 
     obj["title"] = data.title;
     obj["description"] = data.description;
-   
+   obj['dayjs'] = dayjs();
     if(!data.date) {
         obj["month"] = null
         obj["year"] = null;
         obj["day"]=null;
+        obj['dayjs'] = dayjs();
         
     }
     else {
       
         obj["day"] = data.date.date();
+        if(obj['day'].toString().length==1) obj['day']='0'+obj['day'];
+        obj['dayjs'] = data.date;
    
         obj["month"] = data.date.get('month');
         obj["year"] = data.date.get('year');
     }
     
     obj["status"] = false;
-    if(time_set) {
+    if(time_set.current==true) {
 
-    obj["time"] = convertTo12HourFormat(data.time.hour(), date.time.minute());
+    obj["time"] = convertTo12HourFormat(data.time.hour(), data.time.minute());
     obj['hour']=data.time.hour();
     obj['minute'] = data.time.minute();
-    time_set = false;
+    time_set.current = false;
+    obj['dayjs'] = obj['dayjs']
+  .hour(data.time.hour())
+  .minute(data.time.minute())
+  .second(data.time.second())
+  .millisecond(data.time.millisecond());
     
     }
     else{
-
+        time_set.current = false;
         obj["time"] = null;
+        
        
         
     
     }
-
+    obj['dayjs']=obj['dayjs'].format();
    add_object("Tasks", obj).then(
     (msg)=> {
         
@@ -262,9 +282,11 @@ function update_task(data, id) {
                     </div>
 
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '100%', margin: 0}}>
-                   <DatePicker onChange={(newValue)=>{setValue("date", newValue); let _date = {...date};_date["date"]=newValue; setDate(_date);}} />
+                   <DatePicker onChange={(newValue)=>{
+                    
+                    setValue("date", newValue); let _date = {...date};_date["date"]=newValue; setDate(_date);}} />
                    
-                    <TimePicker onChange={(newValue)=> { time_set=true; setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); }} />
+                    <TimePicker timeThresh={date['date']} onChange={(newValue)=> { time_set.current=true; setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); }} />
                   <img style={{transform: 'scale(1.0)'}} onClick={handleSubmit(onSubmit)}src='submit.png' alt="submit"/>
                     </div>
                 <br/>
@@ -297,10 +319,10 @@ function update_task(data, id) {
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
                            <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`,borderRadius: '0.625rem',marginLeft: '0.15rem', padding:'0'}}> 
-                           <span style={{fontWeight: 'bold',}}>{task.day} {months[task.month]}</span>
+                           <span  style={{fontWeight: 'bold',width:'100%'}}>{task.day} {months[task.month]}</span>
                     
                             {
-                                (task.time)?(<span >{task.time}</span>): (null)
+                                (task.time)?(<span >{task.time}</span>): (<span style={{visibility:'hidden'}}>11:59 PM</span>)
                             }
                             </FlexDiv>
                             <Tooltip 

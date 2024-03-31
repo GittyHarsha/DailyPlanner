@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers';
-
+import dayjs from 'dayjs';
 export default function DatePick({onChange, default_value}) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -11,7 +11,7 @@ export default function DatePick({onChange, default_value}) {
         defaultValue={default_value}
         sx={{width: '9vw'}}
         onChange={onChange}
-       
+        shouldDisableDate={(date) => date.isBefore(dayjs(), 'day')}
       />
     </LocalizationProvider>
   );
