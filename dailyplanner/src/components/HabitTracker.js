@@ -142,7 +142,7 @@ function HabitTracker({style, date, id}) {
           open={open}
           onClose={handleClose}
           >
-          <MenuItem>
+          <MenuItem style={{height:'auto'}}>
           <TextField 
          
          onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') === habit){setAnchorEl(null); addHabit();}else{console.log("habit value: ", habit);setHabit(e.target.value)}}}

@@ -144,6 +144,7 @@ export const theme = createTheme({
           // Name of the slot
           root: {
              my: 2,
+            
              borderRadius: '0.625rem',
           }
       }

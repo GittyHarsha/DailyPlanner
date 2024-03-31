@@ -152,11 +152,11 @@ check_disable(date, dayjs());
           onClose={handleClose}
           style={{display: anchorEl? 'block':'none'}}
           >
-          <MenuItem>
+          <MenuItem style={{height:'auto'}}>
        
       
           <TextField 
-        
+          
           InputProps={{
             
             style: {width: `${w(110)}`},
