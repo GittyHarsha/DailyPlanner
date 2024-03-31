@@ -166,7 +166,7 @@ export default function Priority({style, id}) {
          
           InputProps={{
             
-            style: {width: `${w(110)}`},
+            style: {width:'100%'},
             endAdornment: (
               
               <InputAdornment position="end">
@@ -203,7 +203,7 @@ export default function Priority({style, id}) {
             <Task 
             isChecked={item.checked}
             handleCheck = {(e)=> {handleCheck(index)}}
-            id={item.id.toString()} title={item.name} key={item.id}/> <DeleteIcon sx={{mx:1,'&:hover': {cursor:'pointer'}}} opacity={0.6} onClick={(e)=> {deletePriority(index);}}/>
+            id={item.id.toString()} title={item.name} key={item.id}/> <DeleteIcon sx={{mx:1.25,'&:hover': {cursor:'pointer'}}} opacity={0.6} onClick={(e)=> {deletePriority(index);}}/>
            
 
            </div>

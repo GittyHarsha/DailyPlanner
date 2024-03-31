@@ -208,7 +208,7 @@ function flush_form(data) {
 
     }
     else {
-        alert("No time error");
+     
         setTimeError(null);
         
     }
@@ -283,7 +283,7 @@ function resetAlert() {
           sx={{backgroundColor: 'F0ECEC50'}}
           >
             <MenuItem style={{height:'auto'}} disableRipple>
-            <form  onSubmit = {handleSubmit(onSubmit)} style={{width: '20vw', height: '28vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-between', 
+            <form  onSubmit = {handleSubmit(onSubmit)} style={{width: '20vw', height: '28vh', display: 'flex', flexDirection:'column', alignItems:'space-around', justifyContent:'space-between', 
           
         }}>
                     <div>
@@ -368,7 +368,7 @@ function resetAlert() {
                        
                     </Box>
                     <form 
-                    style={{width: '20vw', height: '50vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-between', 
+                    style={{width: '20vw', height: '50vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-around', 
                     backgroundColor: '#F0ECEC50'}}
                     >
                     <div style={{height: '100%', width: '100%'}}>

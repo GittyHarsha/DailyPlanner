@@ -105,13 +105,13 @@ export default function HighLights({style, date, id}) {
         ...(style? style:null),
     }}>
         <div>
-        <Typography align="center" sx={{fontFamily: 'Arial',m:0,}} variant='h5'>How was the day?
+        <Typography align="center" sx={{fontFamily: 'Arial',m:0,fontSize:'1.6rem'}} variant='h4'>How was the day?
           
           </Typography>
         </div>
            
             <div style={{height:'100%', width:'100%'}}>
-            <div style={{overflowY: 'scroll', height: '75%', zIndex:10}}>
+            <div style={{overflowY: 'scroll', height: '80%', zIndex:10}}>
             
             {
                 timestamps.map(

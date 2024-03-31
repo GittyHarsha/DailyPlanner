@@ -15,8 +15,6 @@ const QuoteOfTheDay =  () => {
   {
          "quote":"You miss 100% of the shots you don’t take.","author":"Wayne Gretzky"},
   {
-         "quote":"I’ve missed more than 9000 shots in my career. I’ve lost almost 300 games. 26 times I’ve been trusted to take the game winning shot and missed. I’ve failed over and over and over again in my life. And that is why I succeed.","author":"Michael Jordan"},
-  {
          "quote":"The most difficult thing is the decision to act, the rest is merely tenacity.","author":"Amelia Earhart"},
   {
          "quote":"Every strike brings me closer to the next home run.","author":"Babe Ruth"},
@@ -28,8 +26,6 @@ const QuoteOfTheDay =  () => {
          "quote":"Life is what happens to you while you’re busy making other plans.","author":"John Lennon"},
   {
          "quote":"We become what we think about.","author":"Earl Nightingale"},
-  {
-         "quote":"Twenty years from now you will be more disappointed by the things that you didn’t do than by the ones you did do, so throw off the bowlines, sail away from safe harbor, catch the trade winds in your sails.  Explore, Dream, Discover.","author":"Mark Twain"},
   {
          "quote":"Life is 10% what happens to me and 90% of how I react to it.","author":"Charles Swindoll"},
   {
@@ -95,8 +91,6 @@ const QuoteOfTheDay =  () => {
   {
          "quote":"Start where you are. Use what you have.  Do what you can.","author":"Arthur Ashe"},
   {
-         "quote":"When I was 5 years old, my mother always told me that happiness was the key to life.  When I went to school, they asked me what I wanted to be when I grew up.  I wrote down ‘happy’.  They told me I didn’t understand the assignment, and I told them they didn’t understand life.","author":"John Lennon"},
-  {
          "quote":"Fall seven times and stand up eight.","author":"Japanese Proverb"},
   {
          "quote":"When one door of happiness closes, another opens, but often we look so long at the closed door that we do not see the one that has been opened for us.","author":"Helen Keller"},
@@ -112,8 +106,7 @@ const QuoteOfTheDay =  () => {
          "quote":"Happiness is not something readymade.  It comes from your own actions.","author":"Dalai Lama"},
   {
          "quote":"If you’re offered a seat on a rocket ship, don’t ask what seat! Just get on.","author":"Sheryl Sandberg"},
-  {
-         "quote":"First, have a definite, clear practical ideal; a goal, an objective. Second, have the necessary means to achieve your ends; wisdom, money, materials, and methods. Third, adjust all your means to that end.","author":"Aristotle"},
+  
   {
          "quote":"If the wind will not serve, take to the oars.","author":"Latin Proverb"},
   {
@@ -208,7 +201,7 @@ const QuoteOfTheDay =  () => {
          "quote":"If you can dream it, you can achieve it.","author":"Zig Ziglar"}
   ]
   
-    
+
        return quotes[Math.floor(Math.random() * quotes.length)];
        
 
