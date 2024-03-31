@@ -368,7 +368,7 @@ function resetAlert() {
                        
                     </Box>
                     <form 
-                    style={{width: '20vw', height: '50vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-around', 
+                    style={{width: 'auto', height: 'auto', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-around', 
                     backgroundColor: '#F0ECEC50'}}
                     >
                     <div style={{height: '100%', width: '100%'}}>

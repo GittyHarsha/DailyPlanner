@@ -49,7 +49,7 @@ export default function PopUpMenu({detach, children}) {
     
     >
     
-    <MenuItem>
+    <MenuItem style={{width:'auto', height:'auto'}}>
     {Children.map(children, (child)=> {
         if(child.key!='button') {
             return (
