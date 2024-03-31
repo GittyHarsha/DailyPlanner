@@ -327,9 +327,9 @@ function resetAlert() {
   
             
            
-            <FormControl style={{width: '99%', marginLeft: '0.25rem'}}>
+            <FormControl style={{width: '99%', marginLeft: '0.25vw'}}>
                 <div style={{display: 'flex', width: '100%', justifyContent:'space-between', alignItems:'center',}}>
-            <Typography variant='componentHeading'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5rem'}}>
+            <Typography variant='componentHeading'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5vw'}}>
                 Tasks
                 </Typography>
                 <Button onClick={(e)=>{flush_form(getValues()); handleClick(e);}} sx={{backgroundColor: 'white', boxShadow: 1, height:`${h(20)}`, width: `${w(57)}`}}>+New</Button>
@@ -339,12 +339,12 @@ function resetAlert() {
                 tasks.map((task) => (
                     <div style={{display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center',}}>
                        
-                    <Paper elevation='2' sx={{marginLeft:'0.05rem' ,my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: `${w(234)}`, height: `${h(36)}` }}>
+                    <Paper elevation='2' sx={{marginLeft:'0.05vw' ,my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: `${w(234)}`, height: `${h(36)}` }}>
                    
                     <PopUpMenu detach={{detach: detach, callback: ()=> {setDetach(false);}}}>
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
-                           <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`, height:`${h(35)}`,borderRadius: '0.625rem',marginLeft: '0.15rem', padding:'0'}}> 
+                           <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`, height:`${h(35)}`,borderRadius: '0.625rem',marginLeft: '0.15vw', padding:'0'}}> 
                            <span  style={{fontWeight: 'bold',width:'100%'}}>{task.day} {months[task.month]}</span>
                     
                             {
@@ -361,7 +361,7 @@ function resetAlert() {
                                     }
                                     }}
                                     title={<div><div>Title: {task.title}</div><div>Description: {task.description}</div></div>}> 
-                                     <Typography noWrap sx={{ overflow: 'hidden',paddingLeft: '0.5rem',overflowX: 'hidden', width: `${w(180)}`, height: `${h(36)}`, }}><div style={{fontWeight:'bold',textAlign:'left'}}>{task.title}</div><Divider /> <div style={{textAlign:'left'}}>{task.description}</div></Typography>
+                                     <Typography noWrap sx={{ overflow: 'hidden',paddingLeft: '0.5vw',overflowX: 'hidden', width: `${w(180)}`, height: `${h(36)}`, }}><div style={{fontWeight:'bold',textAlign:'left'}}>{task.title}</div><Divider /> <div style={{textAlign:'left'}}>{task.description}</div></Typography>
                                     </Tooltip>
                     
                        

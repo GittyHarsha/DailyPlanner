@@ -29,7 +29,7 @@ export default function MonthDropdown(props) {
     
           // Add other styles as needed
         },
-        width: '8rem',
+        width: '7vw',
         height: '100%'
       }}
     >

@@ -105,7 +105,7 @@ export default function HighLights({style, date, id}) {
         ...(style? style:null),
     }}>
         <div>
-        <Typography align="center" sx={{fontFamily: 'Arial',m:0,}} variant='h4'>How was the day?
+        <Typography align="center" sx={{fontFamily: 'Arial',m:0,}} variant='h5'>How was the day?
           
           </Typography>
         </div>
@@ -127,7 +127,7 @@ export default function HighLights({style, date, id}) {
                             }
                         }}
                 style={{display: 'flex', justifyContent: 'space-between', width: '95%'}}>
-                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  disabled={disable} defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value);  debouncedSubmit()}} sx={{width: '90%', left: '0.5rem', right: '0px'}} variant='standard'/>
+                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  disabled={disable} defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem'}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value);  debouncedSubmit()}} sx={{width: '90%', left: '0.5vw', right: '0px'}} variant='standard'/>
                    </div>
                 
             
@@ -137,7 +137,7 @@ export default function HighLights({style, date, id}) {
                 )
             }
             </div>
-            <div style={{ marginLeft: 0, borderRadius: 0, boxshadow: '0', transform: 'scale(1.0)',  bottom: '0.5rem', width: `${w(234)}`, position:'fixed'}}>
+            <div style={{ marginLeft: 0, borderRadius: 0, boxshadow: '0', transform: 'scale(1.0)',  bottom: '0.5vw', width: `${w(234)}`, position:'fixed'}}>
                 <Typography variant='componentHeading' sx={{mb:1}}>
                     Highlight of Today
                 </Typography>
