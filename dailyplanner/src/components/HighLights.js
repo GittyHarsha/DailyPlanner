@@ -1,20 +1,20 @@
 import React from 'react';
 import {w, h} from '../services/dimensions.js';
-import {useState, setState, useEffect, createRef} from 'react';
-import { Button, Checkbox, Grid, Typography, Box, Paper} from '@mui/material';
+import {useState,  useEffect, createRef} from 'react';
+import { Typography, Paper} from '@mui/material';
 import dayjs from 'dayjs';
 import {theme} from './theme.js';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import MonthDropdown from './MonthDropdown.js';
-import {Container, FormControl, TextField, Input, InputLabel, TableContainer} from '@mui/material';
-import {useForm, Controller, control} from 'react-hook-form';
+import {  ThemeProvider } from '@mui/material/styles';
+
+import {Container, TextField} from '@mui/material';
+import {useForm} from 'react-hook-form';
 import {get_object, add_object, update_object} from '../database/backend.js';
 import _ from 'lodash';
-export default function HighLights({style, date}) {
+export default function HighLights({style, date, id}) {
     let today = dayjs().format('DD-MM-YYYY');
   
   
-    const {register, handleSubmit, control, setValue, getValues, getValue, formState: {dirty}} = useForm();
+    const {setValue, getValues} = useForm();
 
     let [disable, setDisable] = useState(false);
     let [highlights, setHighlights] = useState({});
@@ -36,11 +36,7 @@ export default function HighLights({style, date}) {
     useEffect(() => {
       
  
-        let data={};
-       for(let timestamp of timestamps) {
-        data.timestamp='';
-       }
-    
+        
         get_object("Highlights", date).then(
     
             (data) => 
@@ -81,15 +77,9 @@ export default function HighLights({style, date}) {
         
         return `${hour12}${amOrPm}`;
       }
-      let timestamp = formatDayjsTo12Hour(dayjs());
    
-    function onSubmit(data) {
-
-
-        update_object('Highlights', {...data, "date": today, "dayjs":dayjs()}).then(
-            (msg)=> {}
-        );
-    }
+   
+    
     const debouncedSubmit = _.debounce(() => {
         
      
@@ -111,7 +101,7 @@ export default function HighLights({style, date}) {
  return (
     <ThemeProvider theme={theme}>
        
-    <Container sx={{display: 'flex', flexDirection: 'column', margin:0, transform: 'scale(1.0)', overflow:'clip', px:1,
+    <Container id={id} sx={{display: 'flex', flexDirection: 'column', margin:0, transform: 'scale(1.0)', overflow:'clip', px:1,
         ...(style? style:null),
     }}>
         <div>
@@ -132,7 +122,7 @@ export default function HighLights({style, date}) {
                         ref={(el)=> {
                             if(!el) return;
                             let timestamp = formatDayjsTo12Hour(dayjs());
-                            if(timestamps[index]==timestamp) {
+                            if(timestamps[index]===timestamp) {
                                 el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                             }
                         }}
@@ -148,10 +138,10 @@ export default function HighLights({style, date}) {
             }
             </div>
             <div style={{ marginLeft: 0, borderRadius: 0, boxshadow: '0', transform: 'scale(1.0)',  bottom: '0.5rem', width: `${w(234)}`, position:'fixed'}}>
-                <Typography variant='h5' sx={{my:1}}>
+                <Typography variant='componentHeading' sx={{mb:1}}>
                     Highlight of Today
                 </Typography>
-                <Paper sx={{width: `${w(230)}`, minHeight: `${h(36)}`, display:'flex', alignItems:'center', maxHeight:`${h(36)}`}}>
+                <Paper sx={{width: `${w(230)}`, minHeight: `${h(36)}`, display:'flex', alignItems:'center', maxHeight:`${h(50)}`}}>
                     <TextField disabled={disable} defaultValue={highlights['hightlight_of_the_day']} InputProps={{ disableUnderline: true, style: {fontSize: '1.25rem'}}} name="highlight_of_the_day"  onChange = {(event)=> {setValue("hightlight_of_the_day", event.target.value); debouncedSubmit()}}sx={{width: `${w(230)}`, left: '5px',fontSize:'1.5rem', minHeight:'100%', maxHeight:`${h(50)}`, overflowY:'scroll'}} multiline variant='standard'/>
                 </Paper>
             </div>

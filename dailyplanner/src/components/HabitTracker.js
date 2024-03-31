@@ -1,34 +1,33 @@
 import React from 'react';
 import {w, h} from '../services/dimensions.js';
-import {useState, setState, useEffect} from 'react';
-import { Button, Checkbox, Grid, Typography, Box, TextField, InputAdornment, IconButton, Icon, Tooltip} from '@mui/material';
+import {useState, useEffect} from 'react';
+import { Button, Checkbox, Typography, Box, TextField, InputAdornment, IconButton, Tooltip} from '@mui/material';
 import Table from '@mui/material/Table';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import {theme} from './theme.js';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import MonthDropdown from './MonthDropdown.js';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import CustomMenu from './MenuItem.js';
-import {get_object, add_object, update_object, delete_object, getAllIndex, deleteObject} from '../database/backend.js';
+
+import {get_object, add_object, update_object, delete_object, getAllIndex,} from '../database/backend.js';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { transform } from 'lodash';
+
 import dayjs from 'dayjs';
-function HabitTracker({style, date}) {
+function HabitTracker({style, date, id}) {
     let [disable, setDisable] = useState(false);
      let [habits, setHabits] = useState([]);
      let [habit, setHabit] = useState(null);
     let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   /* 
   states: 
   1. month: it has range from 0 to 11. 0 maps to January, 1 maps to February and so on 
   */
 
-  let today = dayjs().format('DD-MM-YYYY');
+
   let curr_day = date.date();
   let [month, setMonth] = useState(date.month());
   
@@ -99,7 +98,7 @@ function HabitTracker({style, date}) {
   }
   ).catch(
       (message) => {
-          console.log(message);
+          setHabits([]);
       } 
   )
   }
@@ -130,11 +129,11 @@ function HabitTracker({style, date}) {
   return (
     <ThemeProvider theme = {theme} style={{padding: 0}}>
    
-    <TableContainer style={{  overflowX: 'hidden', pt: 0,
+    <TableContainer id={id} style={{  overflowX: 'hidden', pt: 0,
    
     ...(style? style: null)}}>
     <Box sx={{pb: 1,justifyContent: 'space-between',  display: "flex", flexDirection:"row", borderRadius: '1.125rem'}} style={{paddingLeft: '0px', paddingRight: '0px'}}>
-          <Typography variant='h5' sx={{fontFamily:'Itim'}}>Habit Tracker</Typography>
+          <Typography variant='componentHeading'>Habit Tracker</Typography>
           <Button disabled={disable} onClick={handleClick} sx={{backgroundColor: 'white', color: 'black', boxShadow: '1', width: '7rem', height: '1.6526617647058823rem'}}>+Add Habit</Button>
           <Menu aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
@@ -146,14 +145,14 @@ function HabitTracker({style, date}) {
           <MenuItem>
           <TextField 
          
-         onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == habit){setAnchorEl(null); addHabit();}else{console.log("habit value: ", habit);setHabit(e.target.value)}}}
+         onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') === habit){setAnchorEl(null); addHabit();}else{console.log("habit value: ", habit);setHabit(e.target.value)}}}
 
           InputProps={{
             style: {width: `${w(110)}`},
             endAdornment: (
               <InputAdornment position="end">
               <IconButton>
-                <img src='submit.png' style={{':hover': {cursor: 'pointer'}}} onClick={addHabit}/>
+                <img src='submit.png' alt='submit' style={{':hover': {cursor: 'pointer'}}} onClick={addHabit}/>
                 </IconButton>
                 
               </InputAdornment>
@@ -180,7 +179,7 @@ function HabitTracker({style, date}) {
           {
             dates.map(
               (date)=> (
-                <TableCell sx={{border: 'none', justifyContent:'center', width: '6vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num ==curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
+                <TableCell sx={{border: 'none', justifyContent:'center', width: '6vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num ===curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
               )
             )
           }

@@ -5,12 +5,11 @@ import {useState, useEffect} from 'react';
 import {theme} from './theme.js';
 import dayjs from 'dayjs';
 import {useContext} from 'react';
-import {DatabaseContext} from './DbContext.js';
-import {getAllIndex, add_object, delete_object} from '../database/backend';
+
+
 import axios from 'axios';
 const Quote = function({style}) {
-  let db = useContext(DatabaseContext);
-  console.log("db",db);
+
     let [quote, setQuote] = useState('');
     
     useEffect(()=> {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Select, MenuItem, Typography } from '@mui/material';
+import { Select, MenuItem } from '@mui/material';
 
 export default function MonthDropdown(props) {
- let curr_month = (new Date()).getMonth();
+
 
   const [month, setMonth] = React.useState(props.default);
 
@@ -14,6 +14,7 @@ export default function MonthDropdown(props) {
 
   return (
     <Select
+    id={props.id}
       defaultValue = {month}
       value={month}
       onChange={handleChange}

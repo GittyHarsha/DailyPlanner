@@ -1,13 +1,13 @@
-import {useState, setState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {DndContext, closestCorners} from '@dnd-kit/core';
 import {SortableContext,verticalListSortingStrategy, arrayMove} from '@dnd-kit/sortable';
 import {Task} from './Task';
 import {w, h} from '../services/dimensions.js';
-import {Button, Container, Typography, Checkbox, Menu, MenuItem, TextField, IconButton, InputAdornment} from '@mui/material';
-import { add_object, update_object, get_object, connectToIndexedDB } from '../database/backend';
+import {Button, Container, Typography, Menu, MenuItem, TextField, IconButton, InputAdornment} from '@mui/material';
+import { add_object, update_object, get_object } from '../database/backend';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
-export default function Priority({style}) {
+export default function Priority({style, id}) {
   let today = dayjs().format('DD-MM-YYYY');
   let [priority ,setPriority] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -139,12 +139,12 @@ export default function Priority({style}) {
   }
 
   return (
-<Container style={{paddingLeft: '0.7vw', paddingRight: '0.7vw', paddingTop: 10, overflowX: 'hidden',
+<Container id={id}style={{paddingLeft: '0.7vw', paddingRight: '0.7vw', paddingTop: 10, 
 ...(style? style: null)
 }}>
   
   <Typography
-    variant='h5' sx={{display:'flex', justifyContent: 'space-between'}}
+    variant='componentHeading' sx={{display:'flex', justifyContent: 'space-between'}}
   >Top Priorities
 
     <Button onClick={handleClick} sx={{width: `${w(48)}`, height: `${h(20)}`, boxShadow: 1}}>+ Add</Button>
@@ -198,7 +198,7 @@ export default function Priority({style}) {
       {
         list.map(
           (item, index)=> (
-           <div style={{display:'flex', width: '100%', m:0, alignItems: 'center', }}>
+           <div style={{display:'flex', width: '100%', m:0, alignItems: 'center', px:1 }}>
           
             <Task 
             isChecked={item.checked}

@@ -14,12 +14,9 @@ export function connectToIndexedDB() {
     request.onupgradeneeded = (event) => {
      
       const db=event.target.result;
-      const ApiCache = db.createObjectStore("ApiCache", 
-      {
-        keyPath: 'date',
-      });
+     
   
-      const  Name = db.createObjectStore("Name", 
+      db.createObjectStore("Name", 
       {
         keyPath: 'name'
       });
@@ -28,15 +25,15 @@ export function connectToIndexedDB() {
         keyPath: 'id',
         autoIncrement: 'true'
       });
-      const Priority = db.createObjectStore("Priority", 
+      db.createObjectStore("Priority", 
       {
         keyPath: 'date',
       });
-      const Highlights = db.createObjectStore("Highlights", 
+      db.createObjectStore("Highlights", 
       {
         keyPath: 'date',
       });
-      const Tasks = db.createObjectStore("Tasks", 
+      db.createObjectStore("Tasks", 
       {
         keyPath: 'id',
       });
@@ -56,7 +53,7 @@ export function connectToIndexedDB() {
       });
       HabitTracker.createIndex("MonthYearIndex", ["month", "year"]);
       MonthlyGoals.createIndex("MonthYearIndex", ['month', 'year']);
-      ApiCache.createIndex("DateTypeIndex", ['date', 'type']);
+      
     
     }
 
@@ -71,7 +68,7 @@ export function  add_object(storeName, newObject) {
     const store = transaction.objectStore(storeName);
     let success=true;
 
-if(store.keyPath =="id") {
+if(store.keyPath ==="id") {
     // Open a cursor in reverse direction to get the highest ID first
     const cursorRequest = store.openCursor(null, "prev");
    
@@ -250,7 +247,7 @@ export function delete_object(storeName, key) {
       
           transaction.oncomplete = function() {
             db.close();
-            if(getRequest.result == undefined) {
+            if(getRequest.result === undefined) {
               reject("error");
             }
             else{
@@ -282,7 +279,7 @@ export function delete_object(storeName, key) {
           getRequest.onsuccess = function(event) {
           console.log(storeName + " Object retrieved successfully:", getRequest.result+ "   with keys: ", keys);
          
-          if(getRequest.result==undefined || getRequest.result.length==0 ) {
+          if(getRequest.result===undefined || getRequest.result.length===0 ) {
             console.log("get request is empty");
            
          

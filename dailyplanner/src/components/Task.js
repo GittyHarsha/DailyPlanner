@@ -2,7 +2,7 @@ import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities/';
 import {Paper} from '@mui/material';
 import {w, h} from '../services/dimensions.js';
-import styled from 'styled-components';
+
 import {Checkbox} from '@mui/material';
 export const Task = ({id, title, handleCheck, isChecked}) => {
 
@@ -16,7 +16,7 @@ export const Task = ({id, title, handleCheck, isChecked}) => {
         marginLeft: '0px',
         marginTop: '5px',
         zIndex: 1,
-        width : `${w(207)}`,
+        width : `${w(214)}`,
         height: `${h(36)}`,
         paddingLeft: '10px',
         display:'flex',
@@ -44,7 +44,7 @@ export const Task = ({id, title, handleCheck, isChecked}) => {
 
             />
          <div 
-         style={{ width: `${w(180)}`, textAlign:'left'}
+         style={{ width: `${w(200)}`, textAlign:'left'}
         
         } {...listeners}>
          {title}

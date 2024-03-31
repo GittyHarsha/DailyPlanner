@@ -13,19 +13,78 @@ import {theme} from './components/theme.js';
 import axios from 'axios';
 import { useState, useEffect} from 'react';
 import styled from 'styled-components';
-import {connectToIndexedDB, getAllObjects, add_object, getAllIndex, delete_object} from './database/backend';
+import { getAllObjects, add_object} from './database/backend';
 import FlexDiv from './components/FlexDiv';
 import Welcome from './components/Welcome.js';
-import StaticDatePicker from './components/StaticDatePicker.js';
+import Joyride, {STATUS} from 'react-joyride';
 import dayjs from 'dayjs';
 function App(props) {
   
+  //joyride states
+  let tour_state = localStorage.getItem('tour');
+  if(!tour_state) tour_state='true';
+  let [tour, setTour] = useState(tour_state);
+  const [{run, steps}, setState] = useState({
+    run: true,
+    steps: [
+      {
+        content: <h2>Let's begin your tour!</h2>,
+        locale: {skip: <strong>SKIP</strong>},
+        placement: 'center',
+        target:'body',
+      },
+      {
+        content: <h2>Here you can manage your monthly goals!</h2>,
+        placement: 'right',
+        target:'#step-1',
+        title: 'Monthly Goals',
+      },
+      {
+        content: <h2>Here you can manage your Habits !</h2>,
+        placement: 'right',
+        target:'#step-2',
+        title: 'Habits',
+      },
+      {
+        content: <h2>Here you can manage your Priorities. <br/>
+        You can drag and drop the priorities to change their priority order.
+        </h2>,
+        placement: 'bottom',
+        target:'#step-3',
+        title: 'Priority',
+      },
+      {
+        content: <h2>Here you can manage your Tasks. <br/>
+          </h2>,
+        placement: 'bottom',
+        target:'#step-4',
+        title: 'Tasks',
+      },
+      {
+        content: <h2>You can filter your data by dates! <br/>
+        </h2>,
+        placement: 'bottom',
+        target:'#step-5',
+        title: 'Date Filter',
+      },
+      {
+        content: <h2>Journal your life experiences here! <br/>
+        </h2>,
+        placement: 'left',
+        target:'#step-6',
+        title: 'Daily Journal',
+      },
+    ]
+  })
+
+
+
   //state storing the url of the background image
   let [bgImage, setBgImage] = useState('');
   let [name, setName] = useState(' ');
   let [date, setDate] = useState(dayjs());
   let today = dayjs().startOf('day');
-  let yesterday = today.subtract(1, 'day');
+  
   
 
 
@@ -38,13 +97,13 @@ function App(props) {
       let bgItem = localStorage.getItem('background');
       if(bgItem){
         bgItem = JSON.parse(bgItem);
-        if(bgItem['date']==yesterday) {
+        if(bgItem['date']===yesterday) {
           bgItem=null;
         }
       }
      
       if(bgItem) {
-        if(bgItem.date!=today) {
+        if(bgItem.date!==today) {
           bgItem=null;
           
       
@@ -54,7 +113,7 @@ function App(props) {
       if(bgItem==null){
           axios.get("https://peapix.com/bing/feed").then(
           (res) => { 
-            alert("called!");
+       
             let  bgImage= res.data[0].imageUrl;
                 bgImage = bgImage.toString();
            
@@ -108,22 +167,62 @@ function App(props) {
       (names)=> {if(names.length) {setName(names[0].name);} else {setName(null)}}
     ).catch((msg)=> {setName(null);})
   },[]);
-  let [anchor, setAnchor] = useState(null);
-  function handleClick(event) {
-    setAnchor(event.currentTarget);
-  }
 
   function onSubmit(name) {
     if(!name) return;
     setName(name);
+    setTour('true');
     add_object("Name", {"name": name});
   }
+  
 
+
+  function handleJoyrideCallback(data) {
+    const { status } = data;
+    const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
+  
+    if (finishedStatuses.includes(status)) {
+      // Run your function here
+      localStorage.setItem('tour', 'false');
+      // YourFunction(); // Replace with your actual function
+    }
+  }
+  
   return (
   
     <StyledDiv id="app" backgroundImage= {bgImage}>
-      
-      {(name!=null)? (<></>): (<Welcome onSubmit={onSubmit}/>)}
+
+
+  
+
+
+    
+      {(name!=null)? 
+      ((tour=='true')?(
+      <Joyride
+        continuous
+        callback={handleJoyrideCallback}
+        run={run}
+        steps = {steps}
+        hideCloseButton
+        scrollToFirstStep
+        showSkipButton
+        showProgress
+        styles={{
+          options: {
+            arrowColor: '#e3ffeb',
+            primaryColor: '#000',
+            textColor: 'black',
+            zIndex: 1000,
+            fontFamily:'Arial',
+          },
+        }}
+          />
+    ): (<></>))
+      : (<Welcome onSubmit={onSubmit}/>)}
+
+
+
 
     <ThemeProvider theme={theme}>
       
@@ -132,19 +231,19 @@ function App(props) {
     marginLeft: `${w(23)}`,height:`${h(545)}`}}>
       <FlexDiv style={{flexDirection: 'column', height: '100%', width: `${w(524)}`, alignItems:'space-between'}}>
         <Quote style={{width: '97%', borderRadius: '0.625rem', height: '4.3795536764705885rem'}}/>
-        <MonthlyGoals date={date} style={{width: '100%',height: `${h(120)}`}}/>
-        <HabitTracker date={date} style={{width: '97.5%', height: `${h(121)}`}}/>
-        <FlexDiv style={{height: `${h(210)}`, marginTop: '0.7rem'}}>
-        <Priority style={{width: `${w(247)}`, height: '100%'}}/>
-        <Tasks style={{width: `${w(247)}`, height: '100%'}}/>
+        <MonthlyGoals id={'step-1'} date={date} style={{width: '100%',height: `${h(120)}`}}/>
+        <HabitTracker id={'step-2'} date={date} style={{width: '97.5%', height: `${h(121)}`}}/>
+        <FlexDiv  style={{height: `${h(210)}`, marginTop: '0.7rem'}}>
+        <Priority id={'step-3'} style={{width: `${w(247)}`, height: '100%'}}/>
+        <Tasks id={'step-4'} style={{width: `${w(247)}`, height: '100%'}}/>
       </FlexDiv>
     
       </FlexDiv>
 
 
     <FlexDiv style={{flexDirection:'column', height: '100%'}}>
-    <DateFilter date={date} setDate={handleDate}/>
-    <HighLights date={date} style={{height: '100%', width: `${w(247)}`}}/>
+    <DateFilter id={'step-5'} date={date} setDate={handleDate}/>
+    <HighLights id={'step-6'} date={date} style={{height: '100%', width: `${w(247)}`}}/>
     </FlexDiv>
       
      

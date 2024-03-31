@@ -1,7 +1,3 @@
-// services/api.js
-import axios from 'axios';
-import dayjs from 'dayjs';
-import {getAllIndex, add_object, delete_object} from '../database/backend';
 const QuoteOfTheDay =  () => {
   
    let quotes=[

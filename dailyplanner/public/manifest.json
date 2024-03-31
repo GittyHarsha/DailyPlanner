@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "description": "Your Daily Planner",
   "icons": {
-    "48": "DailyPlanner.jpg",
-    "128": "DailyPlanner.jpg"
+    "48": "app_logo.png",
+    "128": "app_logo.png"
   },
   "chrome_url_overrides": {"newtab": "index.html"}
 }

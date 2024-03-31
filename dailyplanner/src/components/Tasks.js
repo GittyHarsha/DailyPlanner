@@ -1,9 +1,9 @@
 import React from 'react';
 import FlexDiv from './FlexDiv.js'
-import {useState, setState, useEffect} from 'react';
-import { Button, Checkbox, Grid, Typography, Box, Paper, Tooltip} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Done from '@mui/icons-material/Done'
+import {useState, useEffect, useRef} from 'react';
+import { Button, Checkbox, Typography, Box, Paper, Tooltip} from '@mui/material';
+import {ThemeProvider } from '@mui/material/styles';
+
 
 import {w, h} from '../services/dimensions.js';
 
@@ -13,21 +13,22 @@ import dayjs from 'dayjs';
 import DatePicker from "./DatePicker.js";
 import TimePicker from "./TimePicker.js";
 import {theme} from './theme.js';
-import {useForm, Controller, control} from 'react-hook-form';
-import {get_object, add_object, update_object, getAllObjects, delete_object, connectToIndexedDB} from '../database/backend.js';
-import {Container, FormControl, TextField, Input, InputLabel, Menu, MenuItem} from '@mui/material';
+import {useForm} from 'react-hook-form';
+import { add_object, update_object, getAllObjects, delete_object, connectToIndexedDB} from '../database/backend.js';
+import {Container, FormControl, TextField, Menu, MenuItem} from '@mui/material';
 import PopUpMenu from './PopupMenu.js';
 import DeleteIcon from '@mui/icons-material/Delete';
-export default function Tasks({style}) {
+export default function Tasks({style, id}) {
    let [tasks, setTasks] = useState([]);
    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
    let [tasksData, setTaskData] = useState({});
-   let [date, setDate] = useState({"date": null, "time: ": null});
+   let [date, setDate] = useState({"date": dayjs(), "time: ": null});
    let tasks_data={};
-   let time_set = false;
+   let time_set = useRef(false);
    let [detach, setDetach] = useState(false);
+   let dayjs_today = dayjs();
    let today = dayjs().format('DD-MM-YYYY');
-   const {register, handleSubmit, control, setValue, getValues} = useForm();
+   const {handleSubmit, setValue, getValues} = useForm();
    const [anchorEl, setAnchorEl] = useState(null);
    let open = Boolean(anchorEl);
    const handleClick = (event) => {
@@ -53,6 +54,7 @@ export default function Tasks({style}) {
     if (hour > 12) {
         hour = hour - 12;
     }
+    hour = hour < 10 ? '0' + hour : hour;
     minute = minute < 10 ? '0' + minute : minute;
     return `${hour}:${minute} ${period}`;
 }
@@ -81,9 +83,9 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
   
                 cursorRequest.onsuccess = function(e) {
                     let cursor = e.target.result;
-                    let today = dayjs();
+                    
                     if (cursor) {
-                    if(cursor.value.status==true) {
+                    if(cursor.value.status===true) {
                         cursor.delete();
                     }
                 
@@ -112,11 +114,25 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
     getAllObjects("Tasks").then(
 
         (data) => 
-        {
+        {   
+            let a=[...data];
+          
+             a.sort((task1, task2) => {
+               console.log("task1: ", task1);
+               console.log("task2: ", task2);
+                let d1 = dayjs(task1.dayjs);
+                let d2 = dayjs(task2.dayjs);
+                console.log("d1: ", d1);
+                console.log("d2: ", d2);
+                console.log("d1 is before d2: ", d1.isBefore(d2));
+                console.log("*************************");
+                return d1.isBefore(d2) ? -1 : d1.isAfter(d2) ? 1 : 0;
+              });
            
-            setTasks(data);
+              console.log(a);
+            setTasks(a);
            
-            for(let task of data) {
+            for(let task of a) {
                 tasks_data[task.id] = task;
             }
             setTaskData(tasks_data);
@@ -125,17 +141,12 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
         }
     ).catch(
         (message) => {
-            let obj={"date": today};
-       
-            add_object("Tasks", obj).then((msg)=> {
-            
-            });
-        } 
+        }
     )
     
 }
 function flush_form(data) {
-    for(let [key, value] of Object.entries(data)) {
+    for(let [key] of Object.entries(data)) {
         data[key]=null;
         setValue(key, null);
     }
@@ -155,38 +166,47 @@ function flush_form(data) {
 
     obj["title"] = data.title;
     obj["description"] = data.description;
-   
+   obj['dayjs'] = dayjs();
     if(!data.date) {
         obj["month"] = null
         obj["year"] = null;
         obj["day"]=null;
+        obj['dayjs'] = dayjs();
         
     }
     else {
       
         obj["day"] = data.date.date();
+        if(obj['day'].toString().length==1) obj['day']='0'+obj['day'];
+        obj['dayjs'] = data.date;
    
         obj["month"] = data.date.get('month');
         obj["year"] = data.date.get('year');
     }
     
     obj["status"] = false;
-    if(time_set) {
+    if(time_set.current==true) {
 
-    obj["time"] = convertTo12HourFormat(data.time.hour(), date.time.minute());
+    obj["time"] = convertTo12HourFormat(data.time.hour(), data.time.minute());
     obj['hour']=data.time.hour();
     obj['minute'] = data.time.minute();
-    time_set = false;
+    time_set.current = false;
+    obj['dayjs'] = obj['dayjs']
+  .hour(data.time.hour())
+  .minute(data.time.minute())
+  .second(data.time.second())
+  .millisecond(data.time.millisecond());
     
     }
     else{
-
+        time_set.current = false;
         obj["time"] = null;
+        
        
         
     
     }
-
+    obj['dayjs']=obj['dayjs'].format();
    add_object("Tasks", obj).then(
     (msg)=> {
         
@@ -199,9 +219,6 @@ function flush_form(data) {
 }
 
 
-function handleDelete(id) {
-    delete_object("Tasks", id).then((msg)=>{ updateTasks();});
-}
 
 function update_task(data, id) {
 
@@ -229,7 +246,7 @@ function update_task(data, id) {
    
     return (
         <ThemeProvider theme={theme} >
-        <div style={{paddingLeft: '0', paddingRight: '0',
+        <div id={id} style={{paddingLeft: '0', paddingRight: '0',
             ...(style? style: null)
         }}>          
    
@@ -265,9 +282,11 @@ function update_task(data, id) {
                     </div>
 
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '100%', margin: 0}}>
-                   <DatePicker onChange={(newValue)=>{setValue("date", newValue); let _date = {...date};_date["date"]=newValue; setDate(_date);}} />
+                   <DatePicker onChange={(newValue)=>{
+                    
+                    setValue("date", newValue); let _date = {...date};_date["date"]=newValue; setDate(_date);}} />
                    
-                    <TimePicker onChange={(newValue)=> { time_set=true; setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); }} />
+                    <TimePicker timeThresh={date['date']} onChange={(newValue)=> { time_set.current=true; setValue("time", newValue); let _date = {...date}; _date["time"] = newValue; setDate(_date); }} />
                   <img style={{transform: 'scale(1.0)'}} onClick={handleSubmit(onSubmit)}src='submit.png' alt="submit"/>
                     </div>
                 <br/>
@@ -284,7 +303,7 @@ function update_task(data, id) {
            
             <FormControl style={{width: '99%', marginLeft: '0.25rem'}}>
                 <div style={{display: 'flex', width: '100%', justifyContent:'space-between', alignItems:'center',}}>
-            <Typography variant='h5'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5rem'}}>
+            <Typography variant='componentHeading'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5rem'}}>
                 Tasks
                 </Typography>
                 <Button onClick={(e)=>{flush_form(getValues()); handleClick(e);}} sx={{backgroundColor: 'white', boxShadow: 1, height:`${h(20)}`, width: `${w(57)}`}}>+New</Button>
@@ -299,11 +318,11 @@ function update_task(data, id) {
                     <PopUpMenu detach={{detach: detach, callback: ()=> {setDetach(false);}}}>
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
-                           <FlexDiv style={{flexDirection: 'column', backgroundColor: '#D9D9D9', width: `${40}`,borderRadius: '0.625rem',marginLeft: '0.15rem', padding:'0'}}> 
-                           <span style={{fontWeight: 'bold',}}>{task.day} {months[task.month]}</span>
+                           <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`,borderRadius: '0.625rem',marginLeft: '0.15rem', padding:'0'}}> 
+                           <span  style={{fontWeight: 'bold',width:'100%'}}>{task.day} {months[task.month]}</span>
                     
                             {
-                                (task.time)?(<span >{task.time}</span>): (null)
+                                (task.time)?(<span >{task.time}</span>): (<span style={{visibility:'hidden'}}>11:59 PM</span>)
                             }
                             </FlexDiv>
                             <Tooltip 

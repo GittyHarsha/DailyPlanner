@@ -1,6 +1,6 @@
 import {w, h} from '../services/dimensions';
 import React from "react";
-import { AppBar, Toolbar, Typography} from "@mui/material";
+
 import FlexDiv from './FlexDiv';
 import dayjs from 'dayjs';
 import SearchBar from './SearchBar';
@@ -37,7 +37,7 @@ function Header({name}) {
      <FlexDiv style={{height: '100%', width: '60%'}}><SearchBar style={{width: '70%', height: '50%'}}/>
    
      <div style={{display:'inline-block', marginLeft:'1.15rem',}}>
-     <img src="dailyplanner.png" style={{width: '12rem', height: '4rem', borderRadius: '0.625rem'}}/>
+     <img src="dailyplanner.png" alt='daily planner' style={{width: '12rem', height: '4rem', borderRadius: '0.625rem'}}/>
     
      </div>
      <div style={{display:'inline-block', marginRight:'1.15rem',}}>
