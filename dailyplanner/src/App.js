@@ -212,7 +212,7 @@ function App(props) {
           options: {
             arrowColor: '#e3ffeb',
             primaryColor: '#000',
-            textColor: '#004a14',
+            textColor: 'black',
             zIndex: 1000,
             fontFamily:'Arial',
           },
