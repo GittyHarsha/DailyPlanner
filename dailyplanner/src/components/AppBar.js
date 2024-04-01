@@ -37,7 +37,7 @@ function Header({name}) {
      <FlexDiv style={{height: '100%', width: '60%', marginRight:'0px'}}><SearchBar style={{width: '90%', height: '60%'}}/>
    
      <FlexDiv style={{display:'inline-block', textAlign:'center',width:'40%', height:'80%',}}>
-     <img src="dailyplanner.png" alt='daily planner' style={{width: '50%', minWidth:'150px',height: '100%', borderRadius: '0.625rem'}}/>
+     <img src="dailyplanner.png" alt='daily planner' style={{width: '45%', height: '100%', borderRadius: '0.625rem'}}/>
     
      </FlexDiv>
   

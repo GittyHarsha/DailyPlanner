@@ -105,7 +105,7 @@ export default function HighLights({style, date, id}) {
         ...(style? style:null),
     }}>
         <div>
-        <Typography align="center" sx={{fontFamily: 'Arial',m:0,fontSize:'1.6rem'}} variant='h4'>How was the day?
+        <Typography align="center" sx={{fontFamily: 'Arial',m:0,fontSize:'2.5vh'}} variant='h4'>How was the day?
           
           </Typography>
         </div>

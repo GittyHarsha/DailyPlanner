@@ -202,7 +202,7 @@ function HabitTracker({style, date, id}) {
                     }
                   }
                 }}
-                title={<span>{habit.name}</span>}> <Typography noWrap sx={{width: '7vw',  m: 0, fontWeight:'bold'}} variant='h6'>{habit.name}</Typography></Tooltip></TableCell>
+                title={<span style={{}}>{habit.name}</span>}> <Typography noWrap sx={{width: '7vw',  m: 0, fontWeight:'bold', fontSize:'2vh'}}>{habit.name}</Typography></Tooltip></TableCell>
               
               {
               habit["days"].map(
