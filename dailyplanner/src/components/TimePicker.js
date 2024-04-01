@@ -12,16 +12,26 @@ export default function ResponsiveTimePickers({onChange, default_value, alert, r
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
        {alert && (
-        <Alert severity="warning" sx={{position:'absolute', zIndex:10,}}>
-          <AlertTitle>{alert}</AlertTitle> <Button onClick={resetAlert}>{'X'}</Button>
+        <Alert severity="warning" sx={{position:'absolute',width:'32vh', zIndex:10,}}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <AlertTitle sx={{fontSize:'1.4vh'}}>{alert}</AlertTitle> 
+          <Button style={{
+            borderRadius: '50%', // Make it circular
+            minWidth: 0, // Remove minimum width to make it smaller
+            padding: '0.7vh', // Remove padding
+            backgroundColor: 'orange',
+            color:'white'
+          }}
+          onClick={resetAlert}>{'X'}</Button>
+          </div>
         </Alert>
       )}
   
           <DesktopTimePicker 
          
           
-
-          label={"Time"}onChange={onChange} defaultValue={default_value} sx={{width: '9vw'}}/>
+          ampm={false}
+          label={"Time"}onChange={onChange} defaultValue={default_value} style={{ fontSize: '5px' }} sx={{width: '9vw', fontSize:'5px'}}/>
       
      
     </LocalizationProvider>
