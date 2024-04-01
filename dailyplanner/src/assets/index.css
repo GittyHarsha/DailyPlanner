@@ -16,7 +16,7 @@ code {
 
 /* Width and background of the scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 /* Track */

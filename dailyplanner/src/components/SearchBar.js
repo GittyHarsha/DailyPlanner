@@ -32,7 +32,7 @@ function SearchBar({style}) {
               <SearchIcon sx={{transform:'scale(1.0)'}} onClick={(e)=> {googleSearch(local_query)}}/>
               
             </IconButton>
-            <img src="google.png" alt='google' style={{ minWidth:'30px',height: '3.2vh', width: '1.70vw', borderRadius: '0.625rem'}}/>
+            <img src="google.png" alt='google' style={{ minWidth:'25px',height: '3.2vh', width: '1.250vw', borderRadius: '0.625rem'}}/>
           </InputAdornment>
         ),
         disableUnderline: true,

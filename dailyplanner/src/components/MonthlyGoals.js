@@ -24,7 +24,7 @@ export default function MonthyGoals({style, date, id}) {
   
     }
     }
-check_disable(date, dayjs());
+   check_disable(date, dayjs());
    console.log("goals: ", goals);
    useEffect(
     () => {
@@ -112,6 +112,7 @@ check_disable(date, dayjs());
     )
    }
    function deleteGoal(event) {
+    if(disable) return;
     console.log("inside delete goal");
     console.log(event.currentTarget);
     let target=(event.currentTarget.getAttribute('customAttribute'));
@@ -131,7 +132,7 @@ check_disable(date, dayjs());
    }
     return (
         <ThemeProvider theme={theme}>
-        <TableContainer id={id}align="center" style={{paddingLeft: 7, paddingRight: 0,...(style?style:null)}} sx={{my: 1, mx:0,
+        <TableContainer id={id}align="center" style={{paddingLeft: 10, paddingRight: 0,...(style?style:null)}} sx={{my: 1, mx:0,
         
       }}>
   
@@ -140,7 +141,7 @@ check_disable(date, dayjs());
             <FormControl sx={{width: '100%'}}>
                 
             <Typography variant='h5'  sx={{mx:0,display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
-              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5vw', paddingRight: '0.8vw', fontSize:'1.25rem', fontFamily:'Arial'}}> Monthly Goals
+              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5vw', paddingRight: '1vw', paddingTop:'0.05vh', paddingBottom:'0.1vh',fontSize:'1.25rem', fontFamily:'Arial'}}> Monthly Goals
                 <Button disabled={disable} disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: 'auto', }}>+Add Goal</Button></div>
                
           <Menu aria-controls={open ? 'basic-menu' : undefined}
@@ -177,7 +178,7 @@ check_disable(date, dayjs());
           </MenuItem>
           </Menu>
             </Typography>
-            <div style={{overflow: 'scroll', maxHeight: `${h(80)}`}}>
+            <div style={{overflow: 'scroll', height:'16vh',maxHeight: '60h', paddingBottom:'0px'}}>
                 {
                     goals.length?(
                     goals.map((goal)=> {
@@ -186,7 +187,7 @@ check_disable(date, dayjs());
                         <Paper id={goal.id} align="left" elevation='2' sx={{my: 0.5, height:`${h(24)}` ,width: '98%', display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
                        
                         <div style={{display: 'inline-block', flexDirection:"row", justifyContent: 'space-between'}}>
-                        <Checkbox visibility={disable?'hidden':'visible'}checked={goal.checked} onClick={handleCheck} customAttribute={goal.id}/>
+                        <Checkbox disabled={disable} checked={goal.checked} onClick={handleCheck} customAttribute={goal.id}/>
                         <span>{goal.goal}</span> 
                        
                         </div>

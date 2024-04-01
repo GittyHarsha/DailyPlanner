@@ -3,6 +3,7 @@ import FlexDiv from './FlexDiv.js'
 import {useState, useEffect, useRef} from 'react';
 import { Button, Checkbox, Typography, Box, Paper, Tooltip} from '@mui/material';
 import {ThemeProvider } from '@mui/material/styles';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 
 import {w, h} from '../services/dimensions.js';
@@ -222,7 +223,7 @@ function flush_form(data) {
         
     
     }
-    obj['dayjs']=obj['dayjs'].format();
+    obj['dayjs']=obj['dayjs'].format('YYYY-MM-DD HH:mm:ss');
 
     setAnchorEl(null);
 
@@ -244,13 +245,32 @@ function update_task(data, id) {
     
     let d = data.dayjs;
 
-    console.log("updated task: ", d);
+    console.log("date.time: ", data);
+    if(data.time) {
+    
+       
+        let d = dayjs().set('hour', data.hour).set('minute', data.minute).set('month', data.month).set('year', data.year);
+        console.log("date.time: ", d);
+        if(d.isBefore(dayjs())) {
+          
+            setTimeError('Please select a future date and time');
+            
+            return;
+        }
+        else {
+          
+        }
+    }
+   alert("yo what" + d);
 
    update_object("Tasks", data).then(
     (msg)=> {
         updateTasks();
     }
+    
    );
+    
+   setDetach(true);
 }
 function resetAlert() {
     setTimeError(null);
@@ -368,7 +388,7 @@ function resetAlert() {
                        
                     </Box>
                     <form 
-                    style={{width: '20vw', height: '50vh', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-around', 
+                    style={{width: 'auto', height: 'auto', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-around', 
                     backgroundColor: '#F0ECEC50'}}
                     >
                     <div style={{height: '100%', width: '100%'}}>
@@ -403,11 +423,13 @@ function resetAlert() {
                     resetAlert={resetAlert}
                     alert={timeError? timeError: null}
                     onChange={(newValue)=> {
-                     
+                       alert('tunu tinu');
                         tasks_data[task.id]["time"] = convertTo12HourFormat(newValue.get('hour'), newValue.get('minute'))
+                        tasks_data[task.id]["hour"] = newValue.get('hour');
+                        tasks_data[task.id]["time"] = newValue.get('minute');
                       
                       }} />
-                   <img style={{transform: 'scale(1.0)'}} onClick={()=>{update_task(tasks_data[task.id], task.id); setDetach(true);}}src='submit.png' alt="submit"/>
+                   <img style={{transform: 'scale(1.0)'}} onClick={()=>{console.log("id:  ", tasks_data[task.id]);update_task(tasks_data[task.id], task.id); }}src='submit.png' alt="submit"/>
                     </div>
 
                 
