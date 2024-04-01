@@ -111,7 +111,7 @@ export default function HighLights({style, date, id}) {
         </div>
            
             <div style={{height:'100%', width:'100%'}}>
-            <div style={{overflowY: 'scroll', height: '80%', zIndex:10}}>
+            <div style={{overflowY: 'scroll', height: '76%', zIndex:10}}>
             
             {
                 timestamps.map(

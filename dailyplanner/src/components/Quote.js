@@ -61,9 +61,9 @@ const Quote = function({style}) {
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: '4vh',
-
+            
             padding: '15px',
-          
+            paddingTop:'5px',
             margin: 0,
           
             boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.3)',
@@ -85,6 +85,7 @@ const Quote = function({style}) {
               width:'100%',
               justifyContent:'center',
               display:'flex',
+              paddingTop: '1x',
             }}
           >
             "{quote['quote']}"
@@ -95,11 +96,16 @@ const Quote = function({style}) {
             width: '100%',
             flexDirection: 'row-reverse',
             fontSize: '20px',
-            fontStyle: 'Italianno',
+            fontStyle: '',
             fontWeight: 'bold',
             paddingRight: '122px',
-          }}>
-            {quote["author"]}
+            paddingBottom:'0px',
+            marginBottom:'0px',
+            
+          }}
+          style={{fontStyle:'Roboto'}}
+          >
+           {quote["author"]}
 
           </Typography>
           

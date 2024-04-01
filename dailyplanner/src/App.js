@@ -235,7 +235,7 @@ function App(props) {
    <FlexDiv style={{marginRight: `${w(23)}`, 
     marginLeft: `${w(23)}`,height:`${h(545)}`}}>
       <FlexDiv style={{flexDirection: 'column', height: '100%', width: `${w(524)}`, alignItems:'space-between',  marginRight:'0px',}}>
-        <ContainerDiv><Quote style={{width: '97.5%', borderRadius: '0.625rem', height: '6vh'}}/></ContainerDiv>
+        <ContainerDiv><Quote style={{width: '97.5%', borderRadius: '0.625rem', height: '7vh'}}/></ContainerDiv>
         <ContainerDiv><MonthlyGoals id={'step-1'} date={date} style={{width: '99.5%',height: `${h(120)}`, marginRight:'-10px'}}/></ContainerDiv>
        <ContainerDiv><HabitTracker id={'step-2'} date={date} style={{width: '97.5%', height: `${h(121)}`}}/></ContainerDiv> 
         <FlexDiv  style={{height: `${h(210)}`, marginTop: '1vh'}}>
