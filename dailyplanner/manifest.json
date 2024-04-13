@@ -4,6 +4,7 @@
     "version": "1.1",
     "description": "Start your productivity journey by achieving goals, building habits, prioritizing tasks, managing meetings and reflecting on daily progress.",
     "icons": {
+      "16": "images/icon-16.png",
       "48": "images/icon-48.png",
       "128": "images/icon-128.png"
     },

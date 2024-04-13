@@ -192,7 +192,7 @@ export default function Priority({style, id}) {
     onDragStart={()=> {document.body.style.cursor = 'grabbing';}}
     onDragEnd={handleDragEnd}
   >
-    <div style={{ height: `${h(155)}`, overflow: 'scroll',}}>
+    <div style={{ height: `${h(182)}`, overflow: 'scroll',}}>
     <SortableContext items={list}
       strategy={verticalListSortingStrategy}
     >
