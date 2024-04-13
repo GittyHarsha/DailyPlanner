@@ -27,8 +27,8 @@ export default function Priority({style, id}) {
         let old_list=[];
         let id = 0;
         for(let i=0;i<list.length;i++) {
-          if(id < eval(list[i]['id'], 10)) {
-            id = eval(list[i]['id'], 10);
+          if(id < JSON.parse(list[i]['id'], 10)) {
+            id = JSON.parse(list[i]['id'], 10);
           }
         }
         id = id+1;

@@ -23,11 +23,20 @@ function Header({name}) {
   
     return greeting;
   }
+  const textStyle = {
+    color: 'black', // Fill color
+    textShadow: `
+      -1px -1px 0 white,
+      1px -1px 0 white,
+      -1px 1px 0 white,
+      1px 1px 0 white`, // Outline
+      fontFamily: 'Arial', fontSize: '1.5rem',fontWeight: 'bold', width: '50vw', height: '7vh'
+  };
   console.log("Inside Header Name: ", name)
   return (
     <FlexDiv style={{marginLeft: `${w(23)}`, marginRight: `${w(13)}`, height: `${h(40)}`}}>
       
-        <FlexDiv  style={{color:'black',fontFamily: 'Inter',fontSize: '1.8rem',fontWeight: 'bold', width: '50vw', height: '7vh'}}>
+        <FlexDiv  style={textStyle}>
         
         { (name)?(<FlexDiv style={{height: '100%'}}>{Greeting()} {name} :)</FlexDiv> ):(<></>)}
           
