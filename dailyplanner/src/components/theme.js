@@ -8,7 +8,10 @@ export const theme = createTheme({
     palette: {
       primary: {
         main: bgcolor,
-      }
+      },
+      text: {
+        disabled: 'rgba(0, 0, 0, 0.87)',
+      },
     },
     typography: {
       componentHeading: {
