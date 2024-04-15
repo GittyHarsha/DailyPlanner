@@ -9,8 +9,9 @@ export default function DatePick({onChange, default_value}) {
       <DatePicker 
         label={"Date"}
         defaultValue={default_value}
-        sx={{width: '9vw'}}
+        sx={{width: '9vw', fontSize:'1.2vh'}}
         onChange={onChange}
+        style={{ fontSize: '10px' }} 
         shouldDisableDate={(date) => date.isBefore(dayjs(), 'day')}
       />
     </LocalizationProvider>

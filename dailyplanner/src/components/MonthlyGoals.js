@@ -141,7 +141,7 @@ export default function MonthyGoals({style, date, id}) {
             <FormControl sx={{width: '100%'}}>
                 
             <Typography variant='h5'  sx={{mx:0,display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'space-between'}}>
-              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5vw', paddingRight: '1vw', paddingTop:'0.05vh', paddingBottom:'0.1vh',fontSize:'1.25rem', fontFamily:'Arial'}}> Monthly Goals
+              <div  style={{width: '100%', display:'flex', justifyContent:'space-between',padding:'0.5vw', paddingRight: '1vw', paddingTop:'0.05vh', paddingBottom:'0.05vh',fontSize:'2.5vh', fontFamily:'Arial'}}> Monthly Goals
                 <Button disabled={disable} disableRipple onClick={handleClick} sx={{backgroundColor: 'white',color: 'black', boxShadow: '1', width: 'auto', }}>+Add Goal</Button></div>
                
           <Menu aria-controls={open ? 'basic-menu' : undefined}
@@ -178,7 +178,7 @@ export default function MonthyGoals({style, date, id}) {
           </MenuItem>
           </Menu>
             </Typography>
-            <div style={{overflow: 'scroll', height:'16vh',maxHeight: '60h', paddingBottom:'0px'}}>
+            <div style={{overflow: 'scroll', height:'18vh',maxHeight: '60h', paddingBottom:'0px'}}>
                 {
                     goals.length?(
                     goals.map((goal)=> {

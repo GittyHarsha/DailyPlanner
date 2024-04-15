@@ -311,7 +311,7 @@ function resetAlert() {
                     onChange={(e)=> {setValue("title", e.target.value)}}
                     label="`Title"
                     variant='outlined'  
-                    style={{left: '5px', width: '100%'}}
+                    style={{ width: '100%'}}
                    />
                    </div>
                    <div>
@@ -319,7 +319,7 @@ function resetAlert() {
                     onChange={(e)=> {setValue("description", e.target.value)}}
                     label="Link/Description"
                     variant='outlined'  
-                    style={{left: '5px', width: '100%'}}
+                    style={{ width: '100%'}}
                    />
                     </div>
 
@@ -350,7 +350,7 @@ function resetAlert() {
             <FormControl style={{width: '99%', marginLeft: '0.25vw'}}>
                 <div style={{display: 'flex', width: '100%', justifyContent:'space-between', alignItems:'center',}}>
             <Typography variant='componentHeading'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5vw'}}>
-                Tasks
+                Meetings
                 </Typography>
                 <Button onClick={(e)=>{flush_form(getValues()); handleClick(e);}} sx={{backgroundColor: 'white', boxShadow: 1, height:`${h(20)}`, width: `${w(57)}`}}>+New</Button>
                 </div>
@@ -361,14 +361,13 @@ function resetAlert() {
                        
                     <Paper elevation='2' sx={{marginLeft:'0.05vw' ,my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: `${w(234)}`, height: `${h(36)}` }}>
                    
-                    
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
-                           <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`, height:`${h(35)}`,borderRadius: '0.625rem',marginLeft: '0.15vw', padding:'0'}}> 
-                           <span  style={{fontWeight: 'bold',width:'100%'}}>{task.day} {months[task.month]}</span>
+                           <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`, height:`${h(33)}`,borderRadius: '0.625rem',margin: '0.15vw', padding:'0'}}> 
+                           <span  style={{fontWeight: 'bold',width:'100%', fontSize:'0.9vw'}}>{task.day} {months[task.month]}</span>
                     
                             {
-                                (task.time)?(<span >{task.time}</span>): (<span style={{visibility:'hidden'}}>11:59 PM</span>)
+                                (task.time)?(<span style={{  fontSize:'0.9vw'}}>{task.time}</span>): (<span style={{visibility:'hidden',  fontSize:'1vw'}}>11:59 PM</span>)
                             }
                             </FlexDiv>
                             <Tooltip 
@@ -381,14 +380,14 @@ function resetAlert() {
                                     }
                                     }}
                                     title={<div><div>Title: {task.title}</div><div>Description: {task.description}</div></div>}> 
-                                     <Typography noWrap sx={{ overflow: 'hidden',paddingLeft: '0.5vw',overflowX: 'hidden', width: `${w(180)}`, height: `${h(36)}`, }}><div style={{fontWeight:'bold',textAlign:'left'}}>{task.title}</div><Divider /> <div style={{textAlign:'left'}}>{task.description}</div></Typography>
+                                     <Typography noWrap sx={{ overflow: 'hidden',paddingLeft: '0.5vw',overflowX: 'hidden', width: `${w(180)}`, height: `${h(36)}`, }}><div style={{fontWeight:'bold',textAlign:'left'}}>{task.title}</div><Divider /> <div style={{fontWeight:'normal', fontSize:'0.8rem',textAlign:'left'}}>{task.description}</div></Typography>
                                     </Tooltip>
                     
                        
                        
                     </Box>
                    
-                  
+                    
                     </Paper>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
 

@@ -12,7 +12,7 @@ export const theme = createTheme({
     },
     typography: {
       componentHeading: {
-        fontSize: '1.25rem',
+        fontSize: '2.5vh',
         fontFamily: 'Arial',
       }
     },

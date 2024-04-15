@@ -33,8 +33,8 @@ export const Task = ({id, title, handleCheck, isChecked}) => {
         display:'flex',
         alignItems:'center',
         textAlign:'center',
-        fontWeight: 'bold',
-        
+        //fontWeight: 'bold',
+        textDecoration: isChecked?'line-through':'none',
        
     };
     return (

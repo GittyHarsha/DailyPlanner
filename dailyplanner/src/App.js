@@ -28,51 +28,40 @@ function App(props) {
     run: true,
     steps: [
       {
-        content: <h2>Let's begin your tour!</h2>,
+        content: <h2>Let's begin your productivity journey!</h2>,
         locale: {skip: <strong>SKIP</strong>},
         placement: 'center',
         target:'body',
       },
       {
-        content: <h2>Here you can manage your monthly goals!</h2>,
+        content: <h2>Manifest your monthly goals to achieve personal or professional objective! </h2>,
         placement: 'right',
         target:'#step-1',
-        title: 'Monthly Goals',
+       // title: 'Monthly Goals',
       },
       {
-        content: <h2>Here you can manage your Habits !</h2>,
+        content: <h2>Build your Habits by tracking and making streaks!</h2>,
         placement: 'right',
         target:'#step-2',
-        title: 'Habits',
+       // title: 'Habits',
       },
       {
-        content: <h2>Here you can manage your Priorities. <br/>
-        You can drag and drop the priorities to change their priority order.
-        </h2>,
+        content: <h2>Define your top priorities of the day to maintain focus and productivity throughout the day. </h2>,
         placement: 'bottom',
         target:'#step-3',
-        title: 'Priority',
+       // title: 'Priority',
       },
       {
-        content: <h2>Here you can manage your Tasks. <br/>
-          </h2>,
+        content: <h2>Set and View upcoming meetings and appointments.</h2>,
         placement: 'bottom',
         target:'#step-4',
-        title: 'Tasks',
+       // title: 'Tasks',
       },
       {
-        content: <h2>You can filter your data by dates! <br/>
-        </h2>,
-        placement: 'bottom',
-        target:'#step-5',
-        title: 'Date Filter',
-      },
-      {
-        content: <h2>Journal your life experiences here! <br/>
-        </h2>,
+        content: <h2>Reflect on how your day went, noting achievements and areas for improvement, fostering self-awareness and continuous growth.</h2>,
         placement: 'left',
-        target:'#step-6',
-        title: 'Daily Journal',
+        target:'#step-5',
+       // title: 'Daily Journal',
       },
     ]
   })
@@ -247,8 +236,8 @@ function App(props) {
 
 
     <FlexDiv style={{flexDirection:'column', height: '100%'}}>
-    <DateFilter id={'step-5'} date={date} setDate={handleDate}/>
-    <HighLights id={'step-6'} date={date} style={{height: '100%', width: `${w(247)}`}}/>
+    <DateFilter id={'step-6'} date={date} setDate={handleDate}/>
+    <HighLights id={'step-5'} date={date} style={{height: '100%', width: `${w(247)}`}}/>
     </FlexDiv>
       
      
