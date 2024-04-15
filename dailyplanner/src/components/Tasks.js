@@ -361,7 +361,7 @@ function resetAlert() {
                        
                     <Paper elevation='2' sx={{marginLeft:'0.05vw' ,my: 1, px: 0, display: 'flex', justifyContent: 'space-between', width: `${w(234)}`, height: `${h(36)}` }}>
                    
-                    <PopUpMenu detach={{detach: detach, callback: ()=> {setDetach(false);}}}>
+                    
                     <Box key="button" sx={{display: 'flex', ':hover': {cursor: 'pointer'},}}>
                    
                            <FlexDiv style={{flexDirection: 'column', justifyContent:'center', backgroundColor: '#D9D9D9', width: `${40}`, height:`${h(35)}`,borderRadius: '0.625rem',marginLeft: '0.15vw', padding:'0'}}> 
@@ -387,55 +387,8 @@ function resetAlert() {
                        
                        
                     </Box>
-                    <form 
-                    style={{width: 'auto', height: 'auto', display: 'flex', flexDirection:'column', alignItems:'space-between', justifyContent:'space-around', 
-                    backgroundColor: '#F0ECEC50'}}
-                    >
-                    <div style={{height: '100%', width: '100%'}}>
-                    <TextField 
-                    onChange={(e)=> {tasks_data[task.id]["title"] = e.target.value;}}
-                    defaultValue = {task.title}
-                    label="`Title"
-                    variant='outlined'  
-                    style={{left: '5px', width: '100%'}}
-                   />
-                   </div>
-                   <div>
-                   <TextField 
-                    onChange={(e)=> {tasks_data[task.id]["description"] = e.target.value;}}
-                    label="`Link/Description"
-                    variant='outlined'  
-                    defaultValue={task.description}
-                    style={{left: '5px', width: '100%'}}
-                   />
-                    </div>
-                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center', width: '100%', margin: 0}}>
-                   <DatePicker onChange={(newValue)=>{
                    
-                   tasks_data[task.id]["day"] = newValue.date();
-                    tasks_data[task.id]["month"] = newValue.get('month');
-                    tasks_data[task.id]["year"] = newValue.get('year');
-                    
-                    
-                   }} />
-                   
-                    <TimePicker 
-                    resetAlert={resetAlert}
-                    alert={timeError? timeError: null}
-                    onChange={(newValue)=> {
-                       alert('tunu tinu');
-                        tasks_data[task.id]["time"] = convertTo12HourFormat(newValue.get('hour'), newValue.get('minute'))
-                        tasks_data[task.id]["hour"] = newValue.get('hour');
-                        tasks_data[task.id]["time"] = newValue.get('minute');
-                      
-                      }} />
-                   <img style={{transform: 'scale(1.0)'}} onClick={()=>{console.log("id:  ", tasks_data[task.id]);update_task(tasks_data[task.id], task.id); }}src='submit.png' alt="submit"/>
-                    </div>
-
-                
-               </form>
-                    </PopUpMenu>
-                    
+                  
                     </Paper>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
 
