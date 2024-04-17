@@ -127,7 +127,7 @@ export default function HighLights({style, date, id}) {
                             }
                         }}
                 style={{display: 'flex', justifyContent: 'space-between', width: '95%'}}>
-                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  disabled={true} defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem',}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value);  debouncedSubmit()}} sx={{width: '90%', left: '0.5vw', right: '0px'}} variant='standard'/>
+                   <Typography sx={{fontFamily: 'Inria Sans', pt: 2}}>{timestamp}: </Typography> <TextField  disabled={disable} defaultValue={highlights[timestamp]}multiline InputProps = {{style: {fontSize: '1.25rem',}}} name={timestamp} onChange = {(event)=> {setValue(timestamp.toString(), event.target.value);  debouncedSubmit()}} sx={{width: '90%', left: '0.5vw', right: '0px'}} variant='standard'/>
                    </div>
                 
             
