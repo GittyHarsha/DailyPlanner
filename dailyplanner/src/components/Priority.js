@@ -51,7 +51,7 @@ export default function Priority({style, id}) {
           let newList = [...old_list, newPriority];
           update_object("Priority", {date: e.date, list: newList}).then((e)=> {
             for(let i =0;i<newList.length;i++) {
-              newList[i]['id']=i;
+              newList[i]['id']=i.toString();
             }
             setList(newList);});
         
@@ -75,7 +75,12 @@ export default function Priority({style, id}) {
 
 
   let [list, setList] = useState([
+  
   ]);
+  
+  useEffect(()=> {
+     updateList();
+  },[]);
 
   function updateList() {
     get_object("Priority", today).then(
@@ -84,20 +89,35 @@ export default function Priority({style, id}) {
         for(let i =0;i<a.length;i++) {
           a[i]["id"]=i.toString();
         }
+        
+        
+        
         setList(a);
-        console.log(a);
+        console.log("updated list: ",a);
       }
     ).catch(
       (e)=> {}
       )
   }
-  useEffect(() =>
-  {
-     
-    updateList();
-  }
-  ,[]);
+  
+  useEffect(()=> {
+    let list = [];
+    get_object("Priority", today).then(
+      (list)=> {
+        let a = [...list.list];
+        for(let i =0;i<a.length;i++) {
+          a[i]["id"]=i.toString();
+        }
+        while(a.length<3) {
+          a.push({name:'',id: a.length.toString()});
+        }
+        setList(a);
+      }
+    ).catch(
+      (e)=> {}
+      )
 
+  },[]);
 
   const getTaskPos = (id) => list.findIndex((item) => item.id === id);
   function handleDragEnd(event) {
@@ -126,11 +146,14 @@ export default function Priority({style, id}) {
     const filtered_priority = list.filter(obj => obj.id != id);
   
     console.log("filtered priority: ", filtered_priority);
+    
     for(let i=0;i<filtered_priority.length;i++) {
-        delete filtered_priority[i]['id'];
+        filtered_priority[i]['id']=i.toString();
     }
-    update_object("Priority", {date: today, list: filtered_priority});
-    updateList();
+    update_object("Priority", {date: today, list: filtered_priority}).then(
+      (e)=> { updateList();}
+    );
+   
   }
 
   function handleCheck(id) {
@@ -155,20 +178,18 @@ export default function Priority({style, id}) {
           anchorEl={anchorEl}
           aria-expanded={open ? 'true' : undefined}
           open={open}
-
+          
           onClose={handleClose}
-          style={{display: anchorEl? 'block':'none'}}
+          style={{display: anchorEl? 'block':'none',}}
           >
-          <MenuItem style={{height:'auto'}}>
        
-       
-         
-          <br/>
+        
           <TextField 
+         autoFocus
          
           InputProps={{
             
-            style: {width:'100%'},
+            style: {width: `${w(110)}`},
             endAdornment: (
               
               <InputAdornment position="end">
@@ -184,7 +205,6 @@ export default function Priority({style, id}) {
           label="`Enter Priority" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') == priority){setAnchorEl(null); addPriority();}else{ console.log("priority value: ", priority);setPriority(e.target.value)}}}
           />
         
-          </MenuItem>
           </Menu>
   </Typography>
 
@@ -200,12 +220,13 @@ export default function Priority({style, id}) {
       {
         list.map(
           (item, index)=> (
-           <div style={{display:'flex', width: '100%', m:0, alignItems: 'center', px:1 }}>
+           <div style={{display:'flex', width: '100%', m:0, alignItems: 'center', px:1 }} key={item.id}>
           
             <Task 
+            onChange={(item_name)=> {let local_list = [...list]; local_list[index].name=item_name; console.log("local list: ", local_list);update_object("Priority", {date:today, list: list}).then((e)=> {setList(local_list);})}}
             isChecked={item.checked}
             handleCheck = {(e)=> {handleCheck(index)}}
-            id={item.id.toString()} title={item.name} key={item.id}/> <DeleteIcon sx={{mx:1.25,'&:hover': {cursor:'pointer'}}} opacity={0.6} onClick={(e)=> {deletePriority(index);}}/>
+            id={item.id.toString()} title={item.name} key={item.id}> <DeleteIcon sx={{mx:0.2,'&:hover': {cursor:'pointer'}}} opacity={0.6} onClick={(e)=> {deletePriority(item.id);}}/></Task>
            
 
            </div>

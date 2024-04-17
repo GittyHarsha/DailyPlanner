@@ -3,8 +3,8 @@ import FlexDiv from './FlexDiv.js'
 import {useState, useEffect, useRef} from 'react';
 import { Button, Checkbox, Typography, Box, Paper, Tooltip} from '@mui/material';
 import {ThemeProvider } from '@mui/material/styles';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 import {w, h} from '../services/dimensions.js';
 
@@ -17,7 +17,7 @@ import {theme} from './theme.js';
 import {useForm} from 'react-hook-form';
 import { add_object, update_object, getAllObjects, delete_object, connectToIndexedDB} from '../database/backend.js';
 import {Container, FormControl, TextField, Menu, MenuItem} from '@mui/material';
-import PopUpMenu from './PopupMenu.js';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 export default function Tasks({style, id}) {
    let [tasks, setTasks] = useState([]);
@@ -308,6 +308,7 @@ function resetAlert() {
         }}>
                     <div>
                     <TextField 
+                    autoFocus
                     onChange={(e)=> {setValue("title", e.target.value)}}
                     label="`Title"
                     variant='outlined'  
@@ -348,7 +349,7 @@ function resetAlert() {
             
            
             <FormControl style={{width: '99%', marginLeft: '0.25vw'}}>
-                <div style={{display: 'flex', width: '100%', justifyContent:'space-between', alignItems:'center',}}>
+                <div style={{display: 'flex', width: '98%', justifyContent:'space-between', alignItems:'center',}}>
             <Typography variant='componentHeading'  sx={{display: 'flex', flexDirection: {xs: 'column', sm: 'row', width: '95%'}, justifyContent: 'space-between',}} style={{padding: '0.5vw'}}>
                 Meetings
                 </Typography>
