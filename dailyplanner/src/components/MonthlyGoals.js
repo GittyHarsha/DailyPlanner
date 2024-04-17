@@ -1,6 +1,6 @@
 import {w, h} from '../services/dimensions.js'
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, createRef, forwardRef} from 'react';
 import { Button, Checkbox, Typography, Paper, Menu, MenuItem, InputAdornment, IconButton, TableContainer} from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import dayjs from 'dayjs';
@@ -45,6 +45,7 @@ export default function MonthyGoals({style, date, id}) {
 
     setAnchorEl(null);
   };
+
   function SetGoals() {
    
         getAllObjects("MonthlyGoals")
@@ -130,9 +131,13 @@ export default function MonthyGoals({style, date, id}) {
         (error)=> {console.log(error);}
       )
    }
+
+
+   
+
     return (
         <ThemeProvider theme={theme}>
-        <TableContainer id={id}align="center" style={{paddingLeft: 10, paddingRight: 0,...(style?style:null)}} sx={{my: 1, mx:0,
+        <TableContainer id={id}align="center" style={{paddingLeft: 10, paddingRight: 0,...(style?style:null)}} sx={{my: 1, mx:0, overflow:'clip',
         
       }}>
   
@@ -153,11 +158,12 @@ export default function MonthyGoals({style, date, id}) {
           onClose={handleClose}
           style={{display: anchorEl? 'block':'none'}}
           >
-          <MenuItem style={{height:'auto'}}>
+         
        
       
           <TextField 
-          
+          autoFocus
+        
           InputProps={{
             
             style: {width: `${w(110)}`},
@@ -172,13 +178,12 @@ export default function MonthyGoals({style, date, id}) {
             ),
             disableUnderline: true,
           }}
-          
+         
           label="`Enter Goal" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') === goal){setAnchorEl(null); addGoal();}else{ console.log("goal value: ", goal);setGoal(e.target.value)}}}/>
-        
-          </MenuItem>
+       
           </Menu>
             </Typography>
-            <div style={{overflow: 'scroll', height:'18vh',maxHeight: '60h', paddingBottom:'0px'}}>
+            <div style={{overflow: 'scroll', height:'15vh',maxHeight: '15vh', paddingBottom:'0px'}}>
                 {
                     goals.length?(
                     goals.map((goal)=> {

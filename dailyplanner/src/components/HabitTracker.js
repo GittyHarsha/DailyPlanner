@@ -142,8 +142,8 @@ function HabitTracker({style, date, id}) {
           open={open}
           onClose={handleClose}
           >
-          <MenuItem style={{height:'auto'}}>
-          <TextField 
+          
+          <TextField autoFocus
          
          onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') === habit){setAnchorEl(null); addHabit();}else{console.log("habit value: ", habit);setHabit(e.target.value)}}}
 
@@ -163,15 +163,15 @@ function HabitTracker({style, date, id}) {
           
           label="`Enter Habit"  multiline/>
          
-          </MenuItem>
+         
           </Menu>
     </Box>
    
-      <Table >
+      <Table sx={{mt:-0.5}}>
           <TableRow sx={{backgroundColor: 'white', position: 'sticky', top: '0',zIndex: '1', mt: 1, borderTopLeftRadius: '4rem'}}
-            style={{borderRadius: '16rem', height: `${h(25)}`}}
+            style={{borderRadius: '16rem', height: `${h(20)}`}}
           >
-            <TableCell sx={{width: '7vw', backgroundColor:'white', }}>
+            <TableCell sx={{width: '7vw', backgroundColor:'white', height:'100%' }}>
             <MonthDropdown disabled={disable} onChange={handleMonth} default={month}></MonthDropdown>
             </TableCell> 
            
@@ -179,7 +179,7 @@ function HabitTracker({style, date, id}) {
           {
             dates.map(
               (date)=> (
-                <TableCell sx={{border: 'none', justifyContent:'center', width: '3vw'}}><Typography sx={{px: 'auto',backgroundColor: (date.num ===curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
+                <TableCell sx={{border: 'none', justifyContent:'center', width: '3vw', height:'100%'}}><Typography sx={{px: 'auto',backgroundColor: (date.num ===curr_day)?'#dcdcdc': 'white', width: '1.0vw'}}>{date.num}</Typography></TableCell>
               )
             )
           }
@@ -207,7 +207,7 @@ function HabitTracker({style, date, id}) {
               {
               habit["days"].map(
                 (day, index)=> (
-                  <TableCell sx={{width: '10vw', backgroundColor: 'transparent'}}><Checkbox disabled={disable} checked={day} onClick={()=> {handleCheck(habit.id, index);}} sx={{width: '1px', height: '1px' ,transform: 'scale(0.95)',backgroundColor: 'transparent', pt: 0, m:0}}/></TableCell>
+                  <TableCell sx={{width: '10vw', backgroundColor: 'transparent'}}><Checkbox disabled={disable} checked={day} onClick={()=> {handleCheck(habit.id, index);}} sx={{width: '1px', height: '1px' ,transform: 'scale(1.0)',backgroundColor: 'transparent', pt: 0, m:0}}/></TableCell>
                 )
               )
               

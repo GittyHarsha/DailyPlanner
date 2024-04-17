@@ -3,9 +3,10 @@ import {CSS} from '@dnd-kit/utilities/';
 import {Paper, Tooltip} from '@mui/material';
 import {w, h} from '../services/dimensions.js';
 import {useState} from 'react';
-
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import {Checkbox} from '@mui/material';
-export const Task = ({id, title, handleCheck, isChecked}) => {
+import EditableInput from './EditableInput.js';
+export const Task = ({id, title, handleCheck, isChecked, children, onChange}) => {
     const [open, setOpen] = useState(false);
 
     const handleTooltipClose = () => {
@@ -39,7 +40,7 @@ export const Task = ({id, title, handleCheck, isChecked}) => {
     };
     return (
         <div  
-        style={{width:'96%',}}
+        style={{width:'97%',}}
        >
        
         <Paper
@@ -51,10 +52,14 @@ export const Task = ({id, title, handleCheck, isChecked}) => {
         style={style}
        
         >
+            <DragIndicatorIcon
+            sx={{p:0, m:0, }}
+            {...listeners}
+            />
             <Checkbox
             checked={isChecked}
             onClick={handleCheck}
-
+            sx={{p:0, m:0}}
             />
 
                                     <Tooltip 
@@ -74,10 +79,13 @@ export const Task = ({id, title, handleCheck, isChecked}) => {
                                     onMouseLeave={handleTooltipClose}
                                             style={{ width: '100%', textAlign:'left', overflow:'clip' }
                                             
-                                            } {...listeners}>
-                                            {title}
+                                            } >
+                                         
+                                         <EditableInput value={title} onChange={onChange}/>
                                             </div>                                   
                                      </Tooltip>
+
+                                     {children}
          
         
         </Paper>
