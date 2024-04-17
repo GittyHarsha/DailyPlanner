@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DailyPlanner",
-  "version": "1.1",
+  "version": "2.0",
   "description": "Start your productivity journey by achieve goals, build habits, prioritize tasks, and reflect daily.",
   "icons": {
     "16": "app_logo.png",
