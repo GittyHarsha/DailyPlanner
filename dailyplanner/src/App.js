@@ -23,6 +23,9 @@ function App(props) {
   //joyride states
   let tour_state = localStorage.getItem('tour');
   if(tour_state==null || tour_state==undefined) {tour_state='true';}
+
+
+
   let [tour, setTour] = useState(tour_state);
   const [{run, steps}, setState] = useState({
     run: true,
@@ -192,7 +195,7 @@ function App(props) {
 
     
       {(name!=null)? 
-      ((tour=='true')?(
+      ((tour_state=='true')?(
       <Joyride
         continuous
         callback={handleJoyrideCallback}
