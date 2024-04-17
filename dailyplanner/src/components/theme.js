@@ -31,12 +31,20 @@ export const theme = createTheme({
         }
       },
       MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+              borderColor: 'black', // Customize the border color
+              transform: 'scale(0.97)'
+            },
+          }
+        },
         defaultProps: {
           InputLabelProps: {
             sx: {
-              color: 'black', // Replace with your preferred color
+              color: 'black', 
               '&.Mui-focused': {
-                color: 'black', // Adjust for focused state
+                color: 'black', 
               },
             },
           },

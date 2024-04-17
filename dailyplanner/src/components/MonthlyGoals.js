@@ -162,7 +162,11 @@ export default function MonthyGoals({style, date, id}) {
        
       
           <TextField 
-          autoFocus
+          sx={{'& .MuiOutlinedInput-root.Mui-focused fieldset': {
+            borderColor: 'gray',
+          },}}
+          autoFocus 
+          variant ={'outlined'}
         
           InputProps={{
             
@@ -179,7 +183,7 @@ export default function MonthyGoals({style, date, id}) {
             disableUnderline: true,
           }}
          
-          label="`Enter Goal" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') === goal){setAnchorEl(null); addGoal();}else{ console.log("goal value: ", goal);setGoal(e.target.value)}}}/>
+          label="*Enter Goal" multiline onChange={(e)=> {if(e.target.value.replace(/[\n\r]+$/, '') === goal){setAnchorEl(null); addGoal();}else{ console.log("goal value: ", goal);setGoal(e.target.value)}}}/>
        
           </Menu>
             </Typography>

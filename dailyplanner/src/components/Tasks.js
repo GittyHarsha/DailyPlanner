@@ -302,15 +302,16 @@ function resetAlert() {
           onClose={handleClose}
           sx={{backgroundColor: 'F0ECEC50'}}
           >
-            <MenuItem style={{height:'auto'}} disableRipple>
-            <form  onSubmit = {handleSubmit(onSubmit)} style={{width: '20vw', height: '28vh', display: 'flex', flexDirection:'column', alignItems:'space-around', justifyContent:'space-between', 
+           
+            <form  onSubmit = {handleSubmit(onSubmit)} style={{transform: 'scale(0.95)',width: '20vw', height: '28vh', display: 'flex', flexDirection:'column', alignItems:'space-around', justifyContent:'space-between', 
           
         }}>
-                    <div>
+                    <div  ref={(el)=> {if(el)el.focus();}}>
+                       
                     <TextField 
-                    autoFocus
+                   autoFocus
                     onChange={(e)=> {setValue("title", e.target.value)}}
-                    label="`Title"
+                    label="*Title"
                     variant='outlined'  
                     style={{ width: '100%'}}
                    />
@@ -340,7 +341,7 @@ function resetAlert() {
               
               
             </form>
-            </MenuItem>
+    
             
           </Menu>
     </Box>
