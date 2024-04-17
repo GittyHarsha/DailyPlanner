@@ -2,6 +2,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import {TextField} from '@mui/material/';
 import FlexDiv from './FlexDiv';
+import styled from 'styled-components';
 import {createRef, useState, useEffect} from 'react';
 export default function Editableinput({onChange, value}) {
     let inputRef = createRef();
@@ -13,7 +14,7 @@ export default function Editableinput({onChange, value}) {
         inputRef.current.blur();
         setDone(false); 
      }
-
+    
  return (
    
     <FlexDiv>
@@ -22,10 +23,11 @@ export default function Editableinput({onChange, value}) {
             defaultValue={value}
     
             ref = {(el)=> {inputRef.current=el; if(el) el.focus();}}
-            style={{width: '90%', border: 'none'}}
+            style={{width: '90%', border: 'none', outline: 'none'}}
             onClick={(e)=> {setDone(true);}}
             onBlur = {(e)=> { handleBlur(); setDone(false);}}
             onChange = {(e)=> {setFormValue(e.currentTarget.value)}}
+            onKeyDown={(e)=> {if(e.key=='Enter') {handleBlur();}}}
             />
             
             

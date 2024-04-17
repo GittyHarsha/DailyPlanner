@@ -137,7 +137,7 @@ export default function MonthyGoals({style, date, id}) {
 
     return (
         <ThemeProvider theme={theme}>
-        <TableContainer id={id}align="center" style={{paddingLeft: 10, paddingRight: 0,...(style?style:null)}} sx={{my: 1, mx:0,
+        <TableContainer id={id}align="center" style={{paddingLeft: 10, paddingRight: 0,...(style?style:null)}} sx={{my: 1, mx:0, overflow:'clip',
         
       }}>
   
@@ -183,7 +183,7 @@ export default function MonthyGoals({style, date, id}) {
        
           </Menu>
             </Typography>
-            <div style={{overflow: 'scroll', height:'16vh',maxHeight: '18vh', paddingBottom:'0px'}}>
+            <div style={{overflow: 'scroll', height:'15vh',maxHeight: '15vh', paddingBottom:'0px'}}>
                 {
                     goals.length?(
                     goals.map((goal)=> {

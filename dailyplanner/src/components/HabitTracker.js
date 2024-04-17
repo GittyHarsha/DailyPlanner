@@ -167,7 +167,7 @@ function HabitTracker({style, date, id}) {
           </Menu>
     </Box>
    
-      <Table >
+      <Table sx={{mt:-0.5}}>
           <TableRow sx={{backgroundColor: 'white', position: 'sticky', top: '0',zIndex: '1', mt: 1, borderTopLeftRadius: '4rem'}}
             style={{borderRadius: '16rem', height: `${h(20)}`}}
           >
