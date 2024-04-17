@@ -29,7 +29,7 @@ export default function Editableinput({onChange, value}) {
             />
             
             
-        ) : (<span style={{width: '100%', overflow:'hidden', textOverflow:'ellipsis'}}>{value}</span>)
+        ) : (<span style={{fontWeight:'bold',width: '100%', overflow:'hidden', textOverflow:'ellipsis'}}>{value}</span>)
         
     }
     {
