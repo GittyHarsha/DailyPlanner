@@ -8,7 +8,7 @@ import {Checkbox} from '@mui/material';
 import EditableInput from './EditableInput.js';
 export const Task = ({id, title, handleCheck, isChecked, children, onChange}) => {
     const [open, setOpen] = useState(false);
-
+    //alert("task: "+title+" ischecked: "+isChecked);
     const handleTooltipClose = () => {
       setOpen(false);
     
@@ -57,7 +57,7 @@ export const Task = ({id, title, handleCheck, isChecked, children, onChange}) =>
             {...listeners}
             />
             <Checkbox
-            checked={isChecked}
+            checked={(isChecked==undefined)?false: isChecked}
             onClick={handleCheck}
             sx={{p:0, m:0}}
             />

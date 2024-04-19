@@ -33,6 +33,7 @@ export default function Tasks({style, id}) {
    const {handleSubmit, setValue, getValues} = useForm();
    const [anchorEl, setAnchorEl] = useState(null);
    let open = Boolean(anchorEl);
+
    const handleClick = (event) => {
      setAnchorEl(event.currentTarget);
      let _date = {...date};
@@ -132,6 +133,7 @@ function isBeforeCurrentTime(year, month, day, hour, minute) {
               });
            
               console.log(a);
+             
             setTasks(a);
            
             for(let task of a) {
@@ -261,7 +263,7 @@ function update_task(data, id) {
           
         }
     }
-   alert("yo what" + d);
+   
 
    update_object("Tasks", data).then(
     (msg)=> {
